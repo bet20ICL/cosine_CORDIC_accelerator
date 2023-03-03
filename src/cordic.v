@@ -23,13 +23,13 @@ module Cordic(
     
     wire [31:0] fixed_point_input;
    
-    assign fixed_point_input = (exponent == 0) ? 32'b0 : ({1'b1, significand} << 31) << (exponent - 7'd127);
-    // assign fixed_point_input = {32{exponent == 0}} & (({1'b1, significand} << 31) << (exponent - 127));
+    assign fixed_point_input = (exponent == 7'b0) ? 32'b0 : ({1'b1, significand} << 5'd31) << (exponent - 7'd127);
+    // assign fixed_point_input = {32{exponent == 7'b0}} & (({1'b1, significand} << 7'd31) << (exponent - 7'd127));
 
     reg [31:0] x;
     reg [31:0] y;
     reg [31:0] z;
-    reg [3:0] rotateIndex = 0; // 4 bits so the variable is enough to cover 10 rotation.
+    reg [3:0] rotateIndex; // 4 bits so the variable is enough to cover 10 rotation.
 
     assign result = (rotateIndex==9 && !aclr) ? x: 32'b0;
 
@@ -59,7 +59,7 @@ module Cordic(
     wire [32:0] offsetZ;
 
 
-    always@(*) begin
+    always @(*) begin
         if(z>0)begin
             offsetX = ~(y >> rotateIndex) + 1'b1;
             offsetY = x >> rotateIndex;
