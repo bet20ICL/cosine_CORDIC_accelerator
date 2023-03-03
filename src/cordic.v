@@ -37,17 +37,17 @@ module Cordic(
     wire [31:0] rotateAngle; // in radian
     always@(*) begin
         case(rotateIndex)
-            4'd0     : rotateAngle = 0.785 398 163; 		
-            4'd1     : rotateAngle = 0.463 647 609; 		
-            4'd2     : rotateAngle = 0.244 978 663; 		
-            4'd3     : rotateAngle = 0.124 354 994; 		
-            4'd4     : rotateAngle = 0.062 418 810; 		
-            4'd5     : rotateAngle = 0.031 239 833; 		
-            4'd6     : rotateAngle = 0.015 623 728; 		
-            4'd7     : rotateAngle = 0.007 812 341; 		
-            4'd8     : rotateAngle = 0.003 906 230; 		
-            4'd9     : rotateAngle = 0.001 953 123; // convert to fixed point first somehow 	
-            default  : rotateAngle = 0; 		
+            4'd0    : rotateAngle = 32'b01100100100001111110110101010000 ;
+            4'd1    : rotateAngle = 32'b00111011010110001100111000001010 ;
+            4'd2    : rotateAngle = 32'b00011111010110110111010111111000 ;
+            4'd3    : rotateAngle = 32'b00001111111010101101110101001100 ;
+            4'd4    : rotateAngle = 32'b00000111111111010101011011101101 ;
+            4'd5    : rotateAngle = 32'b00000011111111111010101010110110 ;
+            4'd6    : rotateAngle = 32'b00000001111111111111010101010100 ;
+            4'd7    : rotateAngle = 32'b00000000111111111111111010101010 ;
+            4'd8    : rotateAngle = 32'b00000000011111111111111111010101 ;
+            4'd9    : rotateAngle = 32'b00000000001111111111111111111011 ;
+            default : rotateAngle = 0; 		
         endcase
     end
 
@@ -84,7 +84,7 @@ module Cordic(
             if (rotateIndex == 4'd9) begin
                 // initialise variable
                 rotateIndex <= 4'd0;
-                x <= 0.607252935; //convert to fixed point first somehow 		
+                x <= 32'b01001101101110100111011011010100; //convert to fixed point first somehow 		
                 y <= 32'b0;
                 z <= fixed_point_input; // in radius
             end 
