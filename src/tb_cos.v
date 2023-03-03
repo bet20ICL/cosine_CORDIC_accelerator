@@ -1,6 +1,6 @@
 // `timescale 1 ns / 100 ps
 module tb_cos ();
-	parameter INPUT = 32'hFF;
+	parameter INPUT = 32'b00111111000001100110101100101101;
     parameter TIMEOUT_CYCLES = 10000;
 	parameter REALNUM = 0.25;
 
@@ -15,37 +15,34 @@ module tb_cos ();
 	// clock
 	reg clk;
 	reg clk_en;
-	reg start;
-	wire done;
 
 	// Instantiate the DUT
-	cos_cordic unit(
+	Cordic unit(
 			.aclr(reset),
 			.clk_en(clk_en),
 			.clk(clk),
-			.start(start),
 			.dataa(dataa),
 			.result(result)
 	);
 
 	// reading files
-	parameter RAM_INIT_FILE = "test/input/random_numbers_binary.txt";
+	// parameter RAM_INIT_FILE = "test/input/random_numbers_binary.txt";
 
-	reg [31:0] memory [4095:0];
+	// shortreal [31:0] memory [4095:0];
 
-    initial begin
-        integer i;
-        /* Initialise to zero by default */
-        for (i=0; i<4096; i++) begin
-            memory[i]=0;
-        end
-        /* Load contents from file if specified */
-        if (RAM_INIT_FILE != "") begin
-            $display("RAM : INIT : Loading RAM contents from %s", RAM_INIT_FILE);
-            $readmemb(RAM_INIT_FILE, memory);
-			$display("memory[0]: ", memory[0]);
-        end
-    end
+    // initial begin
+    //     integer i;
+    //     /* Initialise to zero by default */
+    //     for (i=0; i<4096; i++) begin
+    //         memory[i]=0;
+    //     end
+    //     /* Load contents from file if specified */
+    //     if (RAM_INIT_FILE != "") begin
+    //         $display("RAM : INIT : Loading RAM contents from %s", RAM_INIT_FILE);
+    //         $readmemb(RAM_INIT_FILE, memory);
+	// 		$display("memory[0]: ", memory[0]);
+    //     end
+    // end
 
 
 	// Generate clock
@@ -87,9 +84,9 @@ module tb_cos ();
 		start = 1'b1;
 		dataa <= INPUT;
 
-		while (~done) begin
-			@(posedge clk);
-		end
+		// while (~done) begin
+		// 	@(posedge clk);
+		// end
 
 		$display("%d", result);
 		
