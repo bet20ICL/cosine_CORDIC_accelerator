@@ -1,7 +1,8 @@
-`timescale 1 ns / 100 ps
+// `timescale 1 ns / 100 ps
 module tb_cos ();
-	parameter INPUT = 32'h0;
+	parameter INPUT = 32'hFF;
     parameter TIMEOUT_CYCLES = 10000;
+	parameter REALNUM = 0.25;
 
 	// Inputs to DUT are reg type
 	reg [31:0] dataa;
@@ -14,7 +15,7 @@ module tb_cos ();
 	reg clk;
 	reg clk_en;
 	reg start;
-	reg done;
+	wire done;
 
 	// Instantiate the DUT
 	cos_cordic unit(
@@ -22,7 +23,6 @@ module tb_cos ();
 			.clk_en(clk_en),
 			.clk(clk),
 			.start(start),
-			.done(done),
 			.dataa(dataa),
 			.result(result)
 	);
@@ -40,13 +40,22 @@ module tb_cos ();
         $stop;
     end
 
+	real sr;
+	reg [31:0] srbits;
+
 	// Initial Block
 	initial
 	begin
+		sr = REALNUM; 
+		srbits = $realtobits(10);
+		$display("input: ", INPUT);
+		$display("real: %f", sr);
+		$display("bits: ", srbits);
+
 		// intialise/set input
-		clk = 1'b0;
 		clk_en = 1'b0;
 		reset = 1'b1;
+		start = 1'b0;
 
 		
 		@(posedge clk); 
@@ -54,6 +63,7 @@ module tb_cos ();
 		@(negedge clk);
 		clk_en = 1'b1;
 		reset = 1'b0;
+		start = 1'b1;
 		dataa <= INPUT;
 
 		while (~done) begin
