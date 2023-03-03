@@ -17,10 +17,10 @@ module tb_cos ();
 	reg clk_en;
 
 	// Instantiate the DUT
-	Cordic unit(
+	cordic unit(
 			.aclr(reset),
 			.clk_en(clk_en),
-			.clk(clk),
+			.clock(clk),
 			.dataa(dataa),
 			.result(result)
 	);
@@ -58,22 +58,21 @@ module tb_cos ();
         $stop;
     end
 
-	real sr;
-	reg [31:0] srbits;
+	// real sr;
+	// reg [31:0] srbits;
 
 	// Initial Block
 	initial
 	begin
-		sr = REALNUM; 
-		srbits = $realtobits(10);
-		$display("input: ", INPUT);
-		$display("real: %f", sr);
-		$display("bits: ", srbits);
+		// sr = REALNUM; 
+		// srbits = $realtobits(10);
+		// $display("input: ", INPUT);
+		// $display("real: %f", sr);
+		// $display("bits: ", srbits);
 
 		// intialise/set input
 		clk_en = 1'b0;
 		reset = 1'b1;
-		start = 1'b0;
 
 		
 		@(posedge clk); 
@@ -81,7 +80,6 @@ module tb_cos ();
 		@(negedge clk);
 		clk_en = 1'b1;
 		reset = 1'b0;
-		start = 1'b1;
 		dataa <= INPUT;
 
 		// while (~done) begin

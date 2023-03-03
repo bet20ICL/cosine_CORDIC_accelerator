@@ -33,3 +33,8 @@ for i, element in enumerate(cof):
 decimal_num = 0.607252935
 fixed_point_binary = decimal_to_fixed_point_binary(decimal_num)
 print(fixed_point_binary) 
+
+
+decimal_num = 0.8652873997993262
+fixed_point_binary = decimal_to_fixed_point_binary(decimal_num)
+print(fixed_point_binary) 

@@ -1,7 +1,7 @@
 
 
 
-module Cordic(
+module cordic(
     aclr,
 	clk_en,
 	clock,
@@ -34,7 +34,7 @@ module Cordic(
     assign result = (rotateIndex==9 && !aclr) ? x: 32'b0;
 
     //-------------------------------------cordic------------------------------------
-    wire [31:0] rotateAngle; // in radian
+    reg [31:0] rotateAngle; // in radian
     always@(*) begin
         case(rotateIndex)
             4'd0    : rotateAngle = 32'b01100100100001111110110101010000 ;
@@ -54,9 +54,9 @@ module Cordic(
     //-------------------------------------cordic------------------------------------
     
     
-    wire [32:0] offsetX;
-    wire [32:0] offsetY;
-    wire [32:0] offsetZ;
+    reg [32:0] offsetX;
+    reg [32:0] offsetY;
+    reg [32:0] offsetZ;
 
 
     always @(*) begin
@@ -73,7 +73,7 @@ module Cordic(
     end
 
     // TODO: Non pipeline version, initialise condition:  every 10 clock, fixed_point_input changed ... 
-    always @(posedge clk) begin
+    always @(posedge clock) begin
         if (aclr) begin
             rotateIndex <= 4'b0;
             x <= 32'b0;
