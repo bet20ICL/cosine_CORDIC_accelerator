@@ -8,7 +8,6 @@ def decimal_to_fixed_point_binary(decimal_num):
     int_part = binary_str[0]
     frac_part = binary_str[1:]
     return (binary_str)
-    # return (int_part, frac_part)
 
 def decimal_to_fixed_point_binary_in_hex(decimal_num):
     fixed_point_num = int(decimal_num * 2**31)
@@ -20,6 +19,7 @@ def decimal_to_fixed_point_binary_in_hex(decimal_num):
     hex_str = bin(fixed_point_num & (2**32 - 1))[2:].zfill(8)
 
     return (hex_str)
+
 
 cof = [
 0.785398163, 		
@@ -37,12 +37,13 @@ cof = [
 0.001953123 ,	
 ]
 
-
+print("--------------------------LookUpTable---------------------------")
 for i, element in enumerate(cof):
     decimal_num = element
     fixed_point_binary = decimal_to_fixed_point_binary(decimal_num)
     print(" 4'd", i, "  : rotateAngle = 32'b", fixed_point_binary, ";") 
 
+print("--------------------------1/K----------------------------")
 decimal_num = 0.607252935
 fixed_point_binary = decimal_to_fixed_point_binary(decimal_num)
 print(fixed_point_binary) 
@@ -72,7 +73,6 @@ y = 0
 
 next_x = 0
 next_y = 0
-# g = 0.52507287263870239258
 print("x: ", x)
 fixed_point_binary = decimal_to_fixed_point_binary(x)
 print(fixed_point_binary)

@@ -14,7 +14,7 @@ module cordic(
 	input	  aclr;
 	input	  clk_en;
 	input	  clock;
-	input	[31:0]  dataa; // this is the floating point input
+	input	[31:0]  dataa;
 	output	[31:0]  result;
     output [3:0] rotate_index_debug;
     output [31:0] x_debug;
@@ -23,7 +23,14 @@ module cordic(
     output [7:0] exponent_debug;
     output [31:0] inter_sig_debug;
 
-    // decode floating point to fix point input using 32 bit fixed point.
+//-------------------debug variable--------------------
+    assign rotate_index_debug = rotate_index;
+    assign x_debug = x;
+    assign z_debug = z;
+    assign fixed_point_input_debug = fixed_point_input;
+    assign exponent_debug = exponent;
+//-------------------debug variable--------------------
+
     wire sign; 
     wire [7:0] exponent; 
     wire [22:0] significand;
@@ -32,28 +39,23 @@ module cordic(
     assign exponent = dataa[30:23];
     assign significand = dataa[22:0];
     
-    
     wire [31:0] fixed_point_input;
     assign fixed_point_input = (exponent == 8'b0) ? 32'b0 : (({1'b1, significand, 8'b0}) >> (7'd127-exponent));
+
+//-------------------------cordic----------------------------
+    reg [31:0] offsetX;
+    reg [31:0] offsetY;
+    reg [31:0] offsetZ;
 
     reg [31:0] x;
     reg [31:0] y;
     reg [31:0] z;
-    reg [3:0] rotate_index; // 4 bits so the variable is enough to cover 10 rotation.
+
+    reg [3:0] rotate_index;
+    reg [31:0] rotateAngle; 
 
     assign result = (rotate_index==10 && !aclr) ? x : 32'b0;
-    assign rotate_index_debug = rotate_index;
-    assign x_debug = x;
-    assign z_debug = z;
-    assign fixed_point_input_debug = fixed_point_input;
-    assign exponent_debug = exponent;
-
-    // wire [31:0] fixed_point_output;
-    // assign fixed_point_output = {sign}
     
-
-    //-------------------------------------cordic------------------------------------
-    reg [31:0] rotateAngle; // in radian
     always@(*) begin
         case(rotate_index)
             4'd0    : rotateAngle = 32'b01100100100001111110110101010000 ;
@@ -70,13 +72,6 @@ module cordic(
         endcase
     end
 
-    //-------------------------------------cordic------------------------------------
-    
-    
-    reg [31:0] offsetX;
-    reg [31:0] offsetY;
-    reg [31:0] offsetZ;
-
 
     always @(*) begin
         if(z[31]==0) begin
@@ -91,7 +86,6 @@ module cordic(
         end
     end
 
-    // TODO: Non pipeline version, initialise condition:  every 10 clock, fixed_point_input changed ... 
     always @(posedge clock) begin
         if (aclr) begin
             rotate_index <= 4'b0;
@@ -106,6 +100,7 @@ module cordic(
             z <= z + offsetZ;
         end
     end
+    //TODO: Conversion from fixed-point to floating-point
 
 
 endmodule

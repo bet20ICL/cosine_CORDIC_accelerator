@@ -36,7 +36,6 @@ module tb ();
 	always
 		#10 clk = ~clk;
 
-	//Initial Block
 	initial
 	begin
 		$display($time, " << Starting Simulation >> ");
@@ -45,34 +44,30 @@ module tb ();
 		clk = 1'b0;
 		clk_en = 1'b0;
 		reset = 1'b1;
+
 		dataa = 32'b00111111000001100110101100101101;
-		// 01000011001101011001011010000000
+		
 
 		@(posedge clk); 
 		
 		@(negedge clk);
 		reset = 1'b0;
 		clk_en = 1'b1;
-		
-		// set dataa and datab
-		// input = 0.5250729021869458
-		// 		 = 01001101101110100111011011010100
-
-		// expected = 0.8652873997993262
-		// expected = 0110 1110 1100 0001 1011 1100 1100 1101 (fixed-point output)
-		
-		
+	
 		repeat (10) @(posedge clk);
-		$display("result 01101110110000011011110011001101");
-		$display("result %b: ", result);
 
 		@(negedge clk);
-		$display("result 01101110110000011011110011001101");
-		$display("result %b: ", result);
-		
+
 		$display($time, "<< Simulation Complete >>");
+		// expected = 0110 1110 1100 0001 1011 1100 1100 1101 (fixed-point output)
+		// expected = 0.8652873997993262
+		$display("result %b: ", result);
 		$display("exponent: ", exponent_debug);
+		// expected  = 01000011001101011001011010000000
+		// expected  = 0.5250729021869458
 		$display("fixed: %b", fixed_point_input_debug);
+
+		//TODO: Conversion from fixed-point to floating-point
 		$display("float: %b", dataa);
 
 
