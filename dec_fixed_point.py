@@ -141,3 +141,8 @@ for i, element in enumerate(cof16):
 #     fixed_point_binary = decimal_to_fixed_point_binary(decimal_num)
 #     print("offset: ", fixed_point_binary)
 
+for i in range(15):
+    # print("x{}_out,".format(i))
+    print("x{} <= 32'b0; y{} <= 32'b0; z{} <= 32'b0;".format(i,i,i))
+    # print("y",i,"=","y",i+1)
+    # print("z",i,"=","z",i+1)
