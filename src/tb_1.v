@@ -79,16 +79,10 @@ module tb ();
 		// dataa = 32'b00111111000110011001100110011010; // 0.6   => 00111111010100110110000000101110 0.825686335564
 		// dataa = 32'b00111111001100110011001100110011; // 0.7   => 00111111010000111010101110110101 0.76433879137
 		// dataa = 32'b00111111010011001100110011001101; // 0.8   => 00111111001100100110100001001110 0.696904063225
-		// dataa = 32'b00111111011001100110011001100110; // 0.9   => 00111111000111101110011111110001 0.620726644993
+		dataa = 32'b00111111011001100110011001100110; // 0.9   => 00111111000111101110011111110001 0.620726644993
 		// dataa = 32'b00111111100000000000000000000000; // 1     => 00111111111001000100010101011011 0.541345000267
 
-		encoder_input_debug = 32'b100001000000000000101010100;
-		//encoder_input_debug_8 = 8'b00111000;
-		
-
 		@(posedge clk); 
-		$display("leading one %b: ", encoder_output_debug, "leading one %d: ", encoder_output_debug, "valid: %d", valid_debug);
-		//$display("leading one %b: ", encoder_output_debug_8, "leading one %d: ", encoder_output_debug_8, "valid: %d", valid_debug_8);
 		@(negedge clk);
 		reset = 1'b0;
 		clk_en = 1'b1;
@@ -98,17 +92,18 @@ module tb ();
 		@(negedge clk);
 
 		$display($time, "<< Simulation Complete >>");
+
+		// input
 		// expected  = 01000011001101011001011010000000
 		// expected  = 0.5250729021869458
 		$display("fixed: %b", fixed_point_input_debug);
 		$display("exponent: ", exponent_debug);
 
+		// result
 		// expected = 0110 1110 1100 0001 1011 1100 1100 1101 (fixed-point output)
 		// expected = 0.8652873997993262
-		$display("fixed-point result %b: ", fixed_point_result_debug);
 		$display("rotate_index_debug %d: ", rotate_index_debug);
-
-		//result
+		$display("fixed-point result %b: ", fixed_point_result_debug);
 		$display("floating-point result: %b", result);
 
 		// //TODO: Conversion from fixed-point to floating-point
