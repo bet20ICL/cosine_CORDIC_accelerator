@@ -127,7 +127,7 @@ module tb ();
 		
 		//repeat (16) @(posedge clk);
 
-        // Posedge??? Negedge???
+        // TODO: Posedge??? Negedge???
         $display("start");
         repeat (16) begin
             @(negedge clk);
