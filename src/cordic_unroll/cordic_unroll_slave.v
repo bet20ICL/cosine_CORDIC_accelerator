@@ -128,23 +128,33 @@ module priority_encoder32(
     // High level
     input [31:0] encoder_input;
     output reg [4:0] encoder_output;
-    output reg valid; 
+    output valid; 
 
     // Intermediate block variable
-    wire [3:0] encoder_input0,encoder_input1,encoder_input2,encoder_input3,encoder_input4,encoder_input5,encoder_input6,encoder_input7;
+    reg [3:0] encoder_input0,encoder_input1,encoder_input2,encoder_input3,encoder_input4,encoder_input5,encoder_input6,encoder_input7;
     wire [1:0] encoder_output0,encoder_output1,encoder_output2,encoder_output3,encoder_output4,encoder_output5,encoder_output6,encoder_output7;
     wire valid0,valid1,valid2,valid3,valid4,valid5,valid6,valid7;
     
+    always@(*) begin
+        encoder_input7 = encoder_input[3:0];
+        encoder_input6 = encoder_input[7:4];
+        encoder_input5 = encoder_input[11:8];
+        encoder_input4 = encoder_input[15:12];
 
-    assign encoder_input7 = encoder_input[3:0];
-    assign encoder_input6 = encoder_input[7:4];
-    assign encoder_input5 = encoder_input[11:8];
-    assign encoder_input4 = encoder_input[15:12];
+        encoder_input3 = encoder_input[19:16];
+        encoder_input2 = encoder_input[23:21];
+        encoder_input1 = encoder_input[27:24];
+        encoder_input0 = encoder_input[31:28]; 
+    end
+    // assign encoder_input7 = encoder_input[3:0];
+    // assign encoder_input6 = encoder_input[7:4];
+    // assign encoder_input5 = encoder_input[11:8];
+    // assign encoder_input4 = encoder_input[15:12];
 
-    assign encoder_input3 = encoder_input[19:16];
-    assign encoder_input2 = encoder_input[23:21];
-    assign encoder_input1 = encoder_input[27:24];
-    assign encoder_input0 = encoder_input[31:28]; 
+    // assign encoder_input3 = encoder_input[19:16];
+    // assign encoder_input2 = encoder_input[23:21];
+    // assign encoder_input1 = encoder_input[27:24];
+    // assign encoder_input0 = encoder_input[31:28]; 
 
     priority_encoder encoder0( encoder_input0, encoder_output0, valid0 );
     priority_encoder encoder1( encoder_input1, encoder_output1, valid1 );
@@ -189,11 +199,9 @@ module priority_encoder8(
     output reg [2:0] encoder_output;
     output reg valid;
 
-
     reg [3:0] encoder_input8_0,encoder_input8_1;
     wire [1:0] encoder_output8_0,encoder_output8_1;
     wire valid8_0,valid8_1;
-    reg select8;
 
     priority_encoder encoder8_0( encoder_input8_0, encoder_output8_0, valid8_0 );
     priority_encoder encoder8_1( encoder_input8_1, encoder_output8_1, valid8_1 );
