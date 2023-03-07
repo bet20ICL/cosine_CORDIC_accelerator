@@ -2,24 +2,27 @@ module cordic(
     aclr,
 	clk_en,
 	clock,
+    start,
 	dataa,
-	result
+	result,
+    done
     );
 
 	input	        aclr;
 	input	        clk_en;
 	input	        clock;
+    input           start;
 	input	[31:0]  dataa; // this is the floating point input
 	output	[31:0]  result;
+    output          done;
 
     //-------------------------------------------------------------
     // FP to fixed-point
     //-------------------------------------------------------------
-    wire sign; 
+    // ignore the sign of the input as we know cosine is even
     wire [7:0] exponent; 
     wire [22:0] significand;
     
-    assign sign = dataa[31];
     assign exponent = dataa[30:23];
     assign significand = dataa[22:0];
     
@@ -29,6 +32,7 @@ module cordic(
     //-------------------------------------------------------------
     // CORDIC
     //-------------------------------------------------------------
+
     reg signed [31:0] x;
     reg signed [31:0] y;
     reg signed [31:0] z;
@@ -40,9 +44,9 @@ module cordic(
     reg [4:0] rotate_index;
     reg signed [31:0] rotateAngle; // in radian
     
-
+    // LUT
     always@(*) begin
-        case(rotate_index)
+        case(rotate_index[3:0])
             4'd0    : rotateAngle = 32'b01100100100001111110110101010001 ;
             4'd1    : rotateAngle = 32'b00111011010110001100111000001010 ;
             4'd2    : rotateAngle = 32'b00011111010110110111010111111001 ;
@@ -76,18 +80,28 @@ module cordic(
         end
     end
 
+    assign done = (rotate_index == 5'd16);
+
     always @(posedge clock) begin
         if (aclr) begin
             rotate_index <= 4'b0;
             x <= 32'b01001101101110100111011011010100;
             y <= 32'b0;
-            z <= fixed_point_input;
+            z <= 32'b0;
         end 
         else if (clk_en) begin
-            rotate_index <= rotate_index + 1'b1;
-            x <= x + offsetX;
-            y <= y + offsetY;
-            z <= z + offsetZ;
+            if (start) begin
+                rotate_index <= 4'b0;
+                x <= 32'b01001101101110100111011011010100;
+                y <= 32'b0;
+                z <= fixed_point_input;
+            end
+            else begin
+                rotate_index <= rotate_index + 1'b1;
+                x <= x + offsetX;
+                y <= y + offsetY;
+                z <= z + offsetZ;
+            end
         end
     end
 
@@ -95,25 +109,24 @@ module cordic(
     // Fixed point to floating point
     //-------------------------------------------------------------
     // TODO: We can get rip off the last cycle if wanted.
-    wire [4:0] leadingOneIndex;
-    wire containOne_valid;
+    wire [4:0] leading_one_index;
+    wire contain_one_valid;
     wire [31:0] fixed_point_result;
 
-    assign fixed_point_result = (rotate_index==16 && !aclr) ? x : 32'b0;   // TODO: assign fixed_point_result = (rotate_index==15 && !aclr) ? x+offsetX : 32'b0;
-    priority_encoder32 encoder32( fixed_point_result, leadingOneIndex, containOne_valid);
+    priority_encoder32 encoder32( x, leading_one_index, contain_one_valid);
 
-    reg [31:0] result_fp,intermediate_result;
+    reg [31:0] result_fp, intermediate_result;
     reg [7:0] result_exponent;
-    reg [22:0] result_significant;
+    reg [22:0] result_significand;
 
     always@(*) begin
-        result_exponent = 127 - leadingOneIndex;
-        intermediate_result = fixed_point_result << leadingOneIndex;
-        result_significant = intermediate_result[30:8];
-        result_fp = {1'b0,result_exponent ,result_significant}; // only output positive number   
+        result_exponent = 127 - leading_one_index;
+        intermediate_result = x << leading_one_index;
+        result_significand = intermediate_result[30:8];
+        result_fp = {1'b0,result_exponent,result_significand}; // only output positive number   
     end
     
-    assign result = (rotate_index==16 && !aclr) ?  result_fp : 32'b0;   // TODO: assign result = (rotate_index==15 && !aclr) ?  result_fp : 32'b0
+    assign result = result_fp;
 
 endmodule
 
