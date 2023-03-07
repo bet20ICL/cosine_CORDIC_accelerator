@@ -3,7 +3,6 @@ module tb ();
 
 	//Inputs to DUT are reg type
 	reg [31:0] dataa;
-    reg [31:0] datab;
 	reg reset;
     reg clk;
 	reg clk_en;
@@ -17,7 +16,6 @@ module tb ();
 			.clk_en(clk_en),
 			.clock(clk),
 			.dataa(dataa),
-            .datab(datab),
 			.result(result)
 		);
 
@@ -28,6 +26,8 @@ module tb ();
 
 	initial
 	begin
+		$dumpfile("cordic_tb_waves.vcd");
+    	$dumpvars(0,tb);
 		$display($time, " << Starting Simulation >> ");
 		
 		// intialise/set input
@@ -53,8 +53,9 @@ module tb ();
 		reset = 1'b0;
 		clk_en = 1'b1;
 	
-		repeat (16) @(posedge clk);
-
+		repeat (16) begin
+			@(negedge clk);
+		end 
 		@(negedge clk);
 
         $display("Output: %b", result);

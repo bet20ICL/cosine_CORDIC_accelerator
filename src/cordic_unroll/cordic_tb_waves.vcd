@@ -1,0 +1,562 @@
+$date
+	Tue Mar  7 02:45:36 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	100ps
+$end
+$scope module tb $end
+$var wire 32 ! result [31:0] $end
+$var reg 1 " clk $end
+$var reg 1 # clk_en $end
+$var reg 32 $ dataa [31:0] $end
+$var reg 1 % reset $end
+$scope module unit $end
+$var wire 1 % aclr $end
+$var wire 1 # clk_en $end
+$var wire 1 " clock $end
+$var wire 32 & dataa [31:0] $end
+$var wire 23 ' significand [22:0] $end
+$var wire 1 ( sign $end
+$var wire 32 ) result [31:0] $end
+$var wire 5 * leadingOneIndex [4:0] $end
+$var wire 32 + fixed_point_result [31:0] $end
+$var wire 32 , fixed_point_input [31:0] $end
+$var wire 8 - exponent [7:0] $end
+$var wire 1 . containOne_valid $end
+$var reg 32 / intermediate_result [31:0] $end
+$var reg 32 0 offsetX [31:0] $end
+$var reg 32 1 offsetY [31:0] $end
+$var reg 32 2 offsetZ [31:0] $end
+$var reg 8 3 result_exponent [7:0] $end
+$var reg 32 4 result_fp [31:0] $end
+$var reg 23 5 result_significant [22:0] $end
+$var reg 32 6 rotateAngle [31:0] $end
+$var reg 5 7 rotate_index [4:0] $end
+$var reg 32 8 x [31:0] $end
+$var reg 32 9 y [31:0] $end
+$var reg 32 : z [31:0] $end
+$scope module encoder32 $end
+$var wire 32 ; encoder_input [31:0] $end
+$var wire 1 < valid7 $end
+$var wire 1 = valid6 $end
+$var wire 1 > valid5 $end
+$var wire 1 ? valid4 $end
+$var wire 1 @ valid3 $end
+$var wire 1 A valid2 $end
+$var wire 1 B valid1 $end
+$var wire 1 C valid0 $end
+$var wire 1 . valid $end
+$var wire 3 D encoder_output8 [2:0] $end
+$var wire 2 E encoder_output7 [1:0] $end
+$var wire 2 F encoder_output6 [1:0] $end
+$var wire 2 G encoder_output5 [1:0] $end
+$var wire 2 H encoder_output4 [1:0] $end
+$var wire 2 I encoder_output3 [1:0] $end
+$var wire 2 J encoder_output2 [1:0] $end
+$var wire 2 K encoder_output1 [1:0] $end
+$var wire 2 L encoder_output0 [1:0] $end
+$var wire 8 M encoder_input8 [7:0] $end
+$var reg 4 N encoder_input0 [3:0] $end
+$var reg 4 O encoder_input1 [3:0] $end
+$var reg 4 P encoder_input2 [3:0] $end
+$var reg 4 Q encoder_input3 [3:0] $end
+$var reg 4 R encoder_input4 [3:0] $end
+$var reg 4 S encoder_input5 [3:0] $end
+$var reg 4 T encoder_input6 [3:0] $end
+$var reg 4 U encoder_input7 [3:0] $end
+$var reg 5 V encoder_output [4:0] $end
+$scope module encoder0 $end
+$var wire 4 W encoder_input [3:0] $end
+$var reg 2 X encoder_output [1:0] $end
+$var reg 1 C valid $end
+$upscope $end
+$scope module encoder1 $end
+$var wire 4 Y encoder_input [3:0] $end
+$var reg 2 Z encoder_output [1:0] $end
+$var reg 1 B valid $end
+$upscope $end
+$scope module encoder2 $end
+$var wire 4 [ encoder_input [3:0] $end
+$var reg 2 \ encoder_output [1:0] $end
+$var reg 1 A valid $end
+$upscope $end
+$scope module encoder3 $end
+$var wire 4 ] encoder_input [3:0] $end
+$var reg 2 ^ encoder_output [1:0] $end
+$var reg 1 @ valid $end
+$upscope $end
+$scope module encoder4 $end
+$var wire 4 _ encoder_input [3:0] $end
+$var reg 2 ` encoder_output [1:0] $end
+$var reg 1 ? valid $end
+$upscope $end
+$scope module encoder5 $end
+$var wire 4 a encoder_input [3:0] $end
+$var reg 2 b encoder_output [1:0] $end
+$var reg 1 > valid $end
+$upscope $end
+$scope module encoder6 $end
+$var wire 4 c encoder_input [3:0] $end
+$var reg 2 d encoder_output [1:0] $end
+$var reg 1 = valid $end
+$upscope $end
+$scope module encoder7 $end
+$var wire 4 e encoder_input [3:0] $end
+$var reg 2 f encoder_output [1:0] $end
+$var reg 1 < valid $end
+$upscope $end
+$scope module encoder8 $end
+$var wire 8 g encoder_input [7:0] $end
+$var wire 1 h valid8_1 $end
+$var wire 1 i valid8_0 $end
+$var wire 2 j encoder_output8_1 [1:0] $end
+$var wire 2 k encoder_output8_0 [1:0] $end
+$var reg 4 l encoder_input8_0 [3:0] $end
+$var reg 4 m encoder_input8_1 [3:0] $end
+$var reg 3 n encoder_output [2:0] $end
+$var reg 1 . valid $end
+$scope module encoder8_0 $end
+$var wire 4 o encoder_input [3:0] $end
+$var reg 2 p encoder_output [1:0] $end
+$var reg 1 i valid $end
+$upscope $end
+$scope module encoder8_1 $end
+$var wire 4 q encoder_input [3:0] $end
+$var reg 2 r encoder_output [1:0] $end
+$var reg 1 h valid $end
+$upscope $end
+$upscope $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b10 r
+b0 q
+b10 p
+b0 o
+b110 n
+b0 m
+b0 l
+b10 k
+b10 j
+0i
+0h
+b0 g
+b10 f
+b0 e
+b10 d
+b0 c
+b10 b
+b0 a
+b10 `
+b0 _
+b10 ^
+b0 ]
+b10 \
+b0 [
+b10 Z
+b0 Y
+b10 X
+b0 W
+bx V
+b0 U
+b0 T
+b0 S
+b0 R
+b0 Q
+b0 P
+b0 O
+b0 N
+b0 M
+b10 L
+b10 K
+b10 J
+b10 I
+b10 H
+b10 G
+b10 F
+b10 E
+b110 D
+0C
+0B
+0A
+0@
+0?
+0>
+0=
+0<
+b0 ;
+bx :
+bx 9
+bx 8
+bx 7
+bx 6
+bx 5
+b0xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 4
+bx 3
+bx 2
+bx 1
+bx 0
+bx /
+0.
+b1111110 -
+b1011001100110011001100110000000 ,
+b0 +
+bx *
+b0 )
+0(
+b1100110011001100110011 '
+b111111001100110011001100110011 &
+1%
+b111111001100110011001100110011 $
+0#
+0"
+b0 !
+$end
+#100
+b10011011011110000001001010101101 2
+b1001101101110100111011011010100 1
+b0 0
+b1100100100001111110110101010001 6
+b1011001100110011001100110000000 :
+b0 9
+b1001101101110100111011011010100 8
+b0 7
+1"
+#200
+1#
+0%
+0"
+#300
+b111011010110001100111000001010 2
+b11011001001000101100010010010100 1
+b100110110111010011101101101010 0
+b111011010110001100111000001010 6
+b11110101000100011010110000101101 :
+b1001101101110100111011011010100 9
+b1 7
+1"
+#400
+0"
+#500
+b11100000101001001000101000000101 2
+b11101001001011110110010001111 1
+b11110110010010001011000100100110 0
+b11111010110110111010111111001 6
+b110000011010100111101000110111 :
+b100110110111010011101101101000 9
+b1110100100101111011001000111110 8
+b10 7
+1"
+#600
+0"
+#700
+b11110000000101010010001010110001 2
+b1101010111000000110001101100 1
+b11110111011111111001101100000010 0
+b1111111010101101110101001101 6
+b10001000011110000010000111100 :
+b1000100000000110010011111110111 9
+b1101010111000000110001101100100 8
+b11 7
+1"
+#800
+0"
+#900
+b11111000000000101010100100010001 2
+b110001001011111111111100110 1
+b11111010111010100000110010111010 0
+b111111111010101011011101101 6
+b1001001000010011011101101 :
+b1010001010111110011010001100011 9
+b1100010010111111111111001100110 8
+b100 7
+1"
+#1000
+0"
+#1100
+b11111111111010101010110111 2
+b11111101000101011010111110100101 1
+b10101111000010100110100010 0
+b11111111111010101010110111 6
+b11111001001001101100111111111110 :
+b1010111100001010011010001001001 9
+b1011101010010100000101100100000 8
+b101 7
+1"
+#1200
+0"
+#1300
+b1111111111111010101010101 2
+b11111110011111111110011100101011 1
+b1010100100110101110001111 0
+b1111111111111010101010101 6
+b11111101001001100111101010110101 :
+b1010100100110101110001111101110 9
+b1100000000001100011010011000010 8
+b110 7
+1"
+#1400
+0"
+#1500
+b111111111111111010101010 2
+b11111111001111010100111010111110 1
+b101001100011010110010110 0
+b111111111111111010101010 6
+b11111111001001100111000000001010 :
+b1010011000110101100101100011001 9
+b1100001010110001010000001010001 8
+b111 7
+1"
+#1600
+0"
+#1700
+b11111111100000000000000000101001 2
+b11000011111111011010101 1
+b11111111101011011010011111100111 0
+b11111111111111111010101 6
+b1001100110111010110100 :
+b1010010010110000001100111010111 9
+b1100001111111101101010111100111 8
+b1000 7
+1"
+#1800
+0"
+#1900
+b1111111111111111111010 2
+b11111111110011110010100111000000 1
+b1010010101110100001100 0
+b1111111111111111111010 6
+b11111111101001100110111011011101 :
+b1010010101110100001100010101100 9
+b1100001101011000111110111001110 8
+b1001 7
+1"
+#2000
+0"
+#2100
+b111111111111111111111 2
+b11111111111001111000101010001000 1
+b101001010001001010000 0
+b111111111111111111111 6
+b11111111111001100110111011010111 :
+b1010010100010010100001001101100 9
+b1100001110101011101101011011010 8
+b1010 7
+1"
+#2200
+0"
+#2300
+b11111111111011111111111111111111 2
+b11000011110101001111 1
+b11111111111101011011000111100111 0
+b11111111111111111111 6
+b1100110111011010110 :
+b1010010011100001100110011110100 9
+b1100001111010100111110100101010 8
+b1011 7
+1"
+#2400
+0"
+#2500
+b1111111111111111111 2
+b11111111111110011110000111111100 1
+b1010010011111010000 0
+b1111111111111111111 6
+b11111111111101100110111011010101 :
+b1010010011111010000101001000011 9
+b1100001111000000010111100010001 8
+b1100 7
+1"
+#2600
+0"
+#2700
+b111111111111111111 2
+b11111111111111001111000011010100 1
+b101001001110110111 0
+b111111111111111111 6
+b11111111111111100110111011010100 :
+b1010010011101101110110000111111 9
+b1100001111001010101011011100001 8
+b1101 7
+1"
+#2800
+0"
+#2900
+b11111111111111011111111111111111 2
+b11000011110011111 1
+b11111111111111101011011000110001 0
+b11111111111111111 6
+b100110111011010011 :
+b1010010011100111101110100010011 9
+b1100001111001111110101010011000 8
+b1110 7
+1"
+#3000
+0"
+#3100
+b11111111111111101111111111111111 2
+b1100001111001101 1
+b11111111111111110101101100010110 0
+b1111111111111111 6
+b110111011010010 :
+b1010010011101010110010010110010 9
+b1100001111001101010000011001001 8
+b1111 7
+1"
+#3200
+0"
+#3300
+b111111010000111100101111110111 4
+b10000111100101111110111 5
+b11000011110010111111011110111110 /
+b1111110 3
+b1 *
+b1 V
+1.
+b0 D
+b0 n
+1i
+b0 k
+b0 p
+1h
+b0 j
+b0 r
+b1111 l
+b1111 o
+b1111 m
+b1111 q
+1C
+b1 L
+b1 X
+1B
+b11 K
+b11 Z
+1A
+b1 J
+b1 \
+1@
+b1 I
+b1 ^
+1?
+b0 H
+b0 `
+1>
+b0 G
+b0 b
+1=
+b0 F
+b0 d
+b11111111 M
+b11111111 g
+1<
+b0 E
+b0 f
+b110 N
+b110 W
+b1 O
+b1 Y
+b111 P
+b111 [
+b101 Q
+b101 ]
+b1111 R
+b1111 _
+b1011 S
+b1011 a
+b1101 T
+b1101 c
+b1111 U
+b1111 e
+b1100001111001011111101111011111 +
+b1100001111001011111101111011111 ;
+b111111010000111100101111110111 !
+b111111010000111100101111110111 )
+b0 2
+b11111111111111111001111000011001 1
+b101001001110110 0
+b0 6
+b11111111111111110110111011010001 :
+b1010010011101100010100001111111 9
+b1100001111001011111101111011111 8
+b10000 7
+1"
+#3400
+0"
+#3500
+0.
+b110 D
+b110 n
+0i
+b10 k
+b10 p
+0h
+b10 j
+b10 r
+b0 l
+b0 o
+b0 m
+b0 q
+0C
+b10 L
+b10 X
+0B
+b10 K
+b10 Z
+0A
+b10 J
+b10 \
+0@
+b10 I
+b10 ^
+0?
+b10 H
+b10 `
+0>
+b10 G
+b10 b
+0=
+b10 F
+b10 d
+b0 M
+b0 g
+0<
+b10 E
+b10 f
+b0 N
+b0 W
+b0 O
+b0 Y
+b0 P
+b0 [
+b0 Q
+b0 ]
+b0 R
+b0 _
+b0 S
+b0 a
+b0 T
+b0 c
+b0 U
+b0 e
+b111111000000000000000000000000 4
+b0 5
+b0 /
+b0 !
+b0 )
+b0 +
+b0 ;
+b11111111111111111100111100001011 1
+b10100100111010 0
+b1010010011101011100011010011000 9
+b1100001111001100100111001010101 8
+b10001 7
+1"
