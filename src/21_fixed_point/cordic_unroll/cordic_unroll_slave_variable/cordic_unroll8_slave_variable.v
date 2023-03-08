@@ -172,7 +172,6 @@ module cordic(
 endmodule
 
 
-
 module rotation_offset(
     x,
     y,
@@ -184,15 +183,15 @@ module rotation_offset(
     rotateAngle,
 );
    
-    input [20:0] x;
-    input [20:0] y;
-    input [20:0] z;
-    input [4:0] rotate_index;
-    input [20:0] rotateAngle;
+    input signed [20:0] x;
+    input signed [20:0] y;
+    input signed [20:0] z;
+    input unsigned [4:0] rotate_index;
+    input signed [20:0] rotateAngle;
 
-    output  reg [20:0] offsetX;
-    output  reg [20:0] offsetY;
-    output  reg [20:0] offsetZ;
+    output reg [20:0] offsetX;
+    output reg [20:0] offsetY;
+    output reg [20:0] offsetZ;
     always@(*) begin 
         if(z[20]==0) begin
             offsetX = ~(y >>> rotate_index) + 21'sb1;
