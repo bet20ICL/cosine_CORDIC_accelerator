@@ -56,7 +56,7 @@ module tb ();
 		repeat (16) begin
 			@(negedge clk);
 		end 
-		@(negedge clk);
+		// @(negedge clk);
 
         $display("Output: %b", result);
 		$display($time, " << Simulation Complete >>");

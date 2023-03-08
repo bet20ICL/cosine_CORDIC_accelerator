@@ -20,14 +20,9 @@ module cordic(
     // FP to fixed-point
     //-------------------------------------------------------------
     // ignore the sign of the input as we know cosine is even
-    wire [7:0] exponent; 
-    wire [22:0] significand;
-    
-    assign exponent = dataa[30:23];
-    assign significand = dataa[22:0];
-    
     wire [31:0] fixed_point_input;
-    assign fixed_point_input = (exponent == 8'b0) ? 32'b0 : (({1'b1, significand, 8'b0}) >> (7'd127-exponent));
+    floating_to_fixed floating_to_fixed_unit(.dataa(dataa), .fixed_point_input(fixed_point_input));
+
 
     //-------------------------------------------------------------
     // CORDIC
@@ -127,6 +122,27 @@ module cordic(
     end
     
     assign result = result_fp;
+
+endmodule
+
+
+
+module floating_to_fixed(
+    dataa,
+    fixed_point_input
+);
+    input	[31:0]  dataa; // this is the floating point input
+    output  [31:0] fixed_point_input;
+
+    wire [7:0] exponent; 
+    wire [22:0] significand;
+    
+    assign exponent = dataa[30:23];
+    assign significand = dataa[22:0];
+    
+    wire [31:0] fixed_point_input;
+    // assign fixed_point_input = (exponent == 8'b0) ? 32'b0 : (({1'b1, significand, 8'b0}) >> (7'd127-exponent));
+    assign fixed_point_input = (exponent == 8'b0) ? 21'b0 : (({1'b1, significand[22:2]}) >> (7'd127-exponent));
 
 endmodule
 

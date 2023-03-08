@@ -9,63 +9,59 @@ module cordic(
 	input	        aclr;
 	input	        clk_en;
 	input	        clock;
-	input	[31:0]  dataa; // this is the floating point input
+	input	[31:0]  dataa;
 	output	[31:0]  result;
 
     //-------------------------------------------------------------
     // FP to fixed-point
     //-------------------------------------------------------------
-    wire sign; 
-    wire [7:0] exponent; 
-    wire [22:0] significand;
-    
-    assign sign = dataa[31];
-    assign exponent = dataa[30:23];
-    assign significand = dataa[22:0];
-    
-    wire [31:0] fixed_point_input;
-    assign fixed_point_input = (exponent == 8'b0) ? 32'b0 : (({1'b1, significand, 8'b0}) >> (7'd127-exponent));
+    wire [20:0] fixed_point_input;
+    floating_to_fixed floating_to_fixed_unit(.dataa(dataa), .fixed_point_input(fixed_point_input));
+    // always@(*)  begin
+    //     $display("dataa: %b", dataa);
+    //     $display("fixed_point_input: %b", fixed_point_input);
+    // end
 
     //-------------------------------------------------------------
     // CORDIC
     //-------------------------------------------------------------
-    reg signed [31:0] x;
-    reg signed [31:0] y;
-    reg signed [31:0] z;
+    reg signed [20:0] x;
+    reg signed [20:0] y;
+    reg signed [20:0] z;
 
-    reg  [31:0] offsetX;
-    reg  [31:0] offsetY;
-    reg  [31:0] offsetZ;
+    reg  [20:0] offsetX;
+    reg  [20:0] offsetY;
+    reg  [20:0] offsetZ;
 
     reg [4:0] rotate_index;
-    reg signed [31:0] rotateAngle; // in radian
+    reg signed [20:0] rotateAngle; // in radian
     
 
     always@(*) begin
-        case(rotate_index)
-            4'd0    : rotateAngle = 32'b01100100100001111110110101010001 ;
-            4'd1    : rotateAngle = 32'b00111011010110001100111000001010 ;
-            4'd2    : rotateAngle = 32'b00011111010110110111010111111001 ;
-            4'd3    : rotateAngle = 32'b00001111111010101101110101001101 ;
-            4'd4    : rotateAngle = 32'b00000111111111010101011011101101 ;
-            4'd5    : rotateAngle = 32'b00000011111111111010101010110111 ;
-            4'd6    : rotateAngle = 32'b00000001111111111111010101010101 ;
-            4'd7    : rotateAngle = 32'b00000000111111111111111010101010 ;
-            4'd8    : rotateAngle = 32'b00000000011111111111111111010101 ;
-            4'd9    : rotateAngle = 32'b00000000001111111111111111111010 ;
-            4'd10   : rotateAngle = 32'b00000000000111111111111111111111 ;
-            4'd11   : rotateAngle = 32'b00000000000011111111111111111111 ;
-            4'd12   : rotateAngle = 32'b00000000000001111111111111111111 ;
-            4'd13   : rotateAngle = 32'b00000000000000111111111111111111 ;
-            4'd14   : rotateAngle = 32'b00000000000000011111111111111111 ;
-            4'd15   : rotateAngle = 32'b00000000000000001111111111111111 ;
+        case(rotate_index)             
+            4'd0    : rotateAngle = 21'b011001001000011111101;
+            4'd1    : rotateAngle = 21'b001110110101100011001;
+            4'd2    : rotateAngle = 21'b000111110101101101110;
+            4'd3    : rotateAngle = 21'b000011111110101011011;
+            4'd4    : rotateAngle = 21'b000001111111110101010;
+            4'd5    : rotateAngle = 21'b000000111111111110101;
+            4'd6    : rotateAngle = 21'b000000011111111111110;
+            4'd7    : rotateAngle = 21'b000000001111111111111;
+            4'd8    : rotateAngle = 21'b000000000111111111111;
+            4'd9    : rotateAngle = 21'b000000000011111111111;
+            4'd10   : rotateAngle = 21'b000000000001111111111;
+            4'd11   : rotateAngle = 21'b000000000000111111111;
+            4'd12   : rotateAngle = 21'b000000000000011111111;
+            4'd13   : rotateAngle = 21'b000000000000001111111;
+            4'd14   : rotateAngle = 21'b000000000000000111111;
+            4'd15   : rotateAngle = 21'b000000000000000011111;
             default : rotateAngle = 0; 		
         endcase
     end
     
     always @(*) begin
-        if(z[31]==0) begin
-            offsetX = ~(y >>> rotate_index) + 32'sb1;
+        if(z[20]==0) begin
+            offsetX = ~(y >>> rotate_index) + 21'sb1;
             offsetY = x >>> rotate_index;
             offsetZ = ~(rotateAngle) + 1'sb1;
         end 
@@ -79,8 +75,8 @@ module cordic(
     always @(posedge clock) begin
         if (aclr) begin
             rotate_index <= 4'b0;
-            x <= 32'b01001101101110100111011011010100;
-            y <= 32'b0;
+            x <= 21'b010011011011101001110;
+            y <= 21'b0;
             z <= fixed_point_input;
         end 
         else if (clk_en) begin
@@ -95,26 +91,68 @@ module cordic(
     // Fixed point to floating point
     //-------------------------------------------------------------
     // TODO: We can get rip off the last cycle if wanted.
+    wire [20:0] fixed_point_result;
+    wire [31:0] result_fp;
+
+    assign fixed_point_result = (rotate_index==16 && !aclr) ? x : 21'b0;   // TODO: assign fixed_point_result = (rotate_index==15 && !aclr) ? x+offsetX : 21'b0;
+    always@(*) begin
+    end
+    fixed_to_float fixed_to_float_unit( fixed_point_result, result_fp );
+    
+    assign result = (rotate_index==16 && !aclr) ?  result_fp : 32'b0;   // TODO: assign result = (rotate_index==15 && !aclr) ?  result_fp : 32'b0
+    always@(*) begin
+        $display("rotate_index: ", rotate_index);
+        $display("fixed_point_result: %b", fixed_point_result);
+        $display("result: %b ", result);
+    end
+endmodule
+
+module floating_to_fixed(
+    dataa,
+    fixed_point_input
+);
+    // convert the 32bits floating point input to 21bits fixed point.
+    input	[31:0]  dataa; 
+    output  [20:0] fixed_point_input;  
+
+    wire [7:0] exponent; 
+    wire [22:0] significand;
+    
+    assign exponent = dataa[30:23];
+    assign significand = dataa[22:0];
+    
+ // assign fixed_point_input = (exponent == 8'b0) ? 32'b0 : (({1'b1, significand, 8'b0}) >> (7'd127-exponent));
+    assign fixed_point_input = (exponent == 8'b0) ? 21'b0 : (({1'b1, significand[22:3]}) >> (7'd127-exponent));
+
+endmodule
+
+module fixed_to_float(
+    fixed_point_result,
+    result_fp
+);
+    // convert the 21-bit floating point input to 32-bit fixed point.
+    input [20:0] fixed_point_result;
+    output reg [31:0] result_fp;
+
     wire [4:0] leadingOneIndex;
     wire containOne_valid;
-    wire [31:0] fixed_point_result;
 
-    assign fixed_point_result = (rotate_index==16 && !aclr) ? x : 32'b0;   // TODO: assign fixed_point_result = (rotate_index==15 && !aclr) ? x+offsetX : 32'b0;
-    priority_encoder32 encoder32( fixed_point_result, leadingOneIndex, containOne_valid);
+    //append 20-bit fixed point to 32-bit fixed point
+    wire [31:0] fixed_point_result_appended_to_32_bits;
+    assign fixed_point_result_appended_to_32_bits = {fixed_point_result, 11'b0};
 
-    reg [31:0] result_fp,intermediate_result;
+    priority_encoder32 encoder32( fixed_point_result_appended_to_32_bits, leadingOneIndex, containOne_valid);
+
+    reg [20:0] intermediate_result;
     reg [7:0] result_exponent;
     reg [22:0] result_significant;
 
     always@(*) begin
         result_exponent = 127 - leadingOneIndex;
         intermediate_result = fixed_point_result << leadingOneIndex;
-        result_significant = intermediate_result[30:8];
+        result_significant = {intermediate_result[19:0],3'b0};
         result_fp = {1'b0,result_exponent ,result_significant}; // only output positive number   
     end
-    
-    assign result = (rotate_index==16 && !aclr) ?  result_fp : 32'b0;   // TODO: assign result = (rotate_index==15 && !aclr) ?  result_fp : 32'b0
-
 endmodule
 
 
