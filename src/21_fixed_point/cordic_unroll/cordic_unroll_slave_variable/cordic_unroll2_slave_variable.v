@@ -54,7 +54,6 @@ module cordic(
                 rotateAngle  = 21'b011001001000011111101; 
                 rotateAngle1 = 21'b001110110101100011001;
             end
-                     
             4'd2    : 
             begin 
                 rotateAngle = 21'b000111110101101101110;
