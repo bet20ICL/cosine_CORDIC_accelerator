@@ -139,13 +139,13 @@ module cordic_operation(
 
     always @(*) begin
         if(z[20]==0) begin
-            offsetX = ~(y >>> rotate_index) + 21'sb1;
+            offsetX = ~(y >>> rotate_index) + 2'sb1;
             offsetY = x >>> rotate_index;
-            offsetZ = ~(rotateAngle) + 1'sb1;
+            offsetZ = ~(rotateAngle) + 2'sb1;
         end 
         else begin
             offsetX = y >>> rotate_index;
-            offsetY = ~(x >>> rotate_index) + 1'sb1;
+            offsetY = ~(x >>> rotate_index) + 2'sb1;
             offsetZ = rotateAngle;
         end
 

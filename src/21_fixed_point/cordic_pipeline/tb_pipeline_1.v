@@ -93,10 +93,10 @@ module tb ();
 			@(negedge clk);
 		end
 
-        repeat (5) @(posedge clk);// so that we passed 16 posegde clk
+        // repeat (1) @(posedge clk);// so that we passed 16 posegde clk
 		
         $display("start");
-        repeat (12) begin
+        repeat (20) begin
             @(negedge clk);
 		    $display("%h", result);
         end
