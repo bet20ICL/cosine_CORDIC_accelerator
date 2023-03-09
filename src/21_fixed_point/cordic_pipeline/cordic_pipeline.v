@@ -131,11 +131,11 @@ module cordic_operation(
     output reg signed [20:0] z_out;
 
     input  [4:0] rotate_index;
-    input  [20:0] rotateAngle;
+    input [20:0] rotateAngle;
 
-    reg  [20:0] offsetX;
-    reg  [20:0] offsetY;
-    reg  [20:0] offsetZ;
+    reg [20:0] offsetX;
+    reg [20:0] offsetY;
+    reg [20:0] offsetZ;
 
     always @(*) begin
         if(z[20]==0) begin

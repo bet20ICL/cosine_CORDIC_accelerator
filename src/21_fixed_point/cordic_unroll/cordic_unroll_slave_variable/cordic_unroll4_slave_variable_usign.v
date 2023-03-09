@@ -27,52 +27,80 @@ module cordic(
     //-------------------------------------------------------------
     // CORDIC
     //-------------------------------------------------------------
-    reg signed [20:0] x;
-    reg signed [20:0] y;
-    reg signed [20:0] z;
-
-    reg  [20:0] offsetX;
-    reg  [20:0] offsetY;
-    reg  [20:0] offsetZ;
-
-    reg [4:0] rotate_index;
-    reg signed [20:0] rotateAngle; // in radian
+    reg signed [20:0] x, x1, x2, x3;
+    reg signed [20:0] y, y1, y2, y3;
+    reg signed [20:0] z, z1, z2, z3;
+   
+    wire  [20:0] offsetX, offsetX1, offsetX2, offsetX3;
+    wire  [20:0] offsetY, offsetY1, offsetY2, offsetY3;
+    wire  [20:0] offsetZ, offsetZ1, offsetZ2, offsetZ3;
+   
+    reg [4:0] rotate_index, rotate_index1, rotate_index2, rotate_index3;
+    reg signed [20:0] rotateAngle, rotateAngle1, rotateAngle2, rotateAngle3;
     
     // LUT
     always@(*) begin
         case(rotate_index)             
-            4'd0    : rotateAngle = 21'b011001001000011111101;
-            4'd1    : rotateAngle = 21'b001110110101100011001;
-            4'd2    : rotateAngle = 21'b000111110101101101110;
-            4'd3    : rotateAngle = 21'b000011111110101011011;
-            4'd4    : rotateAngle = 21'b000001111111110101010;
-            4'd5    : rotateAngle = 21'b000000111111111110101;
-            4'd6    : rotateAngle = 21'b000000011111111111110;
-            4'd7    : rotateAngle = 21'b000000001111111111111;
-            4'd8    : rotateAngle = 21'b000000000111111111111;
-            4'd9    : rotateAngle = 21'b000000000011111111111;
-            4'd10   : rotateAngle = 21'b000000000001111111111;
-            4'd11   : rotateAngle = 21'b000000000000111111111;
-            4'd12   : rotateAngle = 21'b000000000000011111111;
-            4'd13   : rotateAngle = 21'b000000000000001111111;
-            4'd14   : rotateAngle = 21'b000000000000000111111;
-            4'd15   : rotateAngle = 21'b000000000000000011111;
-            default : rotateAngle = 0; 		
+            4'd0    : 
+            begin 
+                rotateAngle  = 21'b011001001000011111101; 
+                rotateAngle1 = 21'b001110110101100011001;
+                rotateAngle2 = 21'b000111110101101101110;
+                rotateAngle3 = 21'b000011111110101011011;
+            end
+            4'd4    : 
+            begin 
+                rotateAngle = 21'b000001111111110101010;
+                rotateAngle1 = 21'b000000111111111110101;
+                rotateAngle2 = 21'b000000011111111111110;
+                rotateAngle3 = 21'b000000001111111111111;
+            end
+            4'd8    : 
+            begin
+                rotateAngle = 21'b000000000111111111111;
+                rotateAngle1 = 21'b000000000011111111111;
+                rotateAngle2 = 21'b000000000001111111111;
+                rotateAngle3 = 21'b000000000000111111111;
+            end
+            4'd12   : 
+            begin
+                rotateAngle = 21'b000000000000011111111;
+                rotateAngle1 = 21'b000000000000001111111;
+                rotateAngle2 = 21'b000000000000000111111;
+                rotateAngle3 = 21'b000000000000000011111;
+            end
+            default : 
+            begin
+                rotateAngle  = 0; 
+                rotateAngle1 = 0; 
+                rotateAngle2 = 0;
+                rotateAngle3 = 0;
+            end		
         endcase
     end
     
-    always @(*) begin
-        if(z[20]==0) begin
-            offsetX = ~(y >>> rotate_index) + 21'sb1;
-            offsetY = x >>> rotate_index;
-            offsetZ = ~(rotateAngle) + 1'sb1;
-        end 
-        else begin
-            offsetX = y >>> rotate_index;
-            offsetY = ~(x >>> rotate_index) + 1'sb1;
-            offsetZ = rotateAngle;
-        end
+    rotation_offset rotation_offset_unit_0( .x(x), .y(y), .z(z), .offsetX(offsetX), .offsetY(offsetY), .offsetZ(offsetZ), .rotate_index(rotate_index), .rotateAngle(rotateAngle));
+    always@(*) begin
+        rotate_index1 = rotate_index + 1'b1;
+        x1 = x + offsetX;
+        y1 = y + offsetY;
+        z1 = z + offsetZ;
     end
+    rotation_offset rotation_offset_unit_1( .x(x1), .y(y1), .z(z1), .offsetX(offsetX1), .offsetY(offsetY1), .offsetZ(offsetZ1), .rotate_index(rotate_index1), .rotateAngle(rotateAngle1));
+    always@(*) begin
+        rotate_index2 = rotate_index1 + 1'b1;
+        x2 = x1 + offsetX1;
+        y2 = y1 + offsetY1;
+        z2 = z1 + offsetZ1;
+    end
+    rotation_offset rotation_offset_unit_2( .x(x2), .y(y2), .z(z2), .offsetX(offsetX2), .offsetY(offsetY2), .offsetZ(offsetZ2), .rotate_index(rotate_index2), .rotateAngle(rotateAngle2));
+    always@(*) begin
+        rotate_index3 = rotate_index2 + 1'b1;
+        x3 = x2 + offsetX2;
+        y3 = y2 + offsetY2;
+        z3 = z2 + offsetZ2;
+    end
+    rotation_offset rotation_offset_unit_3( .x(x3), .y(y3), .z(z3), .offsetX(offsetX3), .offsetY(offsetY3), .offsetZ(offsetZ3), .rotate_index(rotate_index3), .rotateAngle(rotateAngle3));
 
     assign done = (rotate_index == 5'd16);
 
@@ -91,19 +119,19 @@ module cordic(
                 z <= fixed_point_input;
             end
             else begin
-                rotate_index <= rotate_index + 1'b1;
-                x <= x + offsetX;
-                y <= y + offsetY;
-                z <= z + offsetZ;
+                rotate_index <= rotate_index + 5'd4;
+                x <= x3 + offsetX3;
+                y <= y3 + offsetY3;
+                z <= z3 + offsetZ3;
             end
         end
     end
-    // always@(*) begin
-    //     $display("rotate_index ", rotate_index);
-    //     $display("x: ", x);
-    //     $display("y: ", y);
-    //     $display("z: ", z);
-    // end
+    always@(*) begin
+        $display("rotate_index ", rotate_index);
+        $display("x: ", x);
+        $display("y: ", y);
+        $display("z: ", z);
+    end
 
     //-------------------------------------------------------------
     // Fixed point to floating point
@@ -122,6 +150,40 @@ module cordic(
 endmodule
 
 
+module rotation_offset(
+    x,
+    y,
+    z,
+    offsetX,
+    offsetY,
+    offsetZ,
+    rotate_index,
+    rotateAngle,
+);
+   
+    input signed [20:0] x;
+    input signed [20:0] y;
+    input signed [20:0] z;
+    input unsigned [4:0] rotate_index;
+    input signed [20:0] rotateAngle;
+
+    output reg [20:0] offsetX;
+    output reg [20:0] offsetY;
+    output reg [20:0] offsetZ;
+    always@(*) begin 
+        if(z[20]==0) begin
+            offsetX = ~(y >>> rotate_index) + 21'sb1;
+            offsetY = x >>> rotate_index;
+            offsetZ = ~(rotateAngle) + 1'sb1;
+        end 
+        else begin
+            offsetX = y >>> rotate_index;
+            offsetY = ~(x >>> rotate_index) + 1'sb1;
+            offsetZ = rotateAngle;
+        end
+    end
+
+endmodule
 
 module floating_to_fixed(
     dataa,

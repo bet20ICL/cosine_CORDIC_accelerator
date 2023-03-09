@@ -126,12 +126,12 @@ module cordic(
             end
         end
     end
-    always@(*) begin
-        $display("rotate_index ", rotate_index);
-        $display("x: ", x);
-        $display("y: ", y);
-        $display("z: ", z);
-    end
+    // always@(*) begin
+    //     $display("rotate_index ", rotate_index);
+    //     $display("x: ", x);
+    //     $display("y: ", y);
+    //     $display("z: ", z);
+    // end
 
     //-------------------------------------------------------------
     // Fixed point to floating point
