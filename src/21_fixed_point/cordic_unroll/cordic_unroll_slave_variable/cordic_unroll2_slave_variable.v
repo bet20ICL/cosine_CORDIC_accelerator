@@ -34,12 +34,12 @@ module cordic(
     reg signed [20:0] y1;
     reg signed [20:0] z1;
 
-    reg  [20:0] offsetX;
-    reg  [20:0] offsetY;
-    reg  [20:0] offsetZ;
-    reg  [20:0] offsetX1;
-    reg  [20:0] offsetY1;
-    reg  [20:0] offsetZ1;
+    reg signed [20:0] offsetX;
+    reg signed [20:0] offsetY;
+    reg signed [20:0] offsetZ;
+    reg signed [20:0] offsetX1;
+    reg signed [20:0] offsetY1;
+    reg signed [20:0] offsetZ1;
    
     reg [4:0] rotate_index;
     reg [4:0] rotate_index1;
@@ -99,13 +99,13 @@ module cordic(
     
     always @(*) begin
         if(z[20]==0) begin
-            offsetX = ~(y >>> rotate_index) + 21'sb1;
+            offsetX = -(y >>> rotate_index);
             offsetY = x >>> rotate_index;
-            offsetZ = ~(rotateAngle) + 1'sb1;
+            offsetZ = -rotateAngle;
         end 
         else begin
             offsetX = y >>> rotate_index;
-            offsetY = ~(x >>> rotate_index) + 1'sb1;
+            offsetY = -(x >>> rotate_index);
             offsetZ = rotateAngle;
         end
 
@@ -115,13 +115,13 @@ module cordic(
         z1 = z + offsetZ;
 
         if(z1[20]==0) begin
-            offsetX1 = ~(y1 >>> rotate_index1) + 21'sb1;
+            offsetX1 = -(y1 >>> rotate_index1);
             offsetY1 = x1 >>> rotate_index1;
-            offsetZ1 = ~(rotateAngle1) + 1'sb1;
+            offsetZ1 = -rotateAngle1;
         end 
         else begin
             offsetX1 = y1 >>> rotate_index1;
-            offsetY1 = ~(x1 >>> rotate_index1) + 1'sb1;
+            offsetY1 = -(x1 >>> rotate_index1);
             offsetZ1 = rotateAngle1;
         end
     end
@@ -150,24 +150,21 @@ module cordic(
             end
         end
     end
-     always@(*) begin
-        $display("rotate_index ", rotate_index);
-        $display("x: ", x);
-        $display("y: ", y);
-        $display("z: ", z);
-    end
-
-   
+    // always@(*) begin
+    //     $display("rotate_index ", rotate_index);
+    //     $display("x: ", x);
+    //     $display("y: ", y);
+    //     $display("z: ", z);
+    // end
 
     //-------------------------------------------------------------
     // Fixed point to floating point
     //-------------------------------------------------------------
-    // TODO: We can get rip off the last cycle if wanted.
 
     wire [20:0] fixed_point_result;
     wire [31:0] result_fp;
 
-    assign fixed_point_result = (rotate_index==16 && !aclr) ? x : 21'b0;   // TODO: assign fixed_point_result = (rotate_index==15 && !aclr) ? x+offsetX : 21'b0;
+    assign fixed_point_result = x;
     
     fixed_to_float fixed_to_float_unit( fixed_point_result, result_fp );
     
@@ -191,8 +188,7 @@ module floating_to_fixed(
     assign exponent = dataa[30:23];
     assign significand = dataa[22:0];
     
- // assign fixed_point_input = (exponent == 8'b0) ? 32'b0 : (({1'b1, significand, 8'b0}) >> (7'd127-exponent));
-    assign fixed_point_input = (exponent == 8'b0) ? 21'b0 : (({1'b1, significand[22:3]}) >> (7'd127-exponent));
+    assign fixed_point_input = {1'b1, significand[22:3]} >> (7'd127-exponent);
 
 endmodule
 
@@ -219,10 +215,10 @@ module fixed_to_float(
     reg [22:0] result_significant;
 
     always@(*) begin
-        result_exponent = 127 - leadingOneIndex;
+        result_exponent = 7'd127 - leadingOneIndex;
         intermediate_result = fixed_point_result << leadingOneIndex;
         result_significant = {intermediate_result[19:0],3'b0};
-        result_fp = {1'b0,result_exponent ,result_significant}; // only output positive number   
+        result_fp = {1'b0, result_exponent ,result_significant}; // only output positive number   
     end
 endmodule
 
