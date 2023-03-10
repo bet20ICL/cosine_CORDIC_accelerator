@@ -41,26 +41,26 @@ module cordic(
     // LUT
     always@(*) begin
         case(rotate_index)             
-            4'd0    : rotateAngle = 21'b011001001000011111101;
-            4'd1    : rotateAngle = 21'b001110110101100011001;
-            4'd2    : rotateAngle = 21'b000111110101101101110;
-            4'd3    : rotateAngle = 21'b000011111110101011011;
-            4'd4    : rotateAngle = 21'b000001111111110101010;
-            4'd5    : rotateAngle = 21'b000000111111111110101;
-            4'd6    : rotateAngle = 21'b000000011111111111110;
-            4'd7    : rotateAngle = 21'b000000001111111111111;
-            4'd8    : rotateAngle = 21'b000000000111111111111;
-            4'd9    : rotateAngle = 21'b000000000011111111111;
-            4'd10   : rotateAngle = 21'b000000000001111111111;
-            4'd11   : rotateAngle = 21'b000000000000111111111;
-            4'd12   : rotateAngle = 21'b000000000000011111111;
-            4'd13   : rotateAngle = 21'b000000000000001111111;
-            4'd14   : rotateAngle = 21'b000000000000000111111;
-            4'd15   : rotateAngle = 21'b000000000000000011111;
+            4'd0    : rotateAngle = 21'h0c90fe;
+            4'd1    : rotateAngle = 21'h076b1a;
+            4'd2    : rotateAngle = 21'h03eb6f;
+            4'd3    : rotateAngle = 21'h01fd5c;
+            4'd4    : rotateAngle = 21'h00ffab;
+            4'd5    : rotateAngle = 21'h007ff5;
+            4'd6    : rotateAngle = 21'h003fff;
+            4'd7    : rotateAngle = 21'h002000;
+            4'd8    : rotateAngle = 21'h001000;
+            4'd9    : rotateAngle = 21'h000800;
+            4'd10   : rotateAngle = 21'h000400;
+            4'd11   : rotateAngle = 21'h000200;
+            4'd12   : rotateAngle = 21'h000100;
+            4'd13   : rotateAngle = 21'h000080;
+            4'd14   : rotateAngle = 21'h000040;
+            4'd15   : rotateAngle = 21'h000020;
             default : rotateAngle = 0; 		
         endcase
     end
-    
+
     always @(*) begin
         if(z[20]==0) begin
             offsetX = -(y >>> rotate_index);

@@ -3,35 +3,13 @@ module cordic(
 	clk_en,
 	clock,
 	dataa,
-	result,
-    rotate_index_debug,
-    x_debug,
-    z_debug,
-    fixed_point_input_debug,
-    exponent_debug,
-    inter_sig_debug,
-    fixed_point_result_debug);
+	result);
 
 	input	  aclr;
 	input	  clk_en;
 	input	  clock;
 	input	[31:0]  dataa; // this is the floating point input
 	output	[31:0]  result;
-    output [4:0] rotate_index_debug;
-    output [20:0] x_debug;
-    output [20:0] z_debug;
-    output [20:0] fixed_point_input_debug;
-    output [7:0] exponent_debug;
-    output [31:0] inter_sig_debug;
-    output [20:0] fixed_point_result_debug;
-
-    //-------------------------------------Debug Signal-----------------------------
-    // assign rotate_index_debug = rotate_index;
-    // assign x_debug = x;
-    // assign z_debug = z;
-    // assign fixed_point_input_debug = fixed_point_input;
-    // assign exponent_debug = exponent;
-    // assign fixed_point_result_debug = fixed_point_result;
 
     //-------------------------------------FP to fixed-point------------------------
     wire [20:0] fixed_point_input;
@@ -46,28 +24,25 @@ module cordic(
     wire signed [20:0] x0_out,x1_out,x2_out,x3_out,x4_out,x5_out,x6_out,x7_out,x8_out,x9_out,x10_out,x11_out,x12_out,x13_out,x14_out,x15_out;
     wire signed [20:0] y0_out,y1_out,y2_out,y3_out,y4_out,y5_out,y6_out,y7_out,y8_out,y9_out,y10_out,y11_out,y12_out,y13_out,y14_out,y15_out;
     wire signed [20:0] z0_out,z1_out,z2_out,z3_out,z4_out,z5_out,z6_out,z7_out,z8_out,z9_out,z10_out,z11_out,z12_out,z13_out,z14_out,z15_out;
-    
-    cordic_operation rotation_0( x0, y0, z0, x0_out, y0_out, z0_out, 5'd0, 21'b011001001000011111101);
-    cordic_operation rotation_1( x1, y1, z1, x1_out, y1_out, z1_out, 5'd1, 21'b001110110101100011001);
-    cordic_operation rotation_2( x2, y2, z2, x2_out, y2_out, z2_out, 5'd2, 21'b000111110101101101110);
-    cordic_operation rotation_3( x3, y3, z3, x3_out, y3_out, z3_out, 5'd3, 21'b000011111110101011011);
-    cordic_operation rotation_4( x4, y4, z4, x4_out, y4_out, z4_out, 5'd4, 21'b000001111111110101010);
-    cordic_operation rotation_5( x5, y5, z5, x5_out, y5_out, z5_out, 5'd5, 21'b000000111111111110101);
-    cordic_operation rotation_6( x6, y6, z6, x6_out, y6_out, z6_out, 5'd6, 21'b000000011111111111110);
-    cordic_operation rotation_7( x7, y7, z7, x7_out, y7_out, z7_out, 5'd7, 21'b000000001111111111111);
-    cordic_operation rotation_8( x8, y8, z8, x8_out, y8_out, z8_out, 5'd8, 21'b000000000111111111111);
-    cordic_operation rotation_9( x9, y9, z9, x9_out, y9_out, z9_out, 5'd9, 21'b000000000011111111111);
-    cordic_operation rotation_10( x10, y10, z10, x10_out, y10_out, z10_out, 5'd10, 21'b000000000001111111111);
-    cordic_operation rotation_11( x11, y11, z11, x11_out, y11_out, z11_out, 5'd11, 21'b000000000000111111111);
-    cordic_operation rotation_12( x12, y12, z12, x12_out, y12_out, z12_out, 5'd12, 21'b000000000000011111111);
-    cordic_operation rotation_13( x13, y13, z13, x13_out, y13_out, z13_out, 5'd13, 21'b000000000000001111111);
-    cordic_operation rotation_14( x14, y14, z14, x14_out, y14_out, z14_out, 5'd14, 21'b000000000000000111111);
-    cordic_operation rotation_15( x15, y15, z15, x15_out, y15_out, z15_out, 5'd15, 21'b000000000000000011111);
+
+    cordic_operation #(.rotate_index(4'd0), .rotate_angle(21'h0c90fe)) rotation0 ( x0, y0, z0, x0_out, y0_out, z0_out); 
+    cordic_operation #(.rotate_index(4'd1), .rotate_angle(21'h076b1a)) rotation1 ( x1, y1, z1, x1_out, y1_out, z1_out); 
+    cordic_operation #(.rotate_index(4'd2), .rotate_angle(21'h03eb6f)) rotation2 ( x2, y2, z2, x2_out, y2_out, z2_out); 
+    cordic_operation #(.rotate_index(4'd3), .rotate_angle(21'h01fd5c)) rotation3 ( x3, y3, z3, x3_out, y3_out, z3_out); 
+    cordic_operation #(.rotate_index(4'd4), .rotate_angle(21'h00ffab)) rotation4 ( x4, y4, z4, x4_out, y4_out, z4_out); 
+    cordic_operation #(.rotate_index(4'd5), .rotate_angle(21'h007ff5)) rotation5 ( x5, y5, z5, x5_out, y5_out, z5_out); 
+    cordic_operation #(.rotate_index(4'd6), .rotate_angle(21'h003fff)) rotation6 ( x6, y6, z6, x6_out, y6_out, z6_out); 
+    cordic_operation #(.rotate_index(4'd7), .rotate_angle(21'h002000)) rotation7 ( x7, y7, z7, x7_out, y7_out, z7_out); 
+    cordic_operation #(.rotate_index(4'd8), .rotate_angle(21'h001000)) rotation8 ( x8, y8, z8, x8_out, y8_out, z8_out); 
+    cordic_operation #(.rotate_index(4'd9), .rotate_angle(21'h000800)) rotation9 ( x9, y9, z9, x9_out, y9_out, z9_out); 
+    cordic_operation #(.rotate_index(4'd10), .rotate_angle(21'h000400)) rotation10 ( x10, y10, z10, x10_out, y10_out, z10_out); 
+    cordic_operation #(.rotate_index(4'd11), .rotate_angle(21'h000200)) rotation11 ( x11, y11, z11, x11_out, y11_out, z11_out); 
+    cordic_operation #(.rotate_index(4'd12), .rotate_angle(21'h000100)) rotation12 ( x12, y12, z12, x12_out, y12_out, z12_out); 
+    cordic_operation #(.rotate_index(4'd13), .rotate_angle(21'h000080)) rotation13 ( x13, y13, z13, x13_out, y13_out, z13_out); 
+    cordic_operation #(.rotate_index(4'd14), .rotate_angle(21'h000040)) rotation14 ( x14, y14, z14, x14_out, y14_out, z14_out); 
+    cordic_operation #(.rotate_index(4'd15), .rotate_angle(21'h000020)) rotation15 ( x15, y15, z15, x15_out, y15_out, z15_out); 
 
     always@(posedge clock) begin
-        x0 <= 21'b010011011011101001110;
-        y0 <= 21'b0;
-        z0 <= fixed_point_input;
         if (aclr) begin
             x0 <= 21'b0; y0 <= 21'b0; z0 <= 21'b0;
             x1 <= 21'b0; y1 <= 21'b0; z1 <= 21'b0;
@@ -118,12 +93,10 @@ module cordic_operation(
     z,
     x_out,
     y_out,
-    z_out,
-    rotate_index,
-    rotateAngle // in radian
+    z_out
 );
-    // parameter   rotate_index = 4'b0,
-    //             rotateAngle = 21'b0;
+    parameter   [3:0]       rotate_index = 4'b1;
+    parameter   [20:0]      rotate_angle = 21'b0;
                 
     input signed [20:0] x;
     input signed [20:0] y;
@@ -133,9 +106,6 @@ module cordic_operation(
     output reg signed [20:0] y_out;
     output reg signed [20:0] z_out;
 
-    input  [4:0] rotate_index;
-    input signed [20:0] rotateAngle;
-
     reg signed [20:0] offsetX;
     reg signed [20:0] offsetY;
     reg signed [20:0] offsetZ;
@@ -144,12 +114,12 @@ module cordic_operation(
         if(z[20]==0) begin
             offsetX = -(y >>> rotate_index);
             offsetY = x >>> rotate_index;
-            offsetZ = -rotateAngle;
+            offsetZ = -rotate_angle;
         end 
         else begin
             offsetX = y >>> rotate_index;
             offsetY = -(x >>> rotate_index);
-            offsetZ = rotateAngle;
+            offsetZ = rotate_angle;
         end
 
         x_out = x + offsetX;
