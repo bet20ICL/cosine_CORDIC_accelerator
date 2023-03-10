@@ -26,3 +26,7 @@ iverilog -g 2005 -s tb -o bin/tb_pipeline tb/tb_pipeline.v wl_21/cordic_pipeline
 bin/tb_pipeline 1> out/cordic_pipeline.txt
 
 
+
+
+
+
