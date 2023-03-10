@@ -85,7 +85,6 @@ module tb ();
 		clk = 1'b0;
 		clk_en = 1'b0;
 		reset = 1'b1;
-		// dataa = 32'b01101;
 
 		@(negedge clk);
 		
@@ -96,37 +95,17 @@ module tb ();
 			@(negedge clk);
 		end
 
-        // repeat (1) @(posedge clk);// so that we passed 16 posegde clk
-		
-        // $display("start");
         repeat (20) begin
             @(negedge clk);
 		    $display("%h", result);
         end
 
-
-
 		@(negedge clk);
 
 		$display($time, "<< Simulation Complete >>");
 
-		// // input
-		// // expected  = 01000011001101011001011010000000
-		// // expected  = 0.5250729021869458
-		// $display("fixed: %b", fixed_point_input_debug);
-		// $display("exponent: ", exponent_debug);
-
-		// // result
-		// // expected = 0110 1110 1100 0001 1011 1100 1100 1101 (fixed-point output)
-		// // expected = 0.8652873997993262
-		// $display("rotate_index_debug %d: ", rotate_index_debug);
-		// $display("fixed-point result %b: ", fixed_point_result_debug);
-		// $display("floating-point result: %b", result);
-
 		// // //TODO: Conversion from fixed-point to floating-point
 		// // $display("float: %b", dataa);
-
-
 		$stop;
 	end
 
