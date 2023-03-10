@@ -171,7 +171,6 @@ module fixed_to_float(
 endmodule
 
 
-
 module priority_encoder32(
     encoder_input,
     encoder_output,

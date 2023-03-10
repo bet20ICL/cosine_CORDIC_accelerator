@@ -11,8 +11,8 @@ set -euo pipefail
 # --------------------
 # Jeffrey
 # --------------------
-# iverilog -g 2005 -s tb -o ../../../out/tb_pipeline tb_pipeline_2.v cordic_pipeline.v
-# ../../../out/tb_pipeline
+iverilog -g 2005 -s tb -o ../../../out/tb_pipeline tb_pipeline_1.v cordic_pipeline.v
+../../../out/tb_pipeline
 
-iverilog -g 2005 -s tb -o ../../../out/syntax syntax.v
-../../../out/syntax
+# iverilog -g 2005 -s tb -o ../../../out/syntax syntax.v
+# ../../../out/syntax

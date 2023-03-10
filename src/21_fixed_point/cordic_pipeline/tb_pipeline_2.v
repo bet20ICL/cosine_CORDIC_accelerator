@@ -84,7 +84,7 @@ module tb ();
 
 		// TODO: try deleting this message and wired things will happen (the result is incorrect)
 		// If data is undefined in the beginning
-        dataa = 32'b00111111100000000000000000000000; // 1     => 00111111111001000100010101011011 0.541345000267
+        // dataa = 32'b00111111100000000000000000000000; // 1     => 00111111111001000100010101011011 0.541345000267
 		@(posedge clk); 
 		@(negedge clk);
 		reset = 1'b0;

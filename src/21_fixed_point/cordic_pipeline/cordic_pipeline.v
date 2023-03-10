@@ -69,6 +69,7 @@ module cordic(
         y0 <= 21'b0;
         z0 <= fixed_point_input;
         if (aclr) begin
+            x0 <= 21'b0; y0 <= 21'b0; z0 <= 21'b0;
             x1 <= 21'b0; y1 <= 21'b0; z1 <= 21'b0;
             x2 <= 21'b0; y2 <= 21'b0; z2 <= 21'b0;
             x3 <= 21'b0; y3 <= 21'b0; z3 <= 21'b0;
@@ -85,6 +86,9 @@ module cordic(
             x14 <= 21'b0; y14 <= 21'b0; z14 <= 21'b0;
             x15 <= 21'b0; y15 <= 21'b0; z15 <= 21'b0;
         end else if(clk_en) begin
+            x0 <= 21'b010011011011101001110;
+            y0 <= 21'b0;
+            z0 <= fixed_point_input;
             x1 <= x0_out; y1 <= y0_out; z1 <= z0_out;
             x2 <= x1_out; y2 <= y1_out; z2 <= z1_out;
             x3 <= x2_out; y3 <= y2_out; z3 <= z2_out;
@@ -104,8 +108,7 @@ module cordic(
     end
 
     //-----------------------------------convert to floating point--------------------------------
-    fixed_to_float fixed_to_float_unit( x15, result );
-    
+    fixed_to_float fixed_to_float_unit( x15_out, result );
 
 endmodule
 
@@ -131,21 +134,21 @@ module cordic_operation(
     output reg signed [20:0] z_out;
 
     input  [4:0] rotate_index;
-    input [20:0] rotateAngle;
+    input signed [20:0] rotateAngle;
 
-    reg [20:0] offsetX;
-    reg [20:0] offsetY;
-    reg [20:0] offsetZ;
+    reg signed [20:0] offsetX;
+    reg signed [20:0] offsetY;
+    reg signed [20:0] offsetZ;
 
     always @(*) begin
         if(z[20]==0) begin
-            offsetX = ~(y >>> rotate_index) + 2'sb1;
+            offsetX = -(y >>> rotate_index);
             offsetY = x >>> rotate_index;
-            offsetZ = ~(rotateAngle) + 2'sb1;
+            offsetZ = -rotateAngle;
         end 
         else begin
             offsetX = y >>> rotate_index;
-            offsetY = ~(x >>> rotate_index) + 2'sb1;
+            offsetY = -(x >>> rotate_index);
             offsetZ = rotateAngle;
         end
 
@@ -153,6 +156,10 @@ module cordic_operation(
         y_out = y + offsetY;
         z_out = z + offsetZ;
     end
+
+    // always @(*) begin
+    //     $display("idx: %d, x_out: %d, y_out: %d, z_out: %d", rotate_index, x_out, y_out, z_out);
+    // end
 endmodule
 
 module floating_to_fixed(
@@ -169,8 +176,7 @@ module floating_to_fixed(
     assign exponent = dataa[30:23];
     assign significand = dataa[22:0];
     
- // assign fixed_point_input = (exponent == 8'b0) ? 32'b0 : (({1'b1, significand, 8'b0}) >> (7'd127-exponent));
-    assign fixed_point_input = (exponent == 8'b0) ? 21'b0 : (({1'b1, significand[22:3]}) >> (7'd127-exponent));
+    assign fixed_point_input = {1'b1, significand[22:3]} >> (7'd127-exponent);
 
 endmodule
 
@@ -197,10 +203,10 @@ module fixed_to_float(
     reg [22:0] result_significant;
 
     always@(*) begin
-        result_exponent = 127 - leadingOneIndex;
+        result_exponent = 7'd127 - leadingOneIndex;
         intermediate_result = fixed_point_result << leadingOneIndex;
         result_significant = {intermediate_result[19:0],3'b0};
-        result_fp = {1'b0,result_exponent ,result_significant}; // only output positive number   
+        result_fp = {1'b0, result_exponent ,result_significant}; // only output positive number   
     end
 endmodule
 
@@ -213,7 +219,7 @@ module priority_encoder32(
     // High level
     input [31:0] encoder_input;
     output reg [4:0] encoder_output;
-    output wire valid; 
+    output valid; 
 
     // Intermediate block variable
     reg [3:0] encoder_input0,encoder_input1,encoder_input2,encoder_input3,encoder_input4,encoder_input5,encoder_input6,encoder_input7;
@@ -272,24 +278,23 @@ module priority_encoder8(
     valid
 );
     input [7:0] encoder_input;
-    output wire [2:0] encoder_output;
-    output wire valid;
-
+    output reg [2:0] encoder_output;
+    output reg valid;
 
     reg [3:0] encoder_input8_0,encoder_input8_1;
     wire [1:0] encoder_output8_0,encoder_output8_1;
     wire valid8_0,valid8_1;
 
-    always@(*)begin
-        encoder_input8_1 = encoder_input[3:0];
-        encoder_input8_0 = encoder_input[7:4];
-    end
-
     priority_encoder encoder8_0( encoder_input8_0, encoder_output8_0, valid8_0 );
     priority_encoder encoder8_1( encoder_input8_1, encoder_output8_1, valid8_1 );
 
-    assign encoder_output = (valid8_0==1)? {1'b0,encoder_output8_0} : {1'b1,encoder_output8_1};
-    assign valid = valid8_0 | valid8_1;
+    always@(*)begin
+        encoder_input8_1 = encoder_input[3:0];
+        encoder_input8_0 = encoder_input[7:4];
+        encoder_output = (valid8_0==1)? {1'b0,encoder_output8_0} : {1'b1,encoder_output8_1};
+        valid = valid8_0 | valid8_1;
+    end
+
 endmodule
 
 
@@ -304,8 +309,9 @@ module priority_encoder(
     output reg valid;
 
     always@(*) begin
-        encoder_output[0] = ((!encoder_input[3]) & encoder_input[2]) | ((!encoder_input[3])&(!encoder_input[1])&(encoder_input[0]));
+        encoder_output[0] = ((!encoder_input[3]) & encoder_input[2]) | ((!encoder_input[3]) & (!encoder_input[1]) & (encoder_input[0]));
         encoder_output[1] = (!encoder_input[2]) & (!encoder_input[3]);
         valid = encoder_input[0] | encoder_input[1] | encoder_input[3] | encoder_input[2];
     end 
+
 endmodule

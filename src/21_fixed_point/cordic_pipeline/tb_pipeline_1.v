@@ -77,12 +77,15 @@ module tb ();
 
 	initial
 	begin
+		$dumpfile("cordic_tb_waves_v.vcd");
+    	$dumpvars(0,tb);
 		$display($time, " << Starting Simulation >> ");
 		
 		// intialise/set input
 		clk = 1'b0;
 		clk_en = 1'b0;
 		reset = 1'b1;
+		// dataa = 32'b01101;
 
 		@(negedge clk);
 		
@@ -95,7 +98,7 @@ module tb ();
 
         // repeat (1) @(posedge clk);// so that we passed 16 posegde clk
 		
-        $display("start");
+        // $display("start");
         repeat (20) begin
             @(negedge clk);
 		    $display("%h", result);
@@ -105,7 +108,7 @@ module tb ();
 
 		@(negedge clk);
 
-		// $display($time, "<< Simulation Complete >>");
+		$display($time, "<< Simulation Complete >>");
 
 		// // input
 		// // expected  = 01000011001101011001011010000000
