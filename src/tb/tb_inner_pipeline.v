@@ -11,16 +11,23 @@ module tb ();
 	reg clk;
 	reg clk_en;
 
+    inner_function_pipelined unit (
+        .aclr(reset),
+        .clk_en(clk_en),
+        .clock(clk),
+        .dataa(dataa),
+        .result(result),
+    );
+
 	//Create a 50MHz clock
 	always
 		#10 clk = ~clk;
 
-
-    integer num_tests;
+    parameter num_tests = 12;
 
 	reg [31:0] inputs [11:0];
+    reg [31:0] outputs [11:0];
 	initial begin
-        num_tests = 12;
 		inputs[0] = 32'h00000000;  //0.000000 
         inputs[1] = 32'h41c80000;  //25.000000 
         inputs[2] = 32'h42480000;  //50.000000 
@@ -33,10 +40,7 @@ module tb ();
         inputs[9] = 32'h43610000;  //225.000000 
         inputs[10] = 32'h437a0000; //250.000000 
         inputs[11] = 32'h437f0000; //255.000000 
-	end 
 
-    reg [31:0] outputs [11:0]; 
-    initial begin
         outputs[0] = 32'h00000000; //0.000000 
         outputs[1] = 32'h43deea9d; //445.832916 
         outputs[2] = 32'h4501b0c0; //2075.046875 
@@ -49,8 +53,7 @@ module tb ();
         outputs[9] = 32'h471013f6; //36883.960938 
         outputs[10] = 32'h470de056; //36320.335938 
         outputs[11] = 32'h470b667f; //35686.496094
-    end
-        
+	end 
 
 	initial
 	begin
@@ -65,7 +68,7 @@ module tb ();
 
 		@(negedge clk);
 		
-		for (integer i = 0; i <= 10; i++) begin
+		for (integer i = 0; i < num_tests; i++) begin
 			clk_en = 1'b1;
 			reset = 1'b0;
 			dataa = inputs[i];
