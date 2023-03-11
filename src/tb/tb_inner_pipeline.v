@@ -57,8 +57,8 @@ module tb ();
 
 	initial
 	begin
-		// $dumpfile("cordic_tb_waves_v.vcd");
-    	// $dumpvars(0,tb);
+		$dumpfile("cordic_tb_waves_v.vcd");
+    	$dumpvars(0,tb);
 		$display($time, " << Starting Simulation >> ");
 		
 		// intialise/set input

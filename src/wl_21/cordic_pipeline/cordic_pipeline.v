@@ -1,4 +1,4 @@
-module cordic(
+module cordic_pipeline(
     aclr,
 	clk_en,
 	clock,
