@@ -52,7 +52,7 @@ module priority_encoder32(
     encoder_output,
     valid 
 );
-    // High level
+	 // High level
     input [31:0] encoder_input;
     output reg [4:0] encoder_output;
     output valid; 
@@ -89,20 +89,18 @@ module priority_encoder32(
 
     priority_encoder8 encoder8( encoder_input8, encoder_output8, valid );
 
-    always@(valid) begin
-        if(valid == 1) begin
-            case (encoder_output8)
-                0 : encoder_output = {encoder_output8, encoder_output0};
-                1 : encoder_output = {encoder_output8, encoder_output1};
-                2 : encoder_output = {encoder_output8, encoder_output2};
-                3 : encoder_output = {encoder_output8, encoder_output3};
-                4 : encoder_output = {encoder_output8, encoder_output4};
-                5 : encoder_output = {encoder_output8, encoder_output5};
-                6 : encoder_output = {encoder_output8, encoder_output6};
-                7 : encoder_output = {encoder_output8, encoder_output7};
-                default :  encoder_output = 5'b0;
-            endcase
-        end
+    always@(*) begin
+			case (encoder_output8)
+				 0 : encoder_output = {encoder_output8, encoder_output0};
+				 1 : encoder_output = {encoder_output8, encoder_output1};
+				 2 : encoder_output = {encoder_output8, encoder_output2};
+				 3 : encoder_output = {encoder_output8, encoder_output3};
+				 4 : encoder_output = {encoder_output8, encoder_output4};
+				 5 : encoder_output = {encoder_output8, encoder_output5};
+				 6 : encoder_output = {encoder_output8, encoder_output6};
+				 7 : encoder_output = {encoder_output8, encoder_output7};
+				 default :  encoder_output = 5'b0;
+			endcase
     end 
 endmodule
 

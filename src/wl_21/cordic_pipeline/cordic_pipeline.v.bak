@@ -1,5 +1,5 @@
 module cordic_pipeline(
-   aclr,
+    aclr,
 	clk_en,
 	clock,
 	dataa,

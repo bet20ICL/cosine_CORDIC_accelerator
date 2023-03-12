@@ -11,22 +11,23 @@ module tb ();
 	reg clk;
 	reg clk_en;
 
-    inner_function_pipelined unit (
+	parameter latency = 60;
+   inner_function_pipelined unit (
         .aclr(reset),
         .clk_en(clk_en),
-        .clock(clk),
+        .clk(clk),
         .dataa(dataa),
-        .result(result),
+        .result(result)
     );
 
 	//Create a 50MHz clock
 	always
 		#10 clk = ~clk;
 
-    parameter num_tests = 12;
+   parameter num_tests = 12;
 
 	reg [31:0] inputs [11:0];
-    reg [31:0] outputs [11:0];
+   reg [31:0] outputs [11:0];
 	initial begin
 		inputs[0] = 32'h00000000;  //0.000000 
         inputs[1] = 32'h41c80000;  //25.000000 
@@ -54,11 +55,25 @@ module tb ();
         outputs[10] = 32'h470de056; //36320.335938 
         outputs[11] = 32'h470b667f; //35686.496094
 	end 
+	
+//	outputs[0] = 32'h00000000; //0.000000 
+//	outputs[1] = 32'h43a28000; //325.000000 
+//	outputs[2] = 32'h449f6000; //1275.000000 
+//	outputs[3] = 32'h45322000; //2850.000000 
+//	outputs[4] = 32'h459dd000; //5050.000000 
+//	outputs[5] = 32'h45f61800; //7875.000000 
+//	outputs[6] = 32'h4630f400; //11325.000000 
+//	outputs[7] = 32'h4670a000; //15400.000000 
+//	outputs[8] = 32'h469d0800; //20100.000000 
+//	outputs[9] = 32'h46c6a200; //25425.000000 
+//	outputs[10] = 32'h46f51e00; //31375.000000 
+//	outputs[11] = 32'h46ff0000; //32640.000000 
 
+	integer i;
 	initial
 	begin
-		$dumpfile("cordic_tb_waves_v.vcd");
-    	$dumpvars(0,tb);
+		// $dumpfile("cordic_tb_waves_v.vcd");
+    	// $dumpvars(0,tb);
 		$display($time, " << Starting Simulation >> ");
 		
 		// intialise/set input
@@ -68,17 +83,21 @@ module tb ();
 
 		@(negedge clk);
 		
-		for (integer i = 0; i < num_tests; i++) begin
+		for (i = 0; i < num_tests; i = i + 1) begin
 			clk_en = 1'b1;
 			reset = 1'b0;
 			dataa = inputs[i];
 			@(negedge clk);
 		end
 
-        repeat (20) begin
-            @(negedge clk);
-		    $display("%h", result);
-        end
+		repeat (latency-num_tests) begin
+			@(negedge clk);
+		end
+		
+	   repeat (num_tests+10) begin
+			@(negedge clk);
+			$display("%h", result);
+	   end
 
 		@(negedge clk);
 

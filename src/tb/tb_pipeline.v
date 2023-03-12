@@ -1,5 +1,5 @@
 `timescale 1 ns / 100 ps
-module tb ();
+module tb_pipeline ();
 
 	//Inputs to DUT are reg type
 	reg [31:0] dataa;
@@ -44,8 +44,8 @@ module tb ();
 
 	initial
 	begin
-		$dumpfile("cordic_tb_waves_v.vcd");
-    	$dumpvars(0,tb);
+		// $dumpfile("cordic_tb_waves_v.vcd");
+    	// $dumpvars(0,tb_pipeline);
 		$display($time, " << Starting Simulation >> ");
 		
 		// intialise/set input
@@ -58,8 +58,7 @@ module tb ();
 		for (i = 0; i <= 10; i=i+1) begin
 			clk_en = 1'b1;
 			reset = 1'b0;
-			dataa = {1'b1, inputs[i][30:0]};
-			// dataa = inputs[i];
+			dataa = inputs[i];
 			@(negedge clk);
 		end
 
