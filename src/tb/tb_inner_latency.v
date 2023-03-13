@@ -1,5 +1,5 @@
 `timescale 1 ns / 100 ps
-module tb ();
+module tb_inner_lat ();
 
 	//Inputs to DUT are reg type
 	reg [31:0] dataa;
@@ -30,7 +30,7 @@ module tb ();
 		#10 clk = ~clk;
 
 	reg [31:0] inputs [11:0]; 
-   reg [31:0] outputs [13];
+   reg [31:0] outputs [11:0];
 	
 	initial begin
     inputs[0] = 32'h00000000; //0.000000 
@@ -64,8 +64,8 @@ module tb ();
 	
 	initial
 	begin
-		$dumpfile("inner_function.vcd");  
-    	$dumpvars(0,tb);
+		// $dumpfile("inner_function.vcd");  
+    	// $dumpvars(0,tb);
 		$display($time, " << Starting Simulation >> ");
 		
 		// intialise/set input

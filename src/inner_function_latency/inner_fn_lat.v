@@ -10,7 +10,7 @@ module inner_fn_lat(
     parameter [31:0] flt_128 = 32'h43000000; 		
     parameter [31:0] flt_recip_128 = 32'h3c000000;		// 1.0/128.0
 	parameter [31:0] flt_recip_2 = 32'h3f000000;        // 0.5
-    parameter fp_mult_latency = 4;
+    parameter fp_mult_latency = 5;
 	parameter fp_add_latency = 8;
 	parameter cordic_latency = 17;
 
@@ -26,8 +26,8 @@ module inner_fn_lat(
     //--------------------------------------------------------
     // control
     //--------------------------------------------------------
-    parameter total_clk_cycles = fp_mult_latency + fp_add_latency + cordic_latency;
-    reg startShifted [total_clk_cycles];
+    parameter total_clk_cycles = fp_mult_latency + fp_add_latency * 2 + cordic_latency;
+    reg startShifted [total_clk_cycles-1:0];
 
     integer i;
     always @(posedge clock) begin
