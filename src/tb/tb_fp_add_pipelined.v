@@ -16,14 +16,22 @@ module tb_fp_add_pipelined ();
 
 	//Instantiate the DUT
 	//mul refers to the verilog module defined by the LPM_MULT ip
-	fp_addsub_custom unit(
-		.aclr(reset),
-		.add_sub(add_sub),
-		.clk_en(clk_en),
-		.clock(clk),
-		.dataa(dataa),
-		.datab(datab), 
-		.result(result)
+	// fp_add_ppl unit(
+	// 	.areset(reset),
+	// 	.en(clk_en),
+	// 	.clk(clk),
+	// 	.a(dataa),
+	// 	.b(datab), 
+	// 	.q(result)
+	// );
+
+	fp_sub_ppl unit(
+		.areset(reset),
+		.en(clk_en),
+		.clk(clk),
+		.a(dataa),
+		.b(datab), 
+		.q(result)
 	);
 
 	// ---- If a clock is required, see below ----

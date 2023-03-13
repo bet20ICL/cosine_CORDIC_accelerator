@@ -14,14 +14,13 @@ module tb_fp_mult_pipelined ();
 	reg clk_en;
 
 	//Instantiate the DUT
-	//mul refers to the verilog module defined by the LPM_MULT ip
-	fp_mult_custom unit(
-		.aclr(reset),
-		.clk_en(clk_en),
-		.clock(clk),
-		.dataa(dataa),
-		.datab(datab), 
-		.result(result)
+	fp_mult_ppl unit (
+		.clk    (clk),    //    clk.clk
+		.areset (reset), // areset.reset
+		.en     (clk_en),     //     en.en
+		.a      (dataa),      //      a.a
+		.b      (datab),      //      b.b
+		.q      (result)       //      q.q
 	);
 
 	// ---- If a clock is required, see below ----

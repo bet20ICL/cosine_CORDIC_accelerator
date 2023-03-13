@@ -42,6 +42,8 @@ module cordic_pipeline(
     cordic_operation #(.rotate_index(4'd14), .rotate_angle(21'h000040)) rotation14 ( x14, y14, z14, x14_out, y14_out, z14_out); 
     cordic_operation #(.rotate_index(4'd15), .rotate_angle(21'h000020)) rotation15 ( x15, y15, z15, x15_out, y15_out, z15_out); 
 
+	 reg [31:0] fixed_point_result;
+	 
     always@(posedge clock) begin
         if (aclr) begin
             x0 <= 21'b0; y0 <= 21'b0; z0 <= 21'b0;
@@ -60,6 +62,7 @@ module cordic_pipeline(
             x13 <= 21'b0; y13 <= 21'b0; z13 <= 21'b0;
             x14 <= 21'b0; y14 <= 21'b0; z14 <= 21'b0;
             x15 <= 21'b0; y15 <= 21'b0; z15 <= 21'b0;
+				fixed_point_result <= 21'b0;
         end else if(clk_en) begin
             x0 <= 21'b010011011011101001110;
             y0 <= 21'b0;
@@ -79,11 +82,13 @@ module cordic_pipeline(
             x13 <= x12_out; y13 <= y12_out; z13 <= z12_out;
             x14 <= x13_out; y14 <= y13_out; z14 <= z13_out;
             x15 <= x14_out; y15 <= y14_out; z15 <= z14_out;
+				fixed_point_result <= x15_out;
         end 
     end
 
     //-----------------------------------convert to floating point--------------------------------
-    fixed_to_float fixed_to_float_unit( x15_out, result );
+    
+	 fixed_to_float fixed_to_float_unit( fixed_point_result, result );
 
 endmodule
 

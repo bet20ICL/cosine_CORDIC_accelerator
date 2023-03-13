@@ -1,5 +1,5 @@
 `timescale 1 ns / 100 ps
-module tb ();
+module tb_unroll_var ();
 
 	//Inputs to DUT are reg type
 	reg [31:0] dataa;
@@ -13,7 +13,7 @@ module tb ();
 	wire done;
 
 	//Instantiate the DUT
-	cordic unit(
+	cordic_unroll1_var unit(
 			.aclr(reset),
 			.clk_en(clk_en),
 			.clock(clk),
@@ -27,7 +27,7 @@ module tb ();
 	always
 		#10 clk = ~clk;
 
-	reg [31:0] inputs [11];
+	reg [31:0] inputs [10:0];
 	initial begin
 		inputs[0] = 32'b00000000000000000000000000000000; 	 // in: 0.0 	 out: 1.00000095367431640625 
 		inputs[1] = 32'b00111101110011001100110011001101; 	 // in: 0.1 	 out: 0.99500274658203125000 
@@ -42,10 +42,11 @@ module tb ();
 		inputs[10] = 32'b00111111100000000000000000000000; 	 // in: 1.0 	 out: 0.54029560089111328125 
 	end
 	
+	integer i;
 	initial
 	begin
 		$dumpfile("cordic_tb_waves_v.vcd");
-    	$dumpvars(0,tb);
+    	$dumpvars(0,tb_unroll_var);
 		$display($time, " << Starting Simulation >> ");
 		
 		// intialise/set input
@@ -55,7 +56,8 @@ module tb ();
 		start = 1'b0;
 		@(negedge clk);
 
-		for (integer i = 0; i <= 10; i++) begin
+		
+		for (i = 0; i <= 10; i = i + 1) begin
 			clk_en = 1'b1;
 			reset = 1'b0;
 			start = 1'b1;

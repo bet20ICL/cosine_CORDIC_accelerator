@@ -1,5 +1,5 @@
 `timescale 1 ns / 100 ps
-module tb ();
+module tb_inner_pipeline ();
 
 	//Inputs to DUT are reg type
 	reg [31:0] dataa;
@@ -11,7 +11,7 @@ module tb ();
 	reg clk;
 	reg clk_en;
 
-	parameter latency = 60;
+	parameter latency = 45;
    inner_function_pipelined unit (
         .aclr(reset),
         .clk_en(clk_en),
@@ -29,8 +29,8 @@ module tb ();
 	reg [31:0] inputs [11:0];
    reg [31:0] outputs [11:0];
 	initial begin
-		inputs[0] = 32'h00000000;  //0.000000 
-        inputs[1] = 32'h41c80000;  //25.000000 
+		inputs[1] = 32'h00000000;  //0.000000 
+        inputs[0] = 32'h41c80000;  //25.000000 
         inputs[2] = 32'h42480000;  //50.000000 
         inputs[3] = 32'h42960000;  //75.000000 
         inputs[4] = 32'h42c80000;  //100.000000 
