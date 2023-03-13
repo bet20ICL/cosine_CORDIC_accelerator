@@ -7,35 +7,44 @@ module inner_function(
 	result,
     done
     );
+    parameter [31:0] flt_128 = 32'h43000000; 		
+    parameter [31:0] flt_recip_128 = 32'h3c000000;		// 1.0/128.0
+	parameter [31:0] flt_recip_2 = 32'h3f000000;        // 0.5
+    parameter fp_mult_latency = 5;
+	parameter fp_add_latency = 11;
+	parameter cordic_latency = 17;
 
 	input	        aclr;
 	input	        clk_en;
 	input	        clock;
     input           start;
+    output          done;
 	input	[31:0]  dataa; // this is the floating point input
 	output	[31:0]  result;
-    output          done;
 
 
     //--------------------------------------------------------
     // control
     //--------------------------------------------------------
-    reg startShifted [38];
+    parameter total_clk_cycles = fp_mult_latency + fp_add_latency + cordic_latency;
+    reg startShifted [Total_clk_cycles];
 
     integer i;
     always @(posedge clk) begin
         startShifted[0] <= start;
-        for (i = 1; i < 38; i = i + 1) begin
+        for (i = 1; i < total_clk_cycles; i = i + 1) begin
             startShifted[i+1] <= startShifted[i];
         end
     end
 
-    assign done = (startShifted[38])? 1'b1 : 1'b0;
+    assign done = (startShifted[total_clk_cycles])? 1'b1 : 1'b0;
 
 
     //--------------------------------------------------------
-    // first branch 
+    // first branch || 0.5*x
     //--------------------------------------------------------
+    // 0.5*x
+    // combinitorial
     wire [31:0] input_half;
     fp_half fp_half_unit(
         .dataa(dataa),
@@ -44,29 +53,32 @@ module inner_function(
 
 
     //--------------------------------------------------------
-    // second branch
+    // second branch || cos((x-128)/128)
     //--------------------------------------------------------
     wire [31:0] subtract_128;
     wire [31:0] divide_128;
-    // 7 cycles
-    fp_addsub_custom fp_addsub_custom_unit(
+    // x-128
+    // combinitorial
+    fp_sub_ppl fp_addsub_custom_unit(
         .aclr(aclr),
         .add_sub(0),
         .clk_en(clk_en),
         .clock(clock),
         .dataa(dataa),
-        .datab(32'b01000011000000000000000000000000),
+        .datab(flt_128),
         .result(subtract_128)
     );
 
+    // (x - 128)/128
+    // combinitorial
     fp_div_128 fp_div_128_unit(
         .dataa(subtract_128),
         .result(divide_128)
     );
 
-    // cordic input
+    // cos((x-128)/128)
+    // 17 cycles
     reg startCordic;
-    // cordic output 
     wire cordic_done;
     wire [31:0] cordic_result;
 
@@ -82,10 +94,12 @@ module inner_function(
     );
 
     //--------------------------------------------------------
-    // third branch
+    // third branch   || x^2
     //--------------------------------------------------------
+    // x^2 
+    // 5 cycles
     wire [31:0] square; 
-    fp_mult_custom fp_mult_custom_unit(
+    fp_mult_ppl fp_mult_custom_unit(
         .aclr(aclr),
         .clk_en(clk_en),
         .clock(clock),
@@ -96,10 +110,12 @@ module inner_function(
 
 
     //--------------------------------------------------------
-    // merge 
+    // merge            || 0.5*x + x^2 * cos((x-128)/128)
     //--------------------------------------------------------
+    // x^2 *  cos((x-128)/128)
+    // fp_mult_latency + cordic_latency = 17 + 5;
     wire [31:0] mult_square_cordic;
-    fp_mult_custom fp_mult_custom_unit2(
+    fp_mult_ppl fp_mult_custom_unit2(
         .aclr(aclr),
         .clk_en(clk_en),
         .clock(clock),
@@ -108,7 +124,9 @@ module inner_function(
         .result(mult_square_cordic)
     );
 
-    fp_addsub_custom fp_addsub_custom_unit2(
+    // 0.5*x + x^2 * cos((x-128)/128)
+    // fp_mult_latency + cordic_latency + fp_add_latency= 17 + 5 + 11;
+    fp_add_ppl fp_addsub_custom_unit2(
         .aclr(aclr),
         .add_sub(0),
         .clk_en(clk_en),

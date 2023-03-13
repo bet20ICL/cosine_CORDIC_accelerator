@@ -8,32 +8,39 @@ module inner_function(
     done
     );
 
+    parameter [31:0] flt_128 = 32'h43000000; 		
+    parameter [31:0] flt_recip_128 = 32'h3c000000;		// 1.0/128.0
+	parameter [31:0] flt_recip_2 = 32'h3f000000;        // 0.5
+    parameter fp_mult_latency = 5;
+	parameter fp_add_latency = 11;
+	parameter cordic_latency = 17;
+
 	input	        aclr;
 	input	        clk_en;
 	input	        clock;
     input           start;
+    output          done;
 	input	[31:0]  dataa; // this is the floating point input
 	output	[31:0]  result;
-    output          done;
+
 
 
     //--------------------------------------------------------
     // control
     //--------------------------------------------------------
-    // 31 cycles (x-128)/128 is now combinitorial
-    // Assuming fp_add:8 cycles fp_mult:6 cycles 
-    // 17+6+8 = 31
-    reg startShifted [31];
+    parameter total_clk_cycles = fp_mult_latency + cordic_latency;
+    reg startShifted [Total_clk_cycles];
 
     integer i;
     always @(posedge clk) begin
         startShifted[0] <= start;
-        for (i = 1; i < 31; i = i + 1) begin
+        for (i = 1; i < total_clk_cycles; i = i + 1) begin
             startShifted[i+1] <= startShifted[i];
         end
     end
 
-    assign done = (startShifted[31])? 1'b1 : 1'b0;
+    assign done = (startShifted[total_clk_cycles])? 1'b1 : 1'b0;
+
 
 
     //--------------------------------------------------------
@@ -51,7 +58,6 @@ module inner_function(
     //--------------------------------------------------------
     // This might be now on the critical path
 
-    
     reg [20:0] subtract_128;
     reg [20:0] divide_128;
     wire signed [21:0] fixed_point_input_9_13;
