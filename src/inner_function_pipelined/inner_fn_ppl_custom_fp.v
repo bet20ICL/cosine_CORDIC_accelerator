@@ -13,7 +13,7 @@ module inner_function_pipelined(
 	parameter cordic_latency = 17;
 	
 
-   input		aclr;
+    input		aclr;
 	input		clk_en;
 	input		clk;
 	input		[31:0]  dataa; // this is the floating point input

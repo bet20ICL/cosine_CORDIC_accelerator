@@ -1,10 +1,11 @@
 `timescale 1 ns / 100 ps
 module tb ();
+    reg clk;
 
 	//Inputs to DUT are reg type
 	reg [31:0] dataa;
 	reg reset;
-   reg clk;
+    reg clk;
 	reg clk_en;
 	reg start;
 
@@ -14,7 +15,7 @@ module tb ();
     wire [31:0] diff_result1;
 
 	//Instantiate the DUT
-	inner_fn_lat unit(
+	inner_function unit(
 			.aclr(reset),
 			.clk_en(clk_en),
 			.clock(clk),
@@ -30,9 +31,9 @@ module tb ();
 		#10 clk = ~clk;
 
 	reg [31:0] inputs [11:0]; 
-   reg [31:0] outputs [13];
-	
+    reg [31:0] outputs [13];
 	initial begin
+    
     inputs[0] = 32'h00000000; //0.000000 
     inputs[1] = 32'h41c80000; //25.000000 
     inputs[2] = 32'h42480000; //50.000000 
@@ -60,8 +61,6 @@ module tb ();
     outputs[11] = 32'h470b667f; //35686.496094 
 	end
 	
-	integer i;
-	
 	initial
 	begin
 		$dumpfile("inner_function.vcd");  
@@ -73,10 +72,10 @@ module tb ();
 		clk_en = 1'b0;
 		reset = 1'b1;
 		start = 1'b0;
-		
 		@(negedge clk);
-        for (i = 0; i <= 10; i = i+1) begin
-         clk_en = 1'b1;
+
+        for (integer i = 0; i <= 10; i++) begin
+            clk_en = 1'b1;
 			reset = 1'b0;
 			start = 1'b1;
 			dataa = inputs[i];

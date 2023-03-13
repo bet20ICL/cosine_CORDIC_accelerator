@@ -16,7 +16,7 @@
 -- ---------------------------------------------------------------------------
 
 -- VHDL created from fp_sub_ppl_0002
--- VHDL created on Sun Mar 12 21:02:58 2023
+-- VHDL created on Mon Mar 13 16:50:51 2023
 
 
 library IEEE;
@@ -89,23 +89,20 @@ architecture normal of fp_sub_ppl_0002 is
     signal exp_bSig_uid36_fpSubTest_b : STD_LOGIC_VECTOR (7 downto 0);
     signal frac_bSig_uid37_fpSubTest_in : STD_LOGIC_VECTOR (22 downto 0);
     signal frac_bSig_uid37_fpSubTest_b : STD_LOGIC_VECTOR (22 downto 0);
-    signal excZ_bSig_uid18_uid38_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal excZ_bSig_uid18_uid38_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal expXIsMax_uid39_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal expXIsMax_uid39_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal fracXIsZero_uid40_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal fracXIsZero_uid40_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal fracXIsNotZero_uid41_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal excI_bSig_uid42_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal excI_bSig_uid42_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal excN_bSig_uid43_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal excN_bSig_uid43_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal invExpXIsMax_uid44_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal InvExpXIsZero_uid45_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal excR_bSig_uid46_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal excR_bSig_uid46_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal sigA_uid51_fpSubTest_b : STD_LOGIC_VECTOR (0 downto 0);
     signal sigB_uid52_fpSubTest_b : STD_LOGIC_VECTOR (0 downto 0);
-    signal effSub_uid53_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal effSub_uid53_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal fracBz_uid57_fpSubTest_s : STD_LOGIC_VECTOR (0 downto 0);
     signal fracBz_uid57_fpSubTest_q : STD_LOGIC_VECTOR (22 downto 0);
@@ -142,6 +139,7 @@ architecture normal of fp_sub_ppl_0002 is
     signal rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b : STD_LOGIC_VECTOR (26 downto 0);
     signal fracGRS_uid85_fpSubTest_q : STD_LOGIC_VECTOR (27 downto 0);
     signal cAmA_uid87_fpSubTest_q : STD_LOGIC_VECTOR (4 downto 0);
+    signal aMinusA_uid88_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal aMinusA_uid88_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal fracPostNorm_uid90_fpSubTest_b : STD_LOGIC_VECTOR (26 downto 0);
     signal oneCST_uid91_fpSubTest_q : STD_LOGIC_VECTOR (7 downto 0);
@@ -178,12 +176,15 @@ architecture normal of fp_sub_ppl_0002 is
     signal wEP2AllOwE_uid106_fpSubTest_q : STD_LOGIC_VECTOR (9 downto 0);
     signal rndExp_uid107_fpSubTest_in : STD_LOGIC_VECTOR (33 downto 0);
     signal rndExp_uid107_fpSubTest_b : STD_LOGIC_VECTOR (9 downto 0);
+    signal rOvfEQMax_uid108_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal rOvfEQMax_uid108_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal rndExpFracOvfBits_uid110_fpSubTest_in : STD_LOGIC_VECTOR (33 downto 0);
     signal rndExpFracOvfBits_uid110_fpSubTest_b : STD_LOGIC_VECTOR (1 downto 0);
+    signal rOvfExtraBits_uid111_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal rOvfExtraBits_uid111_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal rOvf_uid112_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal wEP2AllZ_uid113_fpSubTest_q : STD_LOGIC_VECTOR (9 downto 0);
+    signal rUdfEQMin_uid114_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal rUdfEQMin_uid114_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal rUdfExtraBit_uid115_fpSubTest_in : STD_LOGIC_VECTOR (33 downto 0);
     signal rUdfExtraBit_uid115_fpSubTest_b : STD_LOGIC_VECTOR (0 downto 0);
@@ -196,7 +197,6 @@ architecture normal of fp_sub_ppl_0002 is
     signal regInputs_uid119_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal excRZeroVInC_uid120_fpSubTest_q : STD_LOGIC_VECTOR (4 downto 0);
     signal excRZero_uid121_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal rInfOvf_uid122_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal rInfOvf_uid122_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal excRInfVInC_uid123_fpSubTest_q : STD_LOGIC_VECTOR (5 downto 0);
     signal excRInf_uid124_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
@@ -225,7 +225,6 @@ architecture normal of fp_sub_ppl_0002 is
     signal R_uid149_fpSubTest_q : STD_LOGIC_VECTOR (31 downto 0);
     signal zs_uid151_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (15 downto 0);
     signal rVStage_uid152_lzCountVal_uid86_fpSubTest_b : STD_LOGIC_VECTOR (15 downto 0);
-    signal vCount_uid153_lzCountVal_uid86_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal vCount_uid153_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal mO_uid154_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (3 downto 0);
     signal vStage_uid155_lzCountVal_uid86_fpSubTest_in : STD_LOGIC_VECTOR (11 downto 0);
@@ -233,6 +232,7 @@ architecture normal of fp_sub_ppl_0002 is
     signal cStage_uid156_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (15 downto 0);
     signal vStagei_uid158_lzCountVal_uid86_fpSubTest_s : STD_LOGIC_VECTOR (0 downto 0);
     signal vStagei_uid158_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (15 downto 0);
+    signal vCount_uid161_lzCountVal_uid86_fpSubTest_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal vCount_uid161_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (0 downto 0);
     signal vStagei_uid164_lzCountVal_uid86_fpSubTest_s : STD_LOGIC_VECTOR (0 downto 0);
     signal vStagei_uid164_lzCountVal_uid86_fpSubTest_q : STD_LOGIC_VECTOR (7 downto 0);
@@ -325,44 +325,41 @@ architecture normal of fp_sub_ppl_0002 is
     signal leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_b : STD_LOGIC_VECTOR (1 downto 0);
     signal leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_c : STD_LOGIC_VECTOR (1 downto 0);
     signal leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_d : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist0_stickyBits_uid70_fpSubTest_merged_bit_select_c_1_q : STD_LOGIC_VECTOR (25 downto 0);
-    signal redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1_q : STD_LOGIC_VECTOR (4 downto 0);
-    signal redist2_vCount_uid161_lzCountVal_uid86_fpSubTest_q_1_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist3_vStage_uid155_lzCountVal_uid86_fpSubTest_b_2_q : STD_LOGIC_VECTOR (11 downto 0);
-    signal redist4_vCount_uid153_lzCountVal_uid86_fpSubTest_q_2_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist5_rVStage_uid152_lzCountVal_uid86_fpSubTest_b_1_q : STD_LOGIC_VECTOR (15 downto 0);
-    signal redist6_signRInfRZRReg_uid138_fpSubTest_q_3_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist7_regInputs_uid119_fpSubTest_q_2_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist8_expRPreExc_uid118_fpSubTest_b_1_q : STD_LOGIC_VECTOR (7 downto 0);
-    signal redist9_fracRPreExc_uid117_fpSubTest_b_1_q : STD_LOGIC_VECTOR (22 downto 0);
-    signal redist10_fracPostNormRndRange_uid103_fpSubTest_b_1_q : STD_LOGIC_VECTOR (23 downto 0);
-    signal redist11_aMinusA_uid88_fpSubTest_q_2_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist12_fracGRS_uid85_fpSubTest_q_1_q : STD_LOGIC_VECTOR (27 downto 0);
-    signal redist13_fracGRS_uid85_fpSubTest_q_3_q : STD_LOGIC_VECTOR (27 downto 0);
-    signal redist14_rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b_1_q : STD_LOGIC_VECTOR (26 downto 0);
-    signal redist15_effSub_uid53_fpSubTest_q_8_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist16_sigB_uid52_fpSubTest_b_3_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist17_sigB_uid52_fpSubTest_b_8_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist18_sigA_uid51_fpSubTest_b_3_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist19_sigA_uid51_fpSubTest_b_8_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist20_excR_bSig_uid46_fpSubTest_q_6_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist21_excN_bSig_uid43_fpSubTest_q_9_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist22_excI_bSig_uid42_fpSubTest_q_6_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist23_excI_bSig_uid42_fpSubTest_q_9_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist24_excZ_bSig_uid18_uid38_fpSubTest_q_7_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist25_excZ_bSig_uid18_uid38_fpSubTest_q_9_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist26_frac_bSig_uid37_fpSubTest_b_2_q : STD_LOGIC_VECTOR (22 downto 0);
-    signal redist27_exp_bSig_uid36_fpSubTest_b_1_q : STD_LOGIC_VECTOR (7 downto 0);
-    signal redist28_excN_aSig_uid29_fpSubTest_q_3_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist29_excI_aSig_uid28_fpSubTest_q_3_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist30_fracXIsZero_uid26_fpSubTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist31_excZ_aSig_uid17_uid24_fpSubTest_q_3_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist32_frac_aSig_uid23_fpSubTest_b_4_q : STD_LOGIC_VECTOR (22 downto 0);
-    signal redist33_exp_aSig_uid22_fpSubTest_b_1_q : STD_LOGIC_VECTOR (7 downto 0);
-    signal redist34_exp_aSig_uid22_fpSubTest_b_7_q : STD_LOGIC_VECTOR (7 downto 0);
-    signal redist32_frac_aSig_uid23_fpSubTest_b_4_inputreg_q : STD_LOGIC_VECTOR (22 downto 0);
-    signal redist34_exp_aSig_uid22_fpSubTest_b_7_inputreg_q : STD_LOGIC_VECTOR (7 downto 0);
-    signal redist34_exp_aSig_uid22_fpSubTest_b_7_outputreg_q : STD_LOGIC_VECTOR (7 downto 0);
+    signal redist0_rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b_1_q : STD_LOGIC_VECTOR (7 downto 0);
+    signal redist1_rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_c_1_q : STD_LOGIC_VECTOR (7 downto 0);
+    signal redist2_stickyBits_uid70_fpSubTest_merged_bit_select_c_1_q : STD_LOGIC_VECTOR (25 downto 0);
+    signal redist3_rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_d_1_q : STD_LOGIC_VECTOR (1 downto 0);
+    signal redist4_rVStage_uid178_lzCountVal_uid86_fpSubTest_b_1_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist5_vCount_uid173_lzCountVal_uid86_fpSubTest_q_1_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist6_vCount_uid167_lzCountVal_uid86_fpSubTest_q_1_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist7_vCount_uid161_lzCountVal_uid86_fpSubTest_q_2_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist8_vStage_uid155_lzCountVal_uid86_fpSubTest_b_2_q : STD_LOGIC_VECTOR (11 downto 0);
+    signal redist9_vCount_uid153_lzCountVal_uid86_fpSubTest_q_2_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist10_expRPreExc_uid118_fpSubTest_b_1_q : STD_LOGIC_VECTOR (7 downto 0);
+    signal redist11_fracRPreExc_uid117_fpSubTest_b_1_q : STD_LOGIC_VECTOR (22 downto 0);
+    signal redist12_rUdfExtraBit_uid115_fpSubTest_b_1_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist13_fracPostNormRndRange_uid103_fpSubTest_b_1_q : STD_LOGIC_VECTOR (23 downto 0);
+    signal redist14_aMinusA_uid88_fpSubTest_q_2_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist15_fracGRS_uid85_fpSubTest_q_2_q : STD_LOGIC_VECTOR (27 downto 0);
+    signal redist16_rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b_1_q : STD_LOGIC_VECTOR (26 downto 0);
+    signal redist17_effSub_uid53_fpSubTest_q_5_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist18_sigB_uid52_fpSubTest_b_2_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist19_sigB_uid52_fpSubTest_b_6_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist20_sigA_uid51_fpSubTest_b_3_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist21_sigA_uid51_fpSubTest_b_7_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist22_InvExpXIsZero_uid45_fpSubTest_q_6_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist23_excI_bSig_uid42_fpSubTest_q_1_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist24_fracXIsZero_uid40_fpSubTest_q_6_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist25_expXIsMax_uid39_fpSubTest_q_6_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist26_excZ_bSig_uid18_uid38_fpSubTest_q_6_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist27_excZ_bSig_uid18_uid38_fpSubTest_q_7_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist28_excI_aSig_uid28_fpSubTest_q_1_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist29_fracXIsZero_uid26_fpSubTest_q_4_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist30_excZ_aSig_uid17_uid24_fpSubTest_q_2_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist31_frac_aSig_uid23_fpSubTest_b_3_q : STD_LOGIC_VECTOR (22 downto 0);
+    signal redist32_exp_aSig_uid22_fpSubTest_b_1_q : STD_LOGIC_VECTOR (7 downto 0);
+    signal redist33_exp_aSig_uid22_fpSubTest_b_6_q : STD_LOGIC_VECTOR (7 downto 0);
+    signal redist33_exp_aSig_uid22_fpSubTest_b_6_inputreg_q : STD_LOGIC_VECTOR (7 downto 0);
 
 begin
 
@@ -403,24 +400,30 @@ begin
     xGTEy_uid8_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(xGTEy_uid8_fpSubTest_a) - UNSIGNED(xGTEy_uid8_fpSubTest_b));
     xGTEy_uid8_fpSubTest_n(0) <= not (xGTEy_uid8_fpSubTest_o(32));
 
-    -- bSig_uid18_fpSubTest(MUX,17)@0
+    -- bSig_uid18_fpSubTest(MUX,17)@0 + 1
     bSig_uid18_fpSubTest_s <= xGTEy_uid8_fpSubTest_n;
-    bSig_uid18_fpSubTest_combproc: PROCESS (bSig_uid18_fpSubTest_s, en, a, ypn_uid13_fpSubTest_q)
+    bSig_uid18_fpSubTest_clkproc: PROCESS (clk, areset)
     BEGIN
-        CASE (bSig_uid18_fpSubTest_s) IS
-            WHEN "0" => bSig_uid18_fpSubTest_q <= a;
-            WHEN "1" => bSig_uid18_fpSubTest_q <= ypn_uid13_fpSubTest_q;
-            WHEN OTHERS => bSig_uid18_fpSubTest_q <= (others => '0');
-        END CASE;
+        IF (areset = '1') THEN
+            bSig_uid18_fpSubTest_q <= (others => '0');
+        ELSIF (clk'EVENT AND clk = '1') THEN
+            IF (en = "1") THEN
+                CASE (bSig_uid18_fpSubTest_s) IS
+                    WHEN "0" => bSig_uid18_fpSubTest_q <= a;
+                    WHEN "1" => bSig_uid18_fpSubTest_q <= ypn_uid13_fpSubTest_q;
+                    WHEN OTHERS => bSig_uid18_fpSubTest_q <= (others => '0');
+                END CASE;
+            END IF;
+        END IF;
     END PROCESS;
 
-    -- sigB_uid52_fpSubTest(BITSELECT,51)@0
+    -- sigB_uid52_fpSubTest(BITSELECT,51)@1
     sigB_uid52_fpSubTest_b <= STD_LOGIC_VECTOR(bSig_uid18_fpSubTest_q(31 downto 31));
 
-    -- redist16_sigB_uid52_fpSubTest_b_3(DELAY,273)
-    redist16_sigB_uid52_fpSubTest_b_3 : dspba_delay
-    GENERIC MAP ( width => 1, depth => 3, reset_kind => "ASYNC" )
-    PORT MAP ( xin => sigB_uid52_fpSubTest_b, xout => redist16_sigB_uid52_fpSubTest_b_3_q, ena => en(0), clk => clk, aclr => areset );
+    -- redist18_sigB_uid52_fpSubTest_b_2(DELAY,275)
+    redist18_sigB_uid52_fpSubTest_b_2 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 2, reset_kind => "ASYNC" )
+    PORT MAP ( xin => sigB_uid52_fpSubTest_b, xout => redist18_sigB_uid52_fpSubTest_b_2_q, ena => en(0), clk => clk, aclr => areset );
 
     -- aSig_uid17_fpSubTest(MUX,16)@0
     aSig_uid17_fpSubTest_s <= xGTEy_uid8_fpSubTest_n;
@@ -436,54 +439,37 @@ begin
     -- sigA_uid51_fpSubTest(BITSELECT,50)@0
     sigA_uid51_fpSubTest_b <= STD_LOGIC_VECTOR(aSig_uid17_fpSubTest_q(31 downto 31));
 
-    -- redist18_sigA_uid51_fpSubTest_b_3(DELAY,275)
-    redist18_sigA_uid51_fpSubTest_b_3 : dspba_delay
+    -- redist20_sigA_uid51_fpSubTest_b_3(DELAY,277)
+    redist20_sigA_uid51_fpSubTest_b_3 : dspba_delay
     GENERIC MAP ( width => 1, depth => 3, reset_kind => "ASYNC" )
-    PORT MAP ( xin => sigA_uid51_fpSubTest_b, xout => redist18_sigA_uid51_fpSubTest_b_3_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => sigA_uid51_fpSubTest_b, xout => redist20_sigA_uid51_fpSubTest_b_3_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- effSub_uid53_fpSubTest(LOGICAL,52)@3 + 1
-    effSub_uid53_fpSubTest_qi <= redist18_sigA_uid51_fpSubTest_b_3_q xor redist16_sigB_uid52_fpSubTest_b_3_q;
-    effSub_uid53_fpSubTest_delay : dspba_delay
-    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => effSub_uid53_fpSubTest_qi, xout => effSub_uid53_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
+    -- effSub_uid53_fpSubTest(LOGICAL,52)@3
+    effSub_uid53_fpSubTest_q <= redist20_sigA_uid51_fpSubTest_b_3_q xor redist18_sigB_uid52_fpSubTest_b_2_q;
 
-    -- exp_bSig_uid36_fpSubTest(BITSELECT,35)@0
+    -- exp_bSig_uid36_fpSubTest(BITSELECT,35)@1
     exp_bSig_uid36_fpSubTest_in <= bSig_uid18_fpSubTest_q(30 downto 0);
     exp_bSig_uid36_fpSubTest_b <= exp_bSig_uid36_fpSubTest_in(30 downto 23);
-
-    -- redist27_exp_bSig_uid36_fpSubTest_b_1(DELAY,284)
-    redist27_exp_bSig_uid36_fpSubTest_b_1 : dspba_delay
-    GENERIC MAP ( width => 8, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => exp_bSig_uid36_fpSubTest_b, xout => redist27_exp_bSig_uid36_fpSubTest_b_1_q, ena => en(0), clk => clk, aclr => areset );
 
     -- exp_aSig_uid22_fpSubTest(BITSELECT,21)@0
     exp_aSig_uid22_fpSubTest_in <= aSig_uid17_fpSubTest_q(30 downto 0);
     exp_aSig_uid22_fpSubTest_b <= exp_aSig_uid22_fpSubTest_in(30 downto 23);
 
-    -- redist33_exp_aSig_uid22_fpSubTest_b_1(DELAY,290)
-    redist33_exp_aSig_uid22_fpSubTest_b_1 : dspba_delay
+    -- redist32_exp_aSig_uid22_fpSubTest_b_1(DELAY,289)
+    redist32_exp_aSig_uid22_fpSubTest_b_1 : dspba_delay
     GENERIC MAP ( width => 8, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => exp_aSig_uid22_fpSubTest_b, xout => redist33_exp_aSig_uid22_fpSubTest_b_1_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => exp_aSig_uid22_fpSubTest_b, xout => redist32_exp_aSig_uid22_fpSubTest_b_1_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- expAmExpB_uid61_fpSubTest(SUB,60)@1 + 1
-    expAmExpB_uid61_fpSubTest_a <= STD_LOGIC_VECTOR("0" & redist33_exp_aSig_uid22_fpSubTest_b_1_q);
-    expAmExpB_uid61_fpSubTest_b <= STD_LOGIC_VECTOR("0" & redist27_exp_bSig_uid36_fpSubTest_b_1_q);
-    expAmExpB_uid61_fpSubTest_clkproc: PROCESS (clk, areset)
-    BEGIN
-        IF (areset = '1') THEN
-            expAmExpB_uid61_fpSubTest_o <= (others => '0');
-        ELSIF (clk'EVENT AND clk = '1') THEN
-            IF (en = "1") THEN
-                expAmExpB_uid61_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(expAmExpB_uid61_fpSubTest_a) - UNSIGNED(expAmExpB_uid61_fpSubTest_b));
-            END IF;
-        END IF;
-    END PROCESS;
+    -- expAmExpB_uid61_fpSubTest(SUB,60)@1
+    expAmExpB_uid61_fpSubTest_a <= STD_LOGIC_VECTOR("0" & redist32_exp_aSig_uid22_fpSubTest_b_1_q);
+    expAmExpB_uid61_fpSubTest_b <= STD_LOGIC_VECTOR("0" & exp_bSig_uid36_fpSubTest_b);
+    expAmExpB_uid61_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(expAmExpB_uid61_fpSubTest_a) - UNSIGNED(expAmExpB_uid61_fpSubTest_b));
     expAmExpB_uid61_fpSubTest_q <= expAmExpB_uid61_fpSubTest_o(8 downto 0);
 
     -- cWFP2_uid62_fpSubTest(CONSTANT,61)
     cWFP2_uid62_fpSubTest_q <= "11001";
 
-    -- shiftedOut_uid64_fpSubTest(COMPARE,63)@2 + 1
+    -- shiftedOut_uid64_fpSubTest(COMPARE,63)@1 + 1
     shiftedOut_uid64_fpSubTest_a <= STD_LOGIC_VECTOR("000000" & cWFP2_uid62_fpSubTest_q);
     shiftedOut_uid64_fpSubTest_b <= STD_LOGIC_VECTOR("00" & expAmExpB_uid61_fpSubTest_q);
     shiftedOut_uid64_fpSubTest_clkproc: PROCESS (clk, areset)
@@ -498,7 +484,7 @@ begin
     END PROCESS;
     shiftedOut_uid64_fpSubTest_c(0) <= shiftedOut_uid64_fpSubTest_o(10);
 
-    -- iShiftedOut_uid68_fpSubTest(LOGICAL,67)@3
+    -- iShiftedOut_uid68_fpSubTest(LOGICAL,67)@2
     iShiftedOut_uid68_fpSubTest_q <= not (shiftedOut_uid64_fpSubTest_c);
 
     -- zeroOutCst_uid219_alignmentShifter_uid65_fpSubTest(CONSTANT,218)
@@ -531,96 +517,88 @@ begin
     -- rightShiftStage1Idx3Pad12_uid204_alignmentShifter_uid65_fpSubTest(CONSTANT,203)
     rightShiftStage1Idx3Pad12_uid204_alignmentShifter_uid65_fpSubTest_q <= "000000000000";
 
-    -- rightShiftStage1Idx3Rng12_uid203_alignmentShifter_uid65_fpSubTest(BITSELECT,202)@2
+    -- rightShiftStage1Idx3Rng12_uid203_alignmentShifter_uid65_fpSubTest(BITSELECT,202)@1
     rightShiftStage1Idx3Rng12_uid203_alignmentShifter_uid65_fpSubTest_b <= rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q(48 downto 12);
 
-    -- rightShiftStage1Idx3_uid205_alignmentShifter_uid65_fpSubTest(BITJOIN,204)@2
+    -- rightShiftStage1Idx3_uid205_alignmentShifter_uid65_fpSubTest(BITJOIN,204)@1
     rightShiftStage1Idx3_uid205_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage1Idx3Pad12_uid204_alignmentShifter_uid65_fpSubTest_q & rightShiftStage1Idx3Rng12_uid203_alignmentShifter_uid65_fpSubTest_b;
 
     -- cstAllZWE_uid21_fpSubTest(CONSTANT,20)
     cstAllZWE_uid21_fpSubTest_q <= "00000000";
 
-    -- rightShiftStage1Idx2Rng8_uid200_alignmentShifter_uid65_fpSubTest(BITSELECT,199)@2
+    -- rightShiftStage1Idx2Rng8_uid200_alignmentShifter_uid65_fpSubTest(BITSELECT,199)@1
     rightShiftStage1Idx2Rng8_uid200_alignmentShifter_uid65_fpSubTest_b <= rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q(48 downto 8);
 
-    -- rightShiftStage1Idx2_uid202_alignmentShifter_uid65_fpSubTest(BITJOIN,201)@2
+    -- rightShiftStage1Idx2_uid202_alignmentShifter_uid65_fpSubTest(BITJOIN,201)@1
     rightShiftStage1Idx2_uid202_alignmentShifter_uid65_fpSubTest_q <= cstAllZWE_uid21_fpSubTest_q & rightShiftStage1Idx2Rng8_uid200_alignmentShifter_uid65_fpSubTest_b;
 
     -- zs_uid165_lzCountVal_uid86_fpSubTest(CONSTANT,164)
     zs_uid165_lzCountVal_uid86_fpSubTest_q <= "0000";
 
-    -- rightShiftStage1Idx1Rng4_uid197_alignmentShifter_uid65_fpSubTest(BITSELECT,196)@2
+    -- rightShiftStage1Idx1Rng4_uid197_alignmentShifter_uid65_fpSubTest(BITSELECT,196)@1
     rightShiftStage1Idx1Rng4_uid197_alignmentShifter_uid65_fpSubTest_b <= rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q(48 downto 4);
 
-    -- rightShiftStage1Idx1_uid199_alignmentShifter_uid65_fpSubTest(BITJOIN,198)@2
+    -- rightShiftStage1Idx1_uid199_alignmentShifter_uid65_fpSubTest(BITJOIN,198)@1
     rightShiftStage1Idx1_uid199_alignmentShifter_uid65_fpSubTest_q <= zs_uid165_lzCountVal_uid86_fpSubTest_q & rightShiftStage1Idx1Rng4_uid197_alignmentShifter_uid65_fpSubTest_b;
 
     -- rightShiftStage0Idx3Pad48_uid193_alignmentShifter_uid65_fpSubTest(CONSTANT,192)
     rightShiftStage0Idx3Pad48_uid193_alignmentShifter_uid65_fpSubTest_q <= "000000000000000000000000000000000000000000000000";
 
-    -- rightShiftStage0Idx3Rng48_uid192_alignmentShifter_uid65_fpSubTest(BITSELECT,191)@2
+    -- rightShiftStage0Idx3Rng48_uid192_alignmentShifter_uid65_fpSubTest(BITSELECT,191)@1
     rightShiftStage0Idx3Rng48_uid192_alignmentShifter_uid65_fpSubTest_b <= rightPaddedIn_uid66_fpSubTest_q(48 downto 48);
 
-    -- rightShiftStage0Idx3_uid194_alignmentShifter_uid65_fpSubTest(BITJOIN,193)@2
+    -- rightShiftStage0Idx3_uid194_alignmentShifter_uid65_fpSubTest(BITJOIN,193)@1
     rightShiftStage0Idx3_uid194_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage0Idx3Pad48_uid193_alignmentShifter_uid65_fpSubTest_q & rightShiftStage0Idx3Rng48_uid192_alignmentShifter_uid65_fpSubTest_b;
 
     -- rightShiftStage0Idx2Pad32_uid190_alignmentShifter_uid65_fpSubTest(CONSTANT,189)
     rightShiftStage0Idx2Pad32_uid190_alignmentShifter_uid65_fpSubTest_q <= "00000000000000000000000000000000";
 
-    -- rightShiftStage0Idx2Rng32_uid189_alignmentShifter_uid65_fpSubTest(BITSELECT,188)@2
+    -- rightShiftStage0Idx2Rng32_uid189_alignmentShifter_uid65_fpSubTest(BITSELECT,188)@1
     rightShiftStage0Idx2Rng32_uid189_alignmentShifter_uid65_fpSubTest_b <= rightPaddedIn_uid66_fpSubTest_q(48 downto 32);
 
-    -- rightShiftStage0Idx2_uid191_alignmentShifter_uid65_fpSubTest(BITJOIN,190)@2
+    -- rightShiftStage0Idx2_uid191_alignmentShifter_uid65_fpSubTest(BITJOIN,190)@1
     rightShiftStage0Idx2_uid191_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage0Idx2Pad32_uid190_alignmentShifter_uid65_fpSubTest_q & rightShiftStage0Idx2Rng32_uid189_alignmentShifter_uid65_fpSubTest_b;
 
-    -- rightShiftStage0Idx1Rng16_uid186_alignmentShifter_uid65_fpSubTest(BITSELECT,185)@2
+    -- rightShiftStage0Idx1Rng16_uid186_alignmentShifter_uid65_fpSubTest(BITSELECT,185)@1
     rightShiftStage0Idx1Rng16_uid186_alignmentShifter_uid65_fpSubTest_b <= rightPaddedIn_uid66_fpSubTest_q(48 downto 16);
 
-    -- rightShiftStage0Idx1_uid188_alignmentShifter_uid65_fpSubTest(BITJOIN,187)@2
+    -- rightShiftStage0Idx1_uid188_alignmentShifter_uid65_fpSubTest(BITJOIN,187)@1
     rightShiftStage0Idx1_uid188_alignmentShifter_uid65_fpSubTest_q <= zs_uid151_lzCountVal_uid86_fpSubTest_q & rightShiftStage0Idx1Rng16_uid186_alignmentShifter_uid65_fpSubTest_b;
 
-    -- excZ_bSig_uid18_uid38_fpSubTest(LOGICAL,37)@1 + 1
-    excZ_bSig_uid18_uid38_fpSubTest_qi <= "1" WHEN redist27_exp_bSig_uid36_fpSubTest_b_1_q = cstAllZWE_uid21_fpSubTest_q ELSE "0";
-    excZ_bSig_uid18_uid38_fpSubTest_delay : dspba_delay
-    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => excZ_bSig_uid18_uid38_fpSubTest_qi, xout => excZ_bSig_uid18_uid38_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
+    -- excZ_bSig_uid18_uid38_fpSubTest(LOGICAL,37)@1
+    excZ_bSig_uid18_uid38_fpSubTest_q <= "1" WHEN exp_bSig_uid36_fpSubTest_b = cstAllZWE_uid21_fpSubTest_q ELSE "0";
 
-    -- InvExpXIsZero_uid45_fpSubTest(LOGICAL,44)@2
+    -- InvExpXIsZero_uid45_fpSubTest(LOGICAL,44)@1
     InvExpXIsZero_uid45_fpSubTest_q <= not (excZ_bSig_uid18_uid38_fpSubTest_q);
 
     -- cstZeroWF_uid20_fpSubTest(CONSTANT,19)
     cstZeroWF_uid20_fpSubTest_q <= "00000000000000000000000";
 
-    -- frac_bSig_uid37_fpSubTest(BITSELECT,36)@0
+    -- frac_bSig_uid37_fpSubTest(BITSELECT,36)@1
     frac_bSig_uid37_fpSubTest_in <= bSig_uid18_fpSubTest_q(22 downto 0);
     frac_bSig_uid37_fpSubTest_b <= frac_bSig_uid37_fpSubTest_in(22 downto 0);
 
-    -- redist26_frac_bSig_uid37_fpSubTest_b_2(DELAY,283)
-    redist26_frac_bSig_uid37_fpSubTest_b_2 : dspba_delay
-    GENERIC MAP ( width => 23, depth => 2, reset_kind => "ASYNC" )
-    PORT MAP ( xin => frac_bSig_uid37_fpSubTest_b, xout => redist26_frac_bSig_uid37_fpSubTest_b_2_q, ena => en(0), clk => clk, aclr => areset );
-
-    -- fracBz_uid57_fpSubTest(MUX,56)@2
+    -- fracBz_uid57_fpSubTest(MUX,56)@1
     fracBz_uid57_fpSubTest_s <= excZ_bSig_uid18_uid38_fpSubTest_q;
-    fracBz_uid57_fpSubTest_combproc: PROCESS (fracBz_uid57_fpSubTest_s, en, redist26_frac_bSig_uid37_fpSubTest_b_2_q, cstZeroWF_uid20_fpSubTest_q)
+    fracBz_uid57_fpSubTest_combproc: PROCESS (fracBz_uid57_fpSubTest_s, en, frac_bSig_uid37_fpSubTest_b, cstZeroWF_uid20_fpSubTest_q)
     BEGIN
         CASE (fracBz_uid57_fpSubTest_s) IS
-            WHEN "0" => fracBz_uid57_fpSubTest_q <= redist26_frac_bSig_uid37_fpSubTest_b_2_q;
+            WHEN "0" => fracBz_uid57_fpSubTest_q <= frac_bSig_uid37_fpSubTest_b;
             WHEN "1" => fracBz_uid57_fpSubTest_q <= cstZeroWF_uid20_fpSubTest_q;
             WHEN OTHERS => fracBz_uid57_fpSubTest_q <= (others => '0');
         END CASE;
     END PROCESS;
 
-    -- oFracB_uid60_fpSubTest(BITJOIN,59)@2
+    -- oFracB_uid60_fpSubTest(BITJOIN,59)@1
     oFracB_uid60_fpSubTest_q <= InvExpXIsZero_uid45_fpSubTest_q & fracBz_uid57_fpSubTest_q;
 
     -- padConst_uid65_fpSubTest(CONSTANT,64)
     padConst_uid65_fpSubTest_q <= "0000000000000000000000000";
 
-    -- rightPaddedIn_uid66_fpSubTest(BITJOIN,65)@2
+    -- rightPaddedIn_uid66_fpSubTest(BITJOIN,65)@1
     rightPaddedIn_uid66_fpSubTest_q <= oFracB_uid60_fpSubTest_q & padConst_uid65_fpSubTest_q;
 
-    -- rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest(MUX,195)@2
+    -- rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest(MUX,195)@1
     rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_s <= rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_b;
     rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_combproc: PROCESS (rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_s, en, rightPaddedIn_uid66_fpSubTest_q, rightShiftStage0Idx1_uid188_alignmentShifter_uid65_fpSubTest_q, rightShiftStage0Idx2_uid191_alignmentShifter_uid65_fpSubTest_q, rightShiftStage0Idx3_uid194_alignmentShifter_uid65_fpSubTest_q)
     BEGIN
@@ -633,48 +611,53 @@ begin
         END CASE;
     END PROCESS;
 
-    -- rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest(MUX,206)@2
-    rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_s <= rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_c;
-    rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_combproc: PROCESS (rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_s, en, rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q, rightShiftStage1Idx1_uid199_alignmentShifter_uid65_fpSubTest_q, rightShiftStage1Idx2_uid202_alignmentShifter_uid65_fpSubTest_q, rightShiftStage1Idx3_uid205_alignmentShifter_uid65_fpSubTest_q)
-    BEGIN
-        CASE (rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_s) IS
-            WHEN "00" => rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q;
-            WHEN "01" => rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage1Idx1_uid199_alignmentShifter_uid65_fpSubTest_q;
-            WHEN "10" => rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage1Idx2_uid202_alignmentShifter_uid65_fpSubTest_q;
-            WHEN "11" => rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage1Idx3_uid205_alignmentShifter_uid65_fpSubTest_q;
-            WHEN OTHERS => rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= (others => '0');
-        END CASE;
-    END PROCESS;
-
-    -- rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select(BITSELECT,251)@2
+    -- rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select(BITSELECT,251)@1
     rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_in <= expAmExpB_uid61_fpSubTest_q(5 downto 0);
     rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_b <= rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_in(5 downto 4);
     rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_c <= rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_in(3 downto 2);
     rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_d <= rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_in(1 downto 0);
 
-    -- rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest(MUX,217)@2 + 1
-    rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_s <= rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_d;
-    rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_clkproc: PROCESS (clk, areset)
+    -- rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest(MUX,206)@1 + 1
+    rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_s <= rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_c;
+    rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_clkproc: PROCESS (clk, areset)
     BEGIN
         IF (areset = '1') THEN
-            rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= (others => '0');
+            rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= (others => '0');
         ELSIF (clk'EVENT AND clk = '1') THEN
             IF (en = "1") THEN
-                CASE (rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_s) IS
-                    WHEN "00" => rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q;
-                    WHEN "01" => rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage2Idx1_uid210_alignmentShifter_uid65_fpSubTest_q;
-                    WHEN "10" => rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage2Idx2_uid213_alignmentShifter_uid65_fpSubTest_q;
-                    WHEN "11" => rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage2Idx3_uid216_alignmentShifter_uid65_fpSubTest_q;
-                    WHEN OTHERS => rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= (others => '0');
+                CASE (rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_s) IS
+                    WHEN "00" => rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage0_uid196_alignmentShifter_uid65_fpSubTest_q;
+                    WHEN "01" => rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage1Idx1_uid199_alignmentShifter_uid65_fpSubTest_q;
+                    WHEN "10" => rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage1Idx2_uid202_alignmentShifter_uid65_fpSubTest_q;
+                    WHEN "11" => rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage1Idx3_uid205_alignmentShifter_uid65_fpSubTest_q;
+                    WHEN OTHERS => rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q <= (others => '0');
                 END CASE;
             END IF;
         END IF;
     END PROCESS;
 
+    -- redist3_rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_d_1(DELAY,260)
+    redist3_rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_d_1 : dspba_delay
+    GENERIC MAP ( width => 2, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_d, xout => redist3_rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_d_1_q, ena => en(0), clk => clk, aclr => areset );
+
+    -- rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest(MUX,217)@2
+    rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_s <= redist3_rightShiftStageSel5Dto4_uid195_alignmentShifter_uid65_fpSubTest_merged_bit_select_d_1_q;
+    rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_combproc: PROCESS (rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_s, en, rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q, rightShiftStage2Idx1_uid210_alignmentShifter_uid65_fpSubTest_q, rightShiftStage2Idx2_uid213_alignmentShifter_uid65_fpSubTest_q, rightShiftStage2Idx3_uid216_alignmentShifter_uid65_fpSubTest_q)
+    BEGIN
+        CASE (rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_s) IS
+            WHEN "00" => rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage1_uid207_alignmentShifter_uid65_fpSubTest_q;
+            WHEN "01" => rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage2Idx1_uid210_alignmentShifter_uid65_fpSubTest_q;
+            WHEN "10" => rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage2Idx2_uid213_alignmentShifter_uid65_fpSubTest_q;
+            WHEN "11" => rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= rightShiftStage2Idx3_uid216_alignmentShifter_uid65_fpSubTest_q;
+            WHEN OTHERS => rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q <= (others => '0');
+        END CASE;
+    END PROCESS;
+
     -- wIntCst_uid184_alignmentShifter_uid65_fpSubTest(CONSTANT,183)
     wIntCst_uid184_alignmentShifter_uid65_fpSubTest_q <= "110001";
 
-    -- shiftedOut_uid185_alignmentShifter_uid65_fpSubTest(COMPARE,184)@2 + 1
+    -- shiftedOut_uid185_alignmentShifter_uid65_fpSubTest(COMPARE,184)@1 + 1
     shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_a <= STD_LOGIC_VECTOR("00" & expAmExpB_uid61_fpSubTest_q);
     shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_b <= STD_LOGIC_VECTOR("00000" & wIntCst_uid184_alignmentShifter_uid65_fpSubTest_q);
     shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_clkproc: PROCESS (clk, areset)
@@ -689,7 +672,7 @@ begin
     END PROCESS;
     shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_n(0) <= not (shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_o(10));
 
-    -- r_uid220_alignmentShifter_uid65_fpSubTest(MUX,219)@3
+    -- r_uid220_alignmentShifter_uid65_fpSubTest(MUX,219)@2
     r_uid220_alignmentShifter_uid65_fpSubTest_s <= shiftedOut_uid185_alignmentShifter_uid65_fpSubTest_n;
     r_uid220_alignmentShifter_uid65_fpSubTest_combproc: PROCESS (r_uid220_alignmentShifter_uid65_fpSubTest_s, en, rightShiftStage2_uid218_alignmentShifter_uid65_fpSubTest_q, zeroOutCst_uid219_alignmentShifter_uid65_fpSubTest_q)
     BEGIN
@@ -700,23 +683,23 @@ begin
         END CASE;
     END PROCESS;
 
-    -- alignFracBPostShiftOut_uid69_fpSubTest(LOGICAL,68)@3
+    -- alignFracBPostShiftOut_uid69_fpSubTest(LOGICAL,68)@2
     alignFracBPostShiftOut_uid69_fpSubTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((48 downto 1 => iShiftedOut_uid68_fpSubTest_q(0)) & iShiftedOut_uid68_fpSubTest_q));
     alignFracBPostShiftOut_uid69_fpSubTest_q <= r_uid220_alignmentShifter_uid65_fpSubTest_q and alignFracBPostShiftOut_uid69_fpSubTest_b;
 
-    -- stickyBits_uid70_fpSubTest_merged_bit_select(BITSELECT,252)@3
+    -- stickyBits_uid70_fpSubTest_merged_bit_select(BITSELECT,252)@2
     stickyBits_uid70_fpSubTest_merged_bit_select_b <= alignFracBPostShiftOut_uid69_fpSubTest_q(22 downto 0);
     stickyBits_uid70_fpSubTest_merged_bit_select_c <= alignFracBPostShiftOut_uid69_fpSubTest_q(48 downto 23);
 
-    -- redist0_stickyBits_uid70_fpSubTest_merged_bit_select_c_1(DELAY,257)
-    redist0_stickyBits_uid70_fpSubTest_merged_bit_select_c_1 : dspba_delay
+    -- redist2_stickyBits_uid70_fpSubTest_merged_bit_select_c_1(DELAY,259)
+    redist2_stickyBits_uid70_fpSubTest_merged_bit_select_c_1 : dspba_delay
     GENERIC MAP ( width => 26, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => stickyBits_uid70_fpSubTest_merged_bit_select_c, xout => redist0_stickyBits_uid70_fpSubTest_merged_bit_select_c_1_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => stickyBits_uid70_fpSubTest_merged_bit_select_c, xout => redist2_stickyBits_uid70_fpSubTest_merged_bit_select_c_1_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- fracBAddOp_uid81_fpSubTest(BITJOIN,80)@4
-    fracBAddOp_uid81_fpSubTest_q <= GND_q & redist0_stickyBits_uid70_fpSubTest_merged_bit_select_c_1_q;
+    -- fracBAddOp_uid81_fpSubTest(BITJOIN,80)@3
+    fracBAddOp_uid81_fpSubTest_q <= GND_q & redist2_stickyBits_uid70_fpSubTest_merged_bit_select_c_1_q;
 
-    -- fracBAddOpPostXor_uid82_fpSubTest(LOGICAL,81)@4
+    -- fracBAddOpPostXor_uid82_fpSubTest(LOGICAL,81)@3
     fracBAddOpPostXor_uid82_fpSubTest_b <= STD_LOGIC_VECTOR(STD_LOGIC_VECTOR((26 downto 1 => effSub_uid53_fpSubTest_q(0)) & effSub_uid53_fpSubTest_q));
     fracBAddOpPostXor_uid82_fpSubTest_q <= fracBAddOp_uid81_fpSubTest_q xor fracBAddOpPostXor_uid82_fpSubTest_b;
 
@@ -727,134 +710,128 @@ begin
     frac_aSig_uid23_fpSubTest_in <= aSig_uid17_fpSubTest_q(22 downto 0);
     frac_aSig_uid23_fpSubTest_b <= frac_aSig_uid23_fpSubTest_in(22 downto 0);
 
-    -- redist32_frac_aSig_uid23_fpSubTest_b_4_inputreg(DELAY,292)
-    redist32_frac_aSig_uid23_fpSubTest_b_4_inputreg : dspba_delay
-    GENERIC MAP ( width => 23, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => frac_aSig_uid23_fpSubTest_b, xout => redist32_frac_aSig_uid23_fpSubTest_b_4_inputreg_q, ena => en(0), clk => clk, aclr => areset );
-
-    -- redist32_frac_aSig_uid23_fpSubTest_b_4(DELAY,289)
-    redist32_frac_aSig_uid23_fpSubTest_b_4 : dspba_delay
+    -- redist31_frac_aSig_uid23_fpSubTest_b_3(DELAY,288)
+    redist31_frac_aSig_uid23_fpSubTest_b_3 : dspba_delay
     GENERIC MAP ( width => 23, depth => 3, reset_kind => "ASYNC" )
-    PORT MAP ( xin => redist32_frac_aSig_uid23_fpSubTest_b_4_inputreg_q, xout => redist32_frac_aSig_uid23_fpSubTest_b_4_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => frac_aSig_uid23_fpSubTest_b, xout => redist31_frac_aSig_uid23_fpSubTest_b_3_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- cmpEQ_stickyBits_cZwF_uid72_fpSubTest(LOGICAL,71)@3 + 1
+    -- cmpEQ_stickyBits_cZwF_uid72_fpSubTest(LOGICAL,71)@2 + 1
     cmpEQ_stickyBits_cZwF_uid72_fpSubTest_qi <= "1" WHEN stickyBits_uid70_fpSubTest_merged_bit_select_b = cstZeroWF_uid20_fpSubTest_q ELSE "0";
     cmpEQ_stickyBits_cZwF_uid72_fpSubTest_delay : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
     PORT MAP ( xin => cmpEQ_stickyBits_cZwF_uid72_fpSubTest_qi, xout => cmpEQ_stickyBits_cZwF_uid72_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- effSubInvSticky_uid75_fpSubTest(LOGICAL,74)@4
+    -- effSubInvSticky_uid75_fpSubTest(LOGICAL,74)@3
     effSubInvSticky_uid75_fpSubTest_q <= effSub_uid53_fpSubTest_q and cmpEQ_stickyBits_cZwF_uid72_fpSubTest_q;
 
-    -- fracAAddOp_uid78_fpSubTest(BITJOIN,77)@4
-    fracAAddOp_uid78_fpSubTest_q <= zocst_uid77_fpSubTest_q & redist32_frac_aSig_uid23_fpSubTest_b_4_q & GND_q & effSubInvSticky_uid75_fpSubTest_q;
+    -- fracAAddOp_uid78_fpSubTest(BITJOIN,77)@3
+    fracAAddOp_uid78_fpSubTest_q <= zocst_uid77_fpSubTest_q & redist31_frac_aSig_uid23_fpSubTest_b_3_q & GND_q & effSubInvSticky_uid75_fpSubTest_q;
 
-    -- fracAddResult_uid83_fpSubTest(ADD,82)@4
+    -- fracAddResult_uid83_fpSubTest(ADD,82)@3
     fracAddResult_uid83_fpSubTest_a <= STD_LOGIC_VECTOR("0" & fracAAddOp_uid78_fpSubTest_q);
     fracAddResult_uid83_fpSubTest_b <= STD_LOGIC_VECTOR("0" & fracBAddOpPostXor_uid82_fpSubTest_q);
     fracAddResult_uid83_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(fracAddResult_uid83_fpSubTest_a) + UNSIGNED(fracAddResult_uid83_fpSubTest_b));
     fracAddResult_uid83_fpSubTest_q <= fracAddResult_uid83_fpSubTest_o(27 downto 0);
 
-    -- rangeFracAddResultMwfp3Dto0_uid84_fpSubTest(BITSELECT,83)@4
+    -- rangeFracAddResultMwfp3Dto0_uid84_fpSubTest(BITSELECT,83)@3
     rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_in <= fracAddResult_uid83_fpSubTest_q(26 downto 0);
     rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b <= rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_in(26 downto 0);
 
-    -- redist14_rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b_1(DELAY,271)
-    redist14_rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b_1 : dspba_delay
+    -- redist16_rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b_1(DELAY,273)
+    redist16_rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b_1 : dspba_delay
     GENERIC MAP ( width => 27, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b, xout => redist14_rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b_1_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b, xout => redist16_rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b_1_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- invCmpEQ_stickyBits_cZwF_uid73_fpSubTest(LOGICAL,72)@4 + 1
+    -- invCmpEQ_stickyBits_cZwF_uid73_fpSubTest(LOGICAL,72)@3 + 1
     invCmpEQ_stickyBits_cZwF_uid73_fpSubTest_qi <= not (cmpEQ_stickyBits_cZwF_uid72_fpSubTest_q);
     invCmpEQ_stickyBits_cZwF_uid73_fpSubTest_delay : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
     PORT MAP ( xin => invCmpEQ_stickyBits_cZwF_uid73_fpSubTest_qi, xout => invCmpEQ_stickyBits_cZwF_uid73_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- fracGRS_uid85_fpSubTest(BITJOIN,84)@5
-    fracGRS_uid85_fpSubTest_q <= redist14_rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b_1_q & invCmpEQ_stickyBits_cZwF_uid73_fpSubTest_q;
+    -- fracGRS_uid85_fpSubTest(BITJOIN,84)@4
+    fracGRS_uid85_fpSubTest_q <= redist16_rangeFracAddResultMwfp3Dto0_uid84_fpSubTest_b_1_q & invCmpEQ_stickyBits_cZwF_uid73_fpSubTest_q;
 
-    -- rVStage_uid152_lzCountVal_uid86_fpSubTest(BITSELECT,151)@5
+    -- rVStage_uid152_lzCountVal_uid86_fpSubTest(BITSELECT,151)@4
     rVStage_uid152_lzCountVal_uid86_fpSubTest_b <= fracGRS_uid85_fpSubTest_q(27 downto 12);
 
-    -- vCount_uid153_lzCountVal_uid86_fpSubTest(LOGICAL,152)@5 + 1
-    vCount_uid153_lzCountVal_uid86_fpSubTest_qi <= "1" WHEN rVStage_uid152_lzCountVal_uid86_fpSubTest_b = zs_uid151_lzCountVal_uid86_fpSubTest_q ELSE "0";
-    vCount_uid153_lzCountVal_uid86_fpSubTest_delay : dspba_delay
-    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => vCount_uid153_lzCountVal_uid86_fpSubTest_qi, xout => vCount_uid153_lzCountVal_uid86_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
+    -- vCount_uid153_lzCountVal_uid86_fpSubTest(LOGICAL,152)@4
+    vCount_uid153_lzCountVal_uid86_fpSubTest_q <= "1" WHEN rVStage_uid152_lzCountVal_uid86_fpSubTest_b = zs_uid151_lzCountVal_uid86_fpSubTest_q ELSE "0";
 
-    -- redist4_vCount_uid153_lzCountVal_uid86_fpSubTest_q_2(DELAY,261)
-    redist4_vCount_uid153_lzCountVal_uid86_fpSubTest_q_2 : dspba_delay
-    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => vCount_uid153_lzCountVal_uid86_fpSubTest_q, xout => redist4_vCount_uid153_lzCountVal_uid86_fpSubTest_q_2_q, ena => en(0), clk => clk, aclr => areset );
+    -- redist9_vCount_uid153_lzCountVal_uid86_fpSubTest_q_2(DELAY,266)
+    redist9_vCount_uid153_lzCountVal_uid86_fpSubTest_q_2 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 2, reset_kind => "ASYNC" )
+    PORT MAP ( xin => vCount_uid153_lzCountVal_uid86_fpSubTest_q, xout => redist9_vCount_uid153_lzCountVal_uid86_fpSubTest_q_2_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist12_fracGRS_uid85_fpSubTest_q_1(DELAY,269)
-    redist12_fracGRS_uid85_fpSubTest_q_1 : dspba_delay
-    GENERIC MAP ( width => 28, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => fracGRS_uid85_fpSubTest_q, xout => redist12_fracGRS_uid85_fpSubTest_q_1_q, ena => en(0), clk => clk, aclr => areset );
-
-    -- vStage_uid155_lzCountVal_uid86_fpSubTest(BITSELECT,154)@6
-    vStage_uid155_lzCountVal_uid86_fpSubTest_in <= redist12_fracGRS_uid85_fpSubTest_q_1_q(11 downto 0);
+    -- vStage_uid155_lzCountVal_uid86_fpSubTest(BITSELECT,154)@4
+    vStage_uid155_lzCountVal_uid86_fpSubTest_in <= fracGRS_uid85_fpSubTest_q(11 downto 0);
     vStage_uid155_lzCountVal_uid86_fpSubTest_b <= vStage_uid155_lzCountVal_uid86_fpSubTest_in(11 downto 0);
 
     -- mO_uid154_lzCountVal_uid86_fpSubTest(CONSTANT,153)
     mO_uid154_lzCountVal_uid86_fpSubTest_q <= "1111";
 
-    -- cStage_uid156_lzCountVal_uid86_fpSubTest(BITJOIN,155)@6
+    -- cStage_uid156_lzCountVal_uid86_fpSubTest(BITJOIN,155)@4
     cStage_uid156_lzCountVal_uid86_fpSubTest_q <= vStage_uid155_lzCountVal_uid86_fpSubTest_b & mO_uid154_lzCountVal_uid86_fpSubTest_q;
 
-    -- redist5_rVStage_uid152_lzCountVal_uid86_fpSubTest_b_1(DELAY,262)
-    redist5_rVStage_uid152_lzCountVal_uid86_fpSubTest_b_1 : dspba_delay
-    GENERIC MAP ( width => 16, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => rVStage_uid152_lzCountVal_uid86_fpSubTest_b, xout => redist5_rVStage_uid152_lzCountVal_uid86_fpSubTest_b_1_q, ena => en(0), clk => clk, aclr => areset );
-
-    -- vStagei_uid158_lzCountVal_uid86_fpSubTest(MUX,157)@6
+    -- vStagei_uid158_lzCountVal_uid86_fpSubTest(MUX,157)@4
     vStagei_uid158_lzCountVal_uid86_fpSubTest_s <= vCount_uid153_lzCountVal_uid86_fpSubTest_q;
-    vStagei_uid158_lzCountVal_uid86_fpSubTest_combproc: PROCESS (vStagei_uid158_lzCountVal_uid86_fpSubTest_s, en, redist5_rVStage_uid152_lzCountVal_uid86_fpSubTest_b_1_q, cStage_uid156_lzCountVal_uid86_fpSubTest_q)
+    vStagei_uid158_lzCountVal_uid86_fpSubTest_combproc: PROCESS (vStagei_uid158_lzCountVal_uid86_fpSubTest_s, en, rVStage_uid152_lzCountVal_uid86_fpSubTest_b, cStage_uid156_lzCountVal_uid86_fpSubTest_q)
     BEGIN
         CASE (vStagei_uid158_lzCountVal_uid86_fpSubTest_s) IS
-            WHEN "0" => vStagei_uid158_lzCountVal_uid86_fpSubTest_q <= redist5_rVStage_uid152_lzCountVal_uid86_fpSubTest_b_1_q;
+            WHEN "0" => vStagei_uid158_lzCountVal_uid86_fpSubTest_q <= rVStage_uid152_lzCountVal_uid86_fpSubTest_b;
             WHEN "1" => vStagei_uid158_lzCountVal_uid86_fpSubTest_q <= cStage_uid156_lzCountVal_uid86_fpSubTest_q;
             WHEN OTHERS => vStagei_uid158_lzCountVal_uid86_fpSubTest_q <= (others => '0');
         END CASE;
     END PROCESS;
 
-    -- rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select(BITSELECT,253)@6
+    -- rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select(BITSELECT,253)@4
     rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b <= vStagei_uid158_lzCountVal_uid86_fpSubTest_q(15 downto 8);
     rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_c <= vStagei_uid158_lzCountVal_uid86_fpSubTest_q(7 downto 0);
 
-    -- vCount_uid161_lzCountVal_uid86_fpSubTest(LOGICAL,160)@6
-    vCount_uid161_lzCountVal_uid86_fpSubTest_q <= "1" WHEN rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b = cstAllZWE_uid21_fpSubTest_q ELSE "0";
-
-    -- redist2_vCount_uid161_lzCountVal_uid86_fpSubTest_q_1(DELAY,259)
-    redist2_vCount_uid161_lzCountVal_uid86_fpSubTest_q_1 : dspba_delay
+    -- vCount_uid161_lzCountVal_uid86_fpSubTest(LOGICAL,160)@4 + 1
+    vCount_uid161_lzCountVal_uid86_fpSubTest_qi <= "1" WHEN rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b = cstAllZWE_uid21_fpSubTest_q ELSE "0";
+    vCount_uid161_lzCountVal_uid86_fpSubTest_delay : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => vCount_uid161_lzCountVal_uid86_fpSubTest_q, xout => redist2_vCount_uid161_lzCountVal_uid86_fpSubTest_q_1_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => vCount_uid161_lzCountVal_uid86_fpSubTest_qi, xout => vCount_uid161_lzCountVal_uid86_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- vStagei_uid164_lzCountVal_uid86_fpSubTest(MUX,163)@6 + 1
+    -- redist7_vCount_uid161_lzCountVal_uid86_fpSubTest_q_2(DELAY,264)
+    redist7_vCount_uid161_lzCountVal_uid86_fpSubTest_q_2 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => vCount_uid161_lzCountVal_uid86_fpSubTest_q, xout => redist7_vCount_uid161_lzCountVal_uid86_fpSubTest_q_2_q, ena => en(0), clk => clk, aclr => areset );
+
+    -- redist1_rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_c_1(DELAY,258)
+    redist1_rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_c_1 : dspba_delay
+    GENERIC MAP ( width => 8, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_c, xout => redist1_rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_c_1_q, ena => en(0), clk => clk, aclr => areset );
+
+    -- redist0_rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b_1(DELAY,257)
+    redist0_rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b_1 : dspba_delay
+    GENERIC MAP ( width => 8, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b, xout => redist0_rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b_1_q, ena => en(0), clk => clk, aclr => areset );
+
+    -- vStagei_uid164_lzCountVal_uid86_fpSubTest(MUX,163)@5
     vStagei_uid164_lzCountVal_uid86_fpSubTest_s <= vCount_uid161_lzCountVal_uid86_fpSubTest_q;
-    vStagei_uid164_lzCountVal_uid86_fpSubTest_clkproc: PROCESS (clk, areset)
+    vStagei_uid164_lzCountVal_uid86_fpSubTest_combproc: PROCESS (vStagei_uid164_lzCountVal_uid86_fpSubTest_s, en, redist0_rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b_1_q, redist1_rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_c_1_q)
     BEGIN
-        IF (areset = '1') THEN
-            vStagei_uid164_lzCountVal_uid86_fpSubTest_q <= (others => '0');
-        ELSIF (clk'EVENT AND clk = '1') THEN
-            IF (en = "1") THEN
-                CASE (vStagei_uid164_lzCountVal_uid86_fpSubTest_s) IS
-                    WHEN "0" => vStagei_uid164_lzCountVal_uid86_fpSubTest_q <= rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b;
-                    WHEN "1" => vStagei_uid164_lzCountVal_uid86_fpSubTest_q <= rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_c;
-                    WHEN OTHERS => vStagei_uid164_lzCountVal_uid86_fpSubTest_q <= (others => '0');
-                END CASE;
-            END IF;
-        END IF;
+        CASE (vStagei_uid164_lzCountVal_uid86_fpSubTest_s) IS
+            WHEN "0" => vStagei_uid164_lzCountVal_uid86_fpSubTest_q <= redist0_rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_b_1_q;
+            WHEN "1" => vStagei_uid164_lzCountVal_uid86_fpSubTest_q <= redist1_rVStage_uid160_lzCountVal_uid86_fpSubTest_merged_bit_select_c_1_q;
+            WHEN OTHERS => vStagei_uid164_lzCountVal_uid86_fpSubTest_q <= (others => '0');
+        END CASE;
     END PROCESS;
 
-    -- rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select(BITSELECT,254)@7
+    -- rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select(BITSELECT,254)@5
     rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select_b <= vStagei_uid164_lzCountVal_uid86_fpSubTest_q(7 downto 4);
     rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select_c <= vStagei_uid164_lzCountVal_uid86_fpSubTest_q(3 downto 0);
 
-    -- vCount_uid167_lzCountVal_uid86_fpSubTest(LOGICAL,166)@7
+    -- vCount_uid167_lzCountVal_uid86_fpSubTest(LOGICAL,166)@5
     vCount_uid167_lzCountVal_uid86_fpSubTest_q <= "1" WHEN rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select_b = zs_uid165_lzCountVal_uid86_fpSubTest_q ELSE "0";
 
-    -- vStagei_uid170_lzCountVal_uid86_fpSubTest(MUX,169)@7
+    -- redist6_vCount_uid167_lzCountVal_uid86_fpSubTest_q_1(DELAY,263)
+    redist6_vCount_uid167_lzCountVal_uid86_fpSubTest_q_1 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => vCount_uid167_lzCountVal_uid86_fpSubTest_q, xout => redist6_vCount_uid167_lzCountVal_uid86_fpSubTest_q_1_q, ena => en(0), clk => clk, aclr => areset );
+
+    -- vStagei_uid170_lzCountVal_uid86_fpSubTest(MUX,169)@5
     vStagei_uid170_lzCountVal_uid86_fpSubTest_s <= vCount_uid167_lzCountVal_uid86_fpSubTest_q;
     vStagei_uid170_lzCountVal_uid86_fpSubTest_combproc: PROCESS (vStagei_uid170_lzCountVal_uid86_fpSubTest_s, en, rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select_b, rVStage_uid166_lzCountVal_uid86_fpSubTest_merged_bit_select_c)
     BEGIN
@@ -865,14 +842,19 @@ begin
         END CASE;
     END PROCESS;
 
-    -- rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select(BITSELECT,255)@7
+    -- rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select(BITSELECT,255)@5
     rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select_b <= vStagei_uid170_lzCountVal_uid86_fpSubTest_q(3 downto 2);
     rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select_c <= vStagei_uid170_lzCountVal_uid86_fpSubTest_q(1 downto 0);
 
-    -- vCount_uid173_lzCountVal_uid86_fpSubTest(LOGICAL,172)@7
+    -- vCount_uid173_lzCountVal_uid86_fpSubTest(LOGICAL,172)@5
     vCount_uid173_lzCountVal_uid86_fpSubTest_q <= "1" WHEN rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select_b = zs_uid171_lzCountVal_uid86_fpSubTest_q ELSE "0";
 
-    -- vStagei_uid176_lzCountVal_uid86_fpSubTest(MUX,175)@7
+    -- redist5_vCount_uid173_lzCountVal_uid86_fpSubTest_q_1(DELAY,262)
+    redist5_vCount_uid173_lzCountVal_uid86_fpSubTest_q_1 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => vCount_uid173_lzCountVal_uid86_fpSubTest_q, xout => redist5_vCount_uid173_lzCountVal_uid86_fpSubTest_q_1_q, ena => en(0), clk => clk, aclr => areset );
+
+    -- vStagei_uid176_lzCountVal_uid86_fpSubTest(MUX,175)@5
     vStagei_uid176_lzCountVal_uid86_fpSubTest_s <= vCount_uid173_lzCountVal_uid86_fpSubTest_q;
     vStagei_uid176_lzCountVal_uid86_fpSubTest_combproc: PROCESS (vStagei_uid176_lzCountVal_uid86_fpSubTest_s, en, rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select_b, rVStage_uid172_lzCountVal_uid86_fpSubTest_merged_bit_select_c)
     BEGIN
@@ -883,288 +865,273 @@ begin
         END CASE;
     END PROCESS;
 
-    -- rVStage_uid178_lzCountVal_uid86_fpSubTest(BITSELECT,177)@7
+    -- rVStage_uid178_lzCountVal_uid86_fpSubTest(BITSELECT,177)@5
     rVStage_uid178_lzCountVal_uid86_fpSubTest_b <= vStagei_uid176_lzCountVal_uid86_fpSubTest_q(1 downto 1);
 
-    -- vCount_uid179_lzCountVal_uid86_fpSubTest(LOGICAL,178)@7
-    vCount_uid179_lzCountVal_uid86_fpSubTest_q <= "1" WHEN rVStage_uid178_lzCountVal_uid86_fpSubTest_b = GND_q ELSE "0";
+    -- redist4_rVStage_uid178_lzCountVal_uid86_fpSubTest_b_1(DELAY,261)
+    redist4_rVStage_uid178_lzCountVal_uid86_fpSubTest_b_1 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => rVStage_uid178_lzCountVal_uid86_fpSubTest_b, xout => redist4_rVStage_uid178_lzCountVal_uid86_fpSubTest_b_1_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- r_uid180_lzCountVal_uid86_fpSubTest(BITJOIN,179)@7
-    r_uid180_lzCountVal_uid86_fpSubTest_q <= redist4_vCount_uid153_lzCountVal_uid86_fpSubTest_q_2_q & redist2_vCount_uid161_lzCountVal_uid86_fpSubTest_q_1_q & vCount_uid167_lzCountVal_uid86_fpSubTest_q & vCount_uid173_lzCountVal_uid86_fpSubTest_q & vCount_uid179_lzCountVal_uid86_fpSubTest_q;
+    -- vCount_uid179_lzCountVal_uid86_fpSubTest(LOGICAL,178)@6
+    vCount_uid179_lzCountVal_uid86_fpSubTest_q <= "1" WHEN redist4_rVStage_uid178_lzCountVal_uid86_fpSubTest_b_1_q = GND_q ELSE "0";
 
-    -- redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1(DELAY,258)
-    redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1 : dspba_delay
-    GENERIC MAP ( width => 5, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => r_uid180_lzCountVal_uid86_fpSubTest_q, xout => redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1_q, ena => en(0), clk => clk, aclr => areset );
+    -- r_uid180_lzCountVal_uid86_fpSubTest(BITJOIN,179)@6
+    r_uid180_lzCountVal_uid86_fpSubTest_q <= redist9_vCount_uid153_lzCountVal_uid86_fpSubTest_q_2_q & redist7_vCount_uid161_lzCountVal_uid86_fpSubTest_q_2_q & redist6_vCount_uid167_lzCountVal_uid86_fpSubTest_q_1_q & redist5_vCount_uid173_lzCountVal_uid86_fpSubTest_q_1_q & vCount_uid179_lzCountVal_uid86_fpSubTest_q;
 
-    -- aMinusA_uid88_fpSubTest(LOGICAL,87)@8
-    aMinusA_uid88_fpSubTest_q <= "1" WHEN redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1_q = cAmA_uid87_fpSubTest_q ELSE "0";
+    -- aMinusA_uid88_fpSubTest(LOGICAL,87)@6 + 1
+    aMinusA_uid88_fpSubTest_qi <= "1" WHEN r_uid180_lzCountVal_uid86_fpSubTest_q = cAmA_uid87_fpSubTest_q ELSE "0";
+    aMinusA_uid88_fpSubTest_delay : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => aMinusA_uid88_fpSubTest_qi, xout => aMinusA_uid88_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- invAMinusA_uid130_fpSubTest(LOGICAL,129)@8
+    -- invAMinusA_uid130_fpSubTest(LOGICAL,129)@7
     invAMinusA_uid130_fpSubTest_q <= not (aMinusA_uid88_fpSubTest_q);
 
-    -- redist19_sigA_uid51_fpSubTest_b_8(DELAY,276)
-    redist19_sigA_uid51_fpSubTest_b_8 : dspba_delay
-    GENERIC MAP ( width => 1, depth => 5, reset_kind => "ASYNC" )
-    PORT MAP ( xin => redist18_sigA_uid51_fpSubTest_b_3_q, xout => redist19_sigA_uid51_fpSubTest_b_8_q, ena => en(0), clk => clk, aclr => areset );
+    -- redist21_sigA_uid51_fpSubTest_b_7(DELAY,278)
+    redist21_sigA_uid51_fpSubTest_b_7 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 4, reset_kind => "ASYNC" )
+    PORT MAP ( xin => redist20_sigA_uid51_fpSubTest_b_3_q, xout => redist21_sigA_uid51_fpSubTest_b_7_q, ena => en(0), clk => clk, aclr => areset );
 
     -- cstAllOWE_uid19_fpSubTest(CONSTANT,18)
     cstAllOWE_uid19_fpSubTest_q <= "11111111";
 
     -- expXIsMax_uid39_fpSubTest(LOGICAL,38)@1 + 1
-    expXIsMax_uid39_fpSubTest_qi <= "1" WHEN redist27_exp_bSig_uid36_fpSubTest_b_1_q = cstAllOWE_uid19_fpSubTest_q ELSE "0";
+    expXIsMax_uid39_fpSubTest_qi <= "1" WHEN exp_bSig_uid36_fpSubTest_b = cstAllOWE_uid19_fpSubTest_q ELSE "0";
     expXIsMax_uid39_fpSubTest_delay : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
     PORT MAP ( xin => expXIsMax_uid39_fpSubTest_qi, xout => expXIsMax_uid39_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- invExpXIsMax_uid44_fpSubTest(LOGICAL,43)@2
-    invExpXIsMax_uid44_fpSubTest_q <= not (expXIsMax_uid39_fpSubTest_q);
-
-    -- excR_bSig_uid46_fpSubTest(LOGICAL,45)@2 + 1
-    excR_bSig_uid46_fpSubTest_qi <= InvExpXIsZero_uid45_fpSubTest_q and invExpXIsMax_uid44_fpSubTest_q;
-    excR_bSig_uid46_fpSubTest_delay : dspba_delay
-    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => excR_bSig_uid46_fpSubTest_qi, xout => excR_bSig_uid46_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
-
-    -- redist20_excR_bSig_uid46_fpSubTest_q_6(DELAY,277)
-    redist20_excR_bSig_uid46_fpSubTest_q_6 : dspba_delay
+    -- redist25_expXIsMax_uid39_fpSubTest_q_6(DELAY,282)
+    redist25_expXIsMax_uid39_fpSubTest_q_6 : dspba_delay
     GENERIC MAP ( width => 1, depth => 5, reset_kind => "ASYNC" )
-    PORT MAP ( xin => excR_bSig_uid46_fpSubTest_q, xout => redist20_excR_bSig_uid46_fpSubTest_q_6_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => expXIsMax_uid39_fpSubTest_q, xout => redist25_expXIsMax_uid39_fpSubTest_q_6_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist34_exp_aSig_uid22_fpSubTest_b_7_inputreg(DELAY,293)
-    redist34_exp_aSig_uid22_fpSubTest_b_7_inputreg : dspba_delay
+    -- invExpXIsMax_uid44_fpSubTest(LOGICAL,43)@7
+    invExpXIsMax_uid44_fpSubTest_q <= not (redist25_expXIsMax_uid39_fpSubTest_q_6_q);
+
+    -- redist22_InvExpXIsZero_uid45_fpSubTest_q_6(DELAY,279)
+    redist22_InvExpXIsZero_uid45_fpSubTest_q_6 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 6, reset_kind => "ASYNC" )
+    PORT MAP ( xin => InvExpXIsZero_uid45_fpSubTest_q, xout => redist22_InvExpXIsZero_uid45_fpSubTest_q_6_q, ena => en(0), clk => clk, aclr => areset );
+
+    -- excR_bSig_uid46_fpSubTest(LOGICAL,45)@7
+    excR_bSig_uid46_fpSubTest_q <= redist22_InvExpXIsZero_uid45_fpSubTest_q_6_q and invExpXIsMax_uid44_fpSubTest_q;
+
+    -- redist33_exp_aSig_uid22_fpSubTest_b_6_inputreg(DELAY,291)
+    redist33_exp_aSig_uid22_fpSubTest_b_6_inputreg : dspba_delay
     GENERIC MAP ( width => 8, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => redist33_exp_aSig_uid22_fpSubTest_b_1_q, xout => redist34_exp_aSig_uid22_fpSubTest_b_7_inputreg_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => redist32_exp_aSig_uid22_fpSubTest_b_1_q, xout => redist33_exp_aSig_uid22_fpSubTest_b_6_inputreg_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist34_exp_aSig_uid22_fpSubTest_b_7(DELAY,291)
-    redist34_exp_aSig_uid22_fpSubTest_b_7 : dspba_delay
+    -- redist33_exp_aSig_uid22_fpSubTest_b_6(DELAY,290)
+    redist33_exp_aSig_uid22_fpSubTest_b_6 : dspba_delay
     GENERIC MAP ( width => 8, depth => 4, reset_kind => "ASYNC" )
-    PORT MAP ( xin => redist34_exp_aSig_uid22_fpSubTest_b_7_inputreg_q, xout => redist34_exp_aSig_uid22_fpSubTest_b_7_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => redist33_exp_aSig_uid22_fpSubTest_b_6_inputreg_q, xout => redist33_exp_aSig_uid22_fpSubTest_b_6_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist34_exp_aSig_uid22_fpSubTest_b_7_outputreg(DELAY,294)
-    redist34_exp_aSig_uid22_fpSubTest_b_7_outputreg : dspba_delay
-    GENERIC MAP ( width => 8, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => redist34_exp_aSig_uid22_fpSubTest_b_7_q, xout => redist34_exp_aSig_uid22_fpSubTest_b_7_outputreg_q, ena => en(0), clk => clk, aclr => areset );
-
-    -- expXIsMax_uid25_fpSubTest(LOGICAL,24)@7 + 1
-    expXIsMax_uid25_fpSubTest_qi <= "1" WHEN redist34_exp_aSig_uid22_fpSubTest_b_7_outputreg_q = cstAllOWE_uid19_fpSubTest_q ELSE "0";
+    -- expXIsMax_uid25_fpSubTest(LOGICAL,24)@6 + 1
+    expXIsMax_uid25_fpSubTest_qi <= "1" WHEN redist33_exp_aSig_uid22_fpSubTest_b_6_q = cstAllOWE_uid19_fpSubTest_q ELSE "0";
     expXIsMax_uid25_fpSubTest_delay : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
     PORT MAP ( xin => expXIsMax_uid25_fpSubTest_qi, xout => expXIsMax_uid25_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- invExpXIsMax_uid30_fpSubTest(LOGICAL,29)@8
+    -- invExpXIsMax_uid30_fpSubTest(LOGICAL,29)@7
     invExpXIsMax_uid30_fpSubTest_q <= not (expXIsMax_uid25_fpSubTest_q);
 
-    -- excZ_aSig_uid17_uid24_fpSubTest(LOGICAL,23)@7 + 1
-    excZ_aSig_uid17_uid24_fpSubTest_qi <= "1" WHEN redist34_exp_aSig_uid22_fpSubTest_b_7_outputreg_q = cstAllZWE_uid21_fpSubTest_q ELSE "0";
+    -- excZ_aSig_uid17_uid24_fpSubTest(LOGICAL,23)@6 + 1
+    excZ_aSig_uid17_uid24_fpSubTest_qi <= "1" WHEN redist33_exp_aSig_uid22_fpSubTest_b_6_q = cstAllZWE_uid21_fpSubTest_q ELSE "0";
     excZ_aSig_uid17_uid24_fpSubTest_delay : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
     PORT MAP ( xin => excZ_aSig_uid17_uid24_fpSubTest_qi, xout => excZ_aSig_uid17_uid24_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- InvExpXIsZero_uid31_fpSubTest(LOGICAL,30)@8
+    -- InvExpXIsZero_uid31_fpSubTest(LOGICAL,30)@7
     InvExpXIsZero_uid31_fpSubTest_q <= not (excZ_aSig_uid17_uid24_fpSubTest_q);
 
-    -- excR_aSig_uid32_fpSubTest(LOGICAL,31)@8
+    -- excR_aSig_uid32_fpSubTest(LOGICAL,31)@7
     excR_aSig_uid32_fpSubTest_q <= InvExpXIsZero_uid31_fpSubTest_q and invExpXIsMax_uid30_fpSubTest_q;
 
-    -- signRReg_uid131_fpSubTest(LOGICAL,130)@8
-    signRReg_uid131_fpSubTest_q <= excR_aSig_uid32_fpSubTest_q and redist20_excR_bSig_uid46_fpSubTest_q_6_q and redist19_sigA_uid51_fpSubTest_b_8_q and invAMinusA_uid130_fpSubTest_q;
+    -- signRReg_uid131_fpSubTest(LOGICAL,130)@7
+    signRReg_uid131_fpSubTest_q <= excR_aSig_uid32_fpSubTest_q and excR_bSig_uid46_fpSubTest_q and redist21_sigA_uid51_fpSubTest_b_7_q and invAMinusA_uid130_fpSubTest_q;
 
-    -- redist17_sigB_uid52_fpSubTest_b_8(DELAY,274)
-    redist17_sigB_uid52_fpSubTest_b_8 : dspba_delay
-    GENERIC MAP ( width => 1, depth => 5, reset_kind => "ASYNC" )
-    PORT MAP ( xin => redist16_sigB_uid52_fpSubTest_b_3_q, xout => redist17_sigB_uid52_fpSubTest_b_8_q, ena => en(0), clk => clk, aclr => areset );
+    -- redist19_sigB_uid52_fpSubTest_b_6(DELAY,276)
+    redist19_sigB_uid52_fpSubTest_b_6 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 4, reset_kind => "ASYNC" )
+    PORT MAP ( xin => redist18_sigB_uid52_fpSubTest_b_2_q, xout => redist19_sigB_uid52_fpSubTest_b_6_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist24_excZ_bSig_uid18_uid38_fpSubTest_q_7(DELAY,281)
-    redist24_excZ_bSig_uid18_uid38_fpSubTest_q_7 : dspba_delay
+    -- redist26_excZ_bSig_uid18_uid38_fpSubTest_q_6(DELAY,283)
+    redist26_excZ_bSig_uid18_uid38_fpSubTest_q_6 : dspba_delay
     GENERIC MAP ( width => 1, depth => 6, reset_kind => "ASYNC" )
-    PORT MAP ( xin => excZ_bSig_uid18_uid38_fpSubTest_q, xout => redist24_excZ_bSig_uid18_uid38_fpSubTest_q_7_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => excZ_bSig_uid18_uid38_fpSubTest_q, xout => redist26_excZ_bSig_uid18_uid38_fpSubTest_q_6_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- excAZBZSigASigB_uid135_fpSubTest(LOGICAL,134)@8
-    excAZBZSigASigB_uid135_fpSubTest_q <= excZ_aSig_uid17_uid24_fpSubTest_q and redist24_excZ_bSig_uid18_uid38_fpSubTest_q_7_q and redist19_sigA_uid51_fpSubTest_b_8_q and redist17_sigB_uid52_fpSubTest_b_8_q;
+    -- excAZBZSigASigB_uid135_fpSubTest(LOGICAL,134)@7
+    excAZBZSigASigB_uid135_fpSubTest_q <= excZ_aSig_uid17_uid24_fpSubTest_q and redist26_excZ_bSig_uid18_uid38_fpSubTest_q_6_q and redist21_sigA_uid51_fpSubTest_b_7_q and redist19_sigB_uid52_fpSubTest_b_6_q;
 
-    -- excBZARSigA_uid136_fpSubTest(LOGICAL,135)@8
-    excBZARSigA_uid136_fpSubTest_q <= redist24_excZ_bSig_uid18_uid38_fpSubTest_q_7_q and excR_aSig_uid32_fpSubTest_q and redist19_sigA_uid51_fpSubTest_b_8_q;
+    -- excBZARSigA_uid136_fpSubTest(LOGICAL,135)@7
+    excBZARSigA_uid136_fpSubTest_q <= redist26_excZ_bSig_uid18_uid38_fpSubTest_q_6_q and excR_aSig_uid32_fpSubTest_q and redist21_sigA_uid51_fpSubTest_b_7_q;
 
-    -- signRZero_uid137_fpSubTest(LOGICAL,136)@8
+    -- signRZero_uid137_fpSubTest(LOGICAL,136)@7
     signRZero_uid137_fpSubTest_q <= excBZARSigA_uid136_fpSubTest_q or excAZBZSigASigB_uid135_fpSubTest_q;
 
-    -- fracXIsZero_uid40_fpSubTest(LOGICAL,39)@2
-    fracXIsZero_uid40_fpSubTest_q <= "1" WHEN cstZeroWF_uid20_fpSubTest_q = redist26_frac_bSig_uid37_fpSubTest_b_2_q ELSE "0";
-
-    -- excI_bSig_uid42_fpSubTest(LOGICAL,41)@2 + 1
-    excI_bSig_uid42_fpSubTest_qi <= expXIsMax_uid39_fpSubTest_q and fracXIsZero_uid40_fpSubTest_q;
-    excI_bSig_uid42_fpSubTest_delay : dspba_delay
+    -- fracXIsZero_uid40_fpSubTest(LOGICAL,39)@1 + 1
+    fracXIsZero_uid40_fpSubTest_qi <= "1" WHEN cstZeroWF_uid20_fpSubTest_q = frac_bSig_uid37_fpSubTest_b ELSE "0";
+    fracXIsZero_uid40_fpSubTest_delay : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => excI_bSig_uid42_fpSubTest_qi, xout => excI_bSig_uid42_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => fracXIsZero_uid40_fpSubTest_qi, xout => fracXIsZero_uid40_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist22_excI_bSig_uid42_fpSubTest_q_6(DELAY,279)
-    redist22_excI_bSig_uid42_fpSubTest_q_6 : dspba_delay
+    -- redist24_fracXIsZero_uid40_fpSubTest_q_6(DELAY,281)
+    redist24_fracXIsZero_uid40_fpSubTest_q_6 : dspba_delay
     GENERIC MAP ( width => 1, depth => 5, reset_kind => "ASYNC" )
-    PORT MAP ( xin => excI_bSig_uid42_fpSubTest_q, xout => redist22_excI_bSig_uid42_fpSubTest_q_6_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => fracXIsZero_uid40_fpSubTest_q, xout => redist24_fracXIsZero_uid40_fpSubTest_q_6_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- sigBBInf_uid132_fpSubTest(LOGICAL,131)@8
-    sigBBInf_uid132_fpSubTest_q <= redist17_sigB_uid52_fpSubTest_b_8_q and redist22_excI_bSig_uid42_fpSubTest_q_6_q;
+    -- excI_bSig_uid42_fpSubTest(LOGICAL,41)@7
+    excI_bSig_uid42_fpSubTest_q <= redist25_expXIsMax_uid39_fpSubTest_q_6_q and redist24_fracXIsZero_uid40_fpSubTest_q_6_q;
 
-    -- fracXIsZero_uid26_fpSubTest(LOGICAL,25)@4 + 1
-    fracXIsZero_uid26_fpSubTest_qi <= "1" WHEN cstZeroWF_uid20_fpSubTest_q = redist32_frac_aSig_uid23_fpSubTest_b_4_q ELSE "0";
+    -- sigBBInf_uid132_fpSubTest(LOGICAL,131)@7
+    sigBBInf_uid132_fpSubTest_q <= redist19_sigB_uid52_fpSubTest_b_6_q and excI_bSig_uid42_fpSubTest_q;
+
+    -- fracXIsZero_uid26_fpSubTest(LOGICAL,25)@3 + 1
+    fracXIsZero_uid26_fpSubTest_qi <= "1" WHEN cstZeroWF_uid20_fpSubTest_q = redist31_frac_aSig_uid23_fpSubTest_b_3_q ELSE "0";
     fracXIsZero_uid26_fpSubTest_delay : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
     PORT MAP ( xin => fracXIsZero_uid26_fpSubTest_qi, xout => fracXIsZero_uid26_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist30_fracXIsZero_uid26_fpSubTest_q_4(DELAY,287)
-    redist30_fracXIsZero_uid26_fpSubTest_q_4 : dspba_delay
+    -- redist29_fracXIsZero_uid26_fpSubTest_q_4(DELAY,286)
+    redist29_fracXIsZero_uid26_fpSubTest_q_4 : dspba_delay
     GENERIC MAP ( width => 1, depth => 3, reset_kind => "ASYNC" )
-    PORT MAP ( xin => fracXIsZero_uid26_fpSubTest_q, xout => redist30_fracXIsZero_uid26_fpSubTest_q_4_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => fracXIsZero_uid26_fpSubTest_q, xout => redist29_fracXIsZero_uid26_fpSubTest_q_4_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- excI_aSig_uid28_fpSubTest(LOGICAL,27)@8
-    excI_aSig_uid28_fpSubTest_q <= expXIsMax_uid25_fpSubTest_q and redist30_fracXIsZero_uid26_fpSubTest_q_4_q;
+    -- excI_aSig_uid28_fpSubTest(LOGICAL,27)@7
+    excI_aSig_uid28_fpSubTest_q <= expXIsMax_uid25_fpSubTest_q and redist29_fracXIsZero_uid26_fpSubTest_q_4_q;
 
-    -- sigAAInf_uid133_fpSubTest(LOGICAL,132)@8
-    sigAAInf_uid133_fpSubTest_q <= redist19_sigA_uid51_fpSubTest_b_8_q and excI_aSig_uid28_fpSubTest_q;
+    -- sigAAInf_uid133_fpSubTest(LOGICAL,132)@7
+    sigAAInf_uid133_fpSubTest_q <= redist21_sigA_uid51_fpSubTest_b_7_q and excI_aSig_uid28_fpSubTest_q;
 
-    -- signRInf_uid134_fpSubTest(LOGICAL,133)@8
+    -- signRInf_uid134_fpSubTest(LOGICAL,133)@7
     signRInf_uid134_fpSubTest_q <= sigAAInf_uid133_fpSubTest_q or sigBBInf_uid132_fpSubTest_q;
 
-    -- signRInfRZRReg_uid138_fpSubTest(LOGICAL,137)@8 + 1
+    -- signRInfRZRReg_uid138_fpSubTest(LOGICAL,137)@7 + 1
     signRInfRZRReg_uid138_fpSubTest_qi <= signRInf_uid134_fpSubTest_q or signRZero_uid137_fpSubTest_q or signRReg_uid131_fpSubTest_q;
     signRInfRZRReg_uid138_fpSubTest_delay : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
     PORT MAP ( xin => signRInfRZRReg_uid138_fpSubTest_qi, xout => signRInfRZRReg_uid138_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist6_signRInfRZRReg_uid138_fpSubTest_q_3(DELAY,263)
-    redist6_signRInfRZRReg_uid138_fpSubTest_q_3 : dspba_delay
-    GENERIC MAP ( width => 1, depth => 2, reset_kind => "ASYNC" )
-    PORT MAP ( xin => signRInfRZRReg_uid138_fpSubTest_q, xout => redist6_signRInfRZRReg_uid138_fpSubTest_q_3_q, ena => en(0), clk => clk, aclr => areset );
+    -- fracXIsNotZero_uid41_fpSubTest(LOGICAL,40)@7
+    fracXIsNotZero_uid41_fpSubTest_q <= not (redist24_fracXIsZero_uid40_fpSubTest_q_6_q);
 
-    -- fracXIsNotZero_uid41_fpSubTest(LOGICAL,40)@2
-    fracXIsNotZero_uid41_fpSubTest_q <= not (fracXIsZero_uid40_fpSubTest_q);
-
-    -- excN_bSig_uid43_fpSubTest(LOGICAL,42)@2 + 1
-    excN_bSig_uid43_fpSubTest_qi <= expXIsMax_uid39_fpSubTest_q and fracXIsNotZero_uid41_fpSubTest_q;
+    -- excN_bSig_uid43_fpSubTest(LOGICAL,42)@7 + 1
+    excN_bSig_uid43_fpSubTest_qi <= redist25_expXIsMax_uid39_fpSubTest_q_6_q and fracXIsNotZero_uid41_fpSubTest_q;
     excN_bSig_uid43_fpSubTest_delay : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
     PORT MAP ( xin => excN_bSig_uid43_fpSubTest_qi, xout => excN_bSig_uid43_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist21_excN_bSig_uid43_fpSubTest_q_9(DELAY,278)
-    redist21_excN_bSig_uid43_fpSubTest_q_9 : dspba_delay
-    GENERIC MAP ( width => 1, depth => 8, reset_kind => "ASYNC" )
-    PORT MAP ( xin => excN_bSig_uid43_fpSubTest_q, xout => redist21_excN_bSig_uid43_fpSubTest_q_9_q, ena => en(0), clk => clk, aclr => areset );
+    -- fracXIsNotZero_uid27_fpSubTest(LOGICAL,26)@7
+    fracXIsNotZero_uid27_fpSubTest_q <= not (redist29_fracXIsZero_uid26_fpSubTest_q_4_q);
 
-    -- fracXIsNotZero_uid27_fpSubTest(LOGICAL,26)@8
-    fracXIsNotZero_uid27_fpSubTest_q <= not (redist30_fracXIsZero_uid26_fpSubTest_q_4_q);
-
-    -- excN_aSig_uid29_fpSubTest(LOGICAL,28)@8 + 1
+    -- excN_aSig_uid29_fpSubTest(LOGICAL,28)@7 + 1
     excN_aSig_uid29_fpSubTest_qi <= expXIsMax_uid25_fpSubTest_q and fracXIsNotZero_uid27_fpSubTest_q;
     excN_aSig_uid29_fpSubTest_delay : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
     PORT MAP ( xin => excN_aSig_uid29_fpSubTest_qi, xout => excN_aSig_uid29_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist28_excN_aSig_uid29_fpSubTest_q_3(DELAY,285)
-    redist28_excN_aSig_uid29_fpSubTest_q_3 : dspba_delay
-    GENERIC MAP ( width => 1, depth => 2, reset_kind => "ASYNC" )
-    PORT MAP ( xin => excN_aSig_uid29_fpSubTest_q, xout => redist28_excN_aSig_uid29_fpSubTest_q_3_q, ena => en(0), clk => clk, aclr => areset );
+    -- excRNaN2_uid125_fpSubTest(LOGICAL,124)@8
+    excRNaN2_uid125_fpSubTest_q <= excN_aSig_uid29_fpSubTest_q or excN_bSig_uid43_fpSubTest_q;
 
-    -- excRNaN2_uid125_fpSubTest(LOGICAL,124)@11
-    excRNaN2_uid125_fpSubTest_q <= redist28_excN_aSig_uid29_fpSubTest_q_3_q or redist21_excN_bSig_uid43_fpSubTest_q_9_q;
+    -- redist17_effSub_uid53_fpSubTest_q_5(DELAY,274)
+    redist17_effSub_uid53_fpSubTest_q_5 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 5, reset_kind => "ASYNC" )
+    PORT MAP ( xin => effSub_uid53_fpSubTest_q, xout => redist17_effSub_uid53_fpSubTest_q_5_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist15_effSub_uid53_fpSubTest_q_8(DELAY,272)
-    redist15_effSub_uid53_fpSubTest_q_8 : dspba_delay
-    GENERIC MAP ( width => 1, depth => 7, reset_kind => "ASYNC" )
-    PORT MAP ( xin => effSub_uid53_fpSubTest_q, xout => redist15_effSub_uid53_fpSubTest_q_8_q, ena => en(0), clk => clk, aclr => areset );
+    -- redist23_excI_bSig_uid42_fpSubTest_q_1(DELAY,280)
+    redist23_excI_bSig_uid42_fpSubTest_q_1 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => excI_bSig_uid42_fpSubTest_q, xout => redist23_excI_bSig_uid42_fpSubTest_q_1_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist23_excI_bSig_uid42_fpSubTest_q_9(DELAY,280)
-    redist23_excI_bSig_uid42_fpSubTest_q_9 : dspba_delay
-    GENERIC MAP ( width => 1, depth => 3, reset_kind => "ASYNC" )
-    PORT MAP ( xin => redist22_excI_bSig_uid42_fpSubTest_q_6_q, xout => redist23_excI_bSig_uid42_fpSubTest_q_9_q, ena => en(0), clk => clk, aclr => areset );
+    -- redist28_excI_aSig_uid28_fpSubTest_q_1(DELAY,285)
+    redist28_excI_aSig_uid28_fpSubTest_q_1 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => excI_aSig_uid28_fpSubTest_q, xout => redist28_excI_aSig_uid28_fpSubTest_q_1_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist29_excI_aSig_uid28_fpSubTest_q_3(DELAY,286)
-    redist29_excI_aSig_uid28_fpSubTest_q_3 : dspba_delay
-    GENERIC MAP ( width => 1, depth => 3, reset_kind => "ASYNC" )
-    PORT MAP ( xin => excI_aSig_uid28_fpSubTest_q, xout => redist29_excI_aSig_uid28_fpSubTest_q_3_q, ena => en(0), clk => clk, aclr => areset );
+    -- excAIBISub_uid126_fpSubTest(LOGICAL,125)@8
+    excAIBISub_uid126_fpSubTest_q <= redist28_excI_aSig_uid28_fpSubTest_q_1_q and redist23_excI_bSig_uid42_fpSubTest_q_1_q and redist17_effSub_uid53_fpSubTest_q_5_q;
 
-    -- excAIBISub_uid126_fpSubTest(LOGICAL,125)@11
-    excAIBISub_uid126_fpSubTest_q <= redist29_excI_aSig_uid28_fpSubTest_q_3_q and redist23_excI_bSig_uid42_fpSubTest_q_9_q and redist15_effSub_uid53_fpSubTest_q_8_q;
-
-    -- excRNaN_uid127_fpSubTest(LOGICAL,126)@11
+    -- excRNaN_uid127_fpSubTest(LOGICAL,126)@8
     excRNaN_uid127_fpSubTest_q <= excAIBISub_uid126_fpSubTest_q or excRNaN2_uid125_fpSubTest_q;
 
-    -- invExcRNaN_uid139_fpSubTest(LOGICAL,138)@11
+    -- invExcRNaN_uid139_fpSubTest(LOGICAL,138)@8
     invExcRNaN_uid139_fpSubTest_q <= not (excRNaN_uid127_fpSubTest_q);
 
-    -- signRPostExc_uid140_fpSubTest(LOGICAL,139)@11
-    signRPostExc_uid140_fpSubTest_q <= invExcRNaN_uid139_fpSubTest_q and redist6_signRInfRZRReg_uid138_fpSubTest_q_3_q;
+    -- signRPostExc_uid140_fpSubTest(LOGICAL,139)@8
+    signRPostExc_uid140_fpSubTest_q <= invExcRNaN_uid139_fpSubTest_q and signRInfRZRReg_uid138_fpSubTest_q;
 
     -- cRBit_uid100_fpSubTest(CONSTANT,99)
     cRBit_uid100_fpSubTest_q <= "01000";
 
-    -- leftShiftStage2Idx1Rng1_uid247_fracPostNormExt_uid89_fpSubTest(BITSELECT,246)@8
+    -- leftShiftStage2Idx1Rng1_uid247_fracPostNormExt_uid89_fpSubTest(BITSELECT,246)@6
     leftShiftStage2Idx1Rng1_uid247_fracPostNormExt_uid89_fpSubTest_in <= leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_q(26 downto 0);
     leftShiftStage2Idx1Rng1_uid247_fracPostNormExt_uid89_fpSubTest_b <= leftShiftStage2Idx1Rng1_uid247_fracPostNormExt_uid89_fpSubTest_in(26 downto 0);
 
-    -- leftShiftStage2Idx1_uid248_fracPostNormExt_uid89_fpSubTest(BITJOIN,247)@8
+    -- leftShiftStage2Idx1_uid248_fracPostNormExt_uid89_fpSubTest(BITJOIN,247)@6
     leftShiftStage2Idx1_uid248_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage2Idx1Rng1_uid247_fracPostNormExt_uid89_fpSubTest_b & GND_q;
 
-    -- leftShiftStage1Idx3Rng6_uid242_fracPostNormExt_uid89_fpSubTest(BITSELECT,241)@8
+    -- leftShiftStage1Idx3Rng6_uid242_fracPostNormExt_uid89_fpSubTest(BITSELECT,241)@6
     leftShiftStage1Idx3Rng6_uid242_fracPostNormExt_uid89_fpSubTest_in <= leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q(21 downto 0);
     leftShiftStage1Idx3Rng6_uid242_fracPostNormExt_uid89_fpSubTest_b <= leftShiftStage1Idx3Rng6_uid242_fracPostNormExt_uid89_fpSubTest_in(21 downto 0);
 
     -- leftShiftStage1Idx3Pad6_uid241_fracPostNormExt_uid89_fpSubTest(CONSTANT,240)
     leftShiftStage1Idx3Pad6_uid241_fracPostNormExt_uid89_fpSubTest_q <= "000000";
 
-    -- leftShiftStage1Idx3_uid243_fracPostNormExt_uid89_fpSubTest(BITJOIN,242)@8
+    -- leftShiftStage1Idx3_uid243_fracPostNormExt_uid89_fpSubTest(BITJOIN,242)@6
     leftShiftStage1Idx3_uid243_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage1Idx3Rng6_uid242_fracPostNormExt_uid89_fpSubTest_b & leftShiftStage1Idx3Pad6_uid241_fracPostNormExt_uid89_fpSubTest_q;
 
-    -- leftShiftStage1Idx2Rng4_uid239_fracPostNormExt_uid89_fpSubTest(BITSELECT,238)@8
+    -- leftShiftStage1Idx2Rng4_uid239_fracPostNormExt_uid89_fpSubTest(BITSELECT,238)@6
     leftShiftStage1Idx2Rng4_uid239_fracPostNormExt_uid89_fpSubTest_in <= leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q(23 downto 0);
     leftShiftStage1Idx2Rng4_uid239_fracPostNormExt_uid89_fpSubTest_b <= leftShiftStage1Idx2Rng4_uid239_fracPostNormExt_uid89_fpSubTest_in(23 downto 0);
 
-    -- leftShiftStage1Idx2_uid240_fracPostNormExt_uid89_fpSubTest(BITJOIN,239)@8
+    -- leftShiftStage1Idx2_uid240_fracPostNormExt_uid89_fpSubTest(BITJOIN,239)@6
     leftShiftStage1Idx2_uid240_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage1Idx2Rng4_uid239_fracPostNormExt_uid89_fpSubTest_b & zs_uid165_lzCountVal_uid86_fpSubTest_q;
 
-    -- leftShiftStage1Idx1Rng2_uid236_fracPostNormExt_uid89_fpSubTest(BITSELECT,235)@8
+    -- leftShiftStage1Idx1Rng2_uid236_fracPostNormExt_uid89_fpSubTest(BITSELECT,235)@6
     leftShiftStage1Idx1Rng2_uid236_fracPostNormExt_uid89_fpSubTest_in <= leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q(25 downto 0);
     leftShiftStage1Idx1Rng2_uid236_fracPostNormExt_uid89_fpSubTest_b <= leftShiftStage1Idx1Rng2_uid236_fracPostNormExt_uid89_fpSubTest_in(25 downto 0);
 
-    -- leftShiftStage1Idx1_uid237_fracPostNormExt_uid89_fpSubTest(BITJOIN,236)@8
+    -- leftShiftStage1Idx1_uid237_fracPostNormExt_uid89_fpSubTest(BITJOIN,236)@6
     leftShiftStage1Idx1_uid237_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage1Idx1Rng2_uid236_fracPostNormExt_uid89_fpSubTest_b & zs_uid171_lzCountVal_uid86_fpSubTest_q;
 
-    -- leftShiftStage0Idx3Rng24_uid231_fracPostNormExt_uid89_fpSubTest(BITSELECT,230)@8
-    leftShiftStage0Idx3Rng24_uid231_fracPostNormExt_uid89_fpSubTest_in <= redist13_fracGRS_uid85_fpSubTest_q_3_q(3 downto 0);
+    -- leftShiftStage0Idx3Rng24_uid231_fracPostNormExt_uid89_fpSubTest(BITSELECT,230)@6
+    leftShiftStage0Idx3Rng24_uid231_fracPostNormExt_uid89_fpSubTest_in <= redist15_fracGRS_uid85_fpSubTest_q_2_q(3 downto 0);
     leftShiftStage0Idx3Rng24_uid231_fracPostNormExt_uid89_fpSubTest_b <= leftShiftStage0Idx3Rng24_uid231_fracPostNormExt_uid89_fpSubTest_in(3 downto 0);
 
     -- leftShiftStage0Idx3Pad24_uid230_fracPostNormExt_uid89_fpSubTest(CONSTANT,229)
     leftShiftStage0Idx3Pad24_uid230_fracPostNormExt_uid89_fpSubTest_q <= "000000000000000000000000";
 
-    -- leftShiftStage0Idx3_uid232_fracPostNormExt_uid89_fpSubTest(BITJOIN,231)@8
+    -- leftShiftStage0Idx3_uid232_fracPostNormExt_uid89_fpSubTest(BITJOIN,231)@6
     leftShiftStage0Idx3_uid232_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage0Idx3Rng24_uid231_fracPostNormExt_uid89_fpSubTest_b & leftShiftStage0Idx3Pad24_uid230_fracPostNormExt_uid89_fpSubTest_q;
 
-    -- redist3_vStage_uid155_lzCountVal_uid86_fpSubTest_b_2(DELAY,260)
-    redist3_vStage_uid155_lzCountVal_uid86_fpSubTest_b_2 : dspba_delay
+    -- redist8_vStage_uid155_lzCountVal_uid86_fpSubTest_b_2(DELAY,265)
+    redist8_vStage_uid155_lzCountVal_uid86_fpSubTest_b_2 : dspba_delay
     GENERIC MAP ( width => 12, depth => 2, reset_kind => "ASYNC" )
-    PORT MAP ( xin => vStage_uid155_lzCountVal_uid86_fpSubTest_b, xout => redist3_vStage_uid155_lzCountVal_uid86_fpSubTest_b_2_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => vStage_uid155_lzCountVal_uid86_fpSubTest_b, xout => redist8_vStage_uid155_lzCountVal_uid86_fpSubTest_b_2_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- leftShiftStage0Idx2_uid229_fracPostNormExt_uid89_fpSubTest(BITJOIN,228)@8
-    leftShiftStage0Idx2_uid229_fracPostNormExt_uid89_fpSubTest_q <= redist3_vStage_uid155_lzCountVal_uid86_fpSubTest_b_2_q & zs_uid151_lzCountVal_uid86_fpSubTest_q;
+    -- leftShiftStage0Idx2_uid229_fracPostNormExt_uid89_fpSubTest(BITJOIN,228)@6
+    leftShiftStage0Idx2_uid229_fracPostNormExt_uid89_fpSubTest_q <= redist8_vStage_uid155_lzCountVal_uid86_fpSubTest_b_2_q & zs_uid151_lzCountVal_uid86_fpSubTest_q;
 
-    -- leftShiftStage0Idx1Rng8_uid225_fracPostNormExt_uid89_fpSubTest(BITSELECT,224)@8
-    leftShiftStage0Idx1Rng8_uid225_fracPostNormExt_uid89_fpSubTest_in <= redist13_fracGRS_uid85_fpSubTest_q_3_q(19 downto 0);
+    -- leftShiftStage0Idx1Rng8_uid225_fracPostNormExt_uid89_fpSubTest(BITSELECT,224)@6
+    leftShiftStage0Idx1Rng8_uid225_fracPostNormExt_uid89_fpSubTest_in <= redist15_fracGRS_uid85_fpSubTest_q_2_q(19 downto 0);
     leftShiftStage0Idx1Rng8_uid225_fracPostNormExt_uid89_fpSubTest_b <= leftShiftStage0Idx1Rng8_uid225_fracPostNormExt_uid89_fpSubTest_in(19 downto 0);
 
-    -- leftShiftStage0Idx1_uid226_fracPostNormExt_uid89_fpSubTest(BITJOIN,225)@8
+    -- leftShiftStage0Idx1_uid226_fracPostNormExt_uid89_fpSubTest(BITJOIN,225)@6
     leftShiftStage0Idx1_uid226_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage0Idx1Rng8_uid225_fracPostNormExt_uid89_fpSubTest_b & cstAllZWE_uid21_fpSubTest_q;
 
-    -- redist13_fracGRS_uid85_fpSubTest_q_3(DELAY,270)
-    redist13_fracGRS_uid85_fpSubTest_q_3 : dspba_delay
+    -- redist15_fracGRS_uid85_fpSubTest_q_2(DELAY,272)
+    redist15_fracGRS_uid85_fpSubTest_q_2 : dspba_delay
     GENERIC MAP ( width => 28, depth => 2, reset_kind => "ASYNC" )
-    PORT MAP ( xin => redist12_fracGRS_uid85_fpSubTest_q_1_q, xout => redist13_fracGRS_uid85_fpSubTest_q_3_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => fracGRS_uid85_fpSubTest_q, xout => redist15_fracGRS_uid85_fpSubTest_q_2_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest(MUX,233)@8
+    -- leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest(MUX,233)@6
     leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_s <= leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_b;
-    leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_combproc: PROCESS (leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_s, en, redist13_fracGRS_uid85_fpSubTest_q_3_q, leftShiftStage0Idx1_uid226_fracPostNormExt_uid89_fpSubTest_q, leftShiftStage0Idx2_uid229_fracPostNormExt_uid89_fpSubTest_q, leftShiftStage0Idx3_uid232_fracPostNormExt_uid89_fpSubTest_q)
+    leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_combproc: PROCESS (leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_s, en, redist15_fracGRS_uid85_fpSubTest_q_2_q, leftShiftStage0Idx1_uid226_fracPostNormExt_uid89_fpSubTest_q, leftShiftStage0Idx2_uid229_fracPostNormExt_uid89_fpSubTest_q, leftShiftStage0Idx3_uid232_fracPostNormExt_uid89_fpSubTest_q)
     BEGIN
         CASE (leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_s) IS
-            WHEN "00" => leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q <= redist13_fracGRS_uid85_fpSubTest_q_3_q;
+            WHEN "00" => leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q <= redist15_fracGRS_uid85_fpSubTest_q_2_q;
             WHEN "01" => leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage0Idx1_uid226_fracPostNormExt_uid89_fpSubTest_q;
             WHEN "10" => leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage0Idx2_uid229_fracPostNormExt_uid89_fpSubTest_q;
             WHEN "11" => leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q <= leftShiftStage0Idx3_uid232_fracPostNormExt_uid89_fpSubTest_q;
@@ -1172,7 +1139,7 @@ begin
         END CASE;
     END PROCESS;
 
-    -- leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest(MUX,244)@8
+    -- leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest(MUX,244)@6
     leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_s <= leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_c;
     leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_combproc: PROCESS (leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_s, en, leftShiftStage0_uid234_fracPostNormExt_uid89_fpSubTest_q, leftShiftStage1Idx1_uid237_fracPostNormExt_uid89_fpSubTest_q, leftShiftStage1Idx2_uid240_fracPostNormExt_uid89_fpSubTest_q, leftShiftStage1Idx3_uid243_fracPostNormExt_uid89_fpSubTest_q)
     BEGIN
@@ -1185,12 +1152,12 @@ begin
         END CASE;
     END PROCESS;
 
-    -- leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select(BITSELECT,256)@8
-    leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_b <= redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1_q(4 downto 3);
-    leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_c <= redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1_q(2 downto 1);
-    leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_d <= redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1_q(0 downto 0);
+    -- leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select(BITSELECT,256)@6
+    leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_b <= r_uid180_lzCountVal_uid86_fpSubTest_q(4 downto 3);
+    leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_c <= r_uid180_lzCountVal_uid86_fpSubTest_q(2 downto 1);
+    leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_d <= r_uid180_lzCountVal_uid86_fpSubTest_q(0 downto 0);
 
-    -- leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest(MUX,249)@8
+    -- leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest(MUX,249)@6
     leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_s <= leftShiftStageSel4Dto3_uid233_fracPostNormExt_uid89_fpSubTest_merged_bit_select_d;
     leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_combproc: PROCESS (leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_s, en, leftShiftStage1_uid245_fracPostNormExt_uid89_fpSubTest_q, leftShiftStage2Idx1_uid248_fracPostNormExt_uid89_fpSubTest_q)
     BEGIN
@@ -1201,59 +1168,50 @@ begin
         END CASE;
     END PROCESS;
 
-    -- LSB_uid98_fpSubTest(BITSELECT,97)@8
+    -- LSB_uid98_fpSubTest(BITSELECT,97)@6
     LSB_uid98_fpSubTest_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q(4 downto 0));
     LSB_uid98_fpSubTest_b <= STD_LOGIC_VECTOR(LSB_uid98_fpSubTest_in(4 downto 4));
 
-    -- Guard_uid97_fpSubTest(BITSELECT,96)@8
+    -- Guard_uid97_fpSubTest(BITSELECT,96)@6
     Guard_uid97_fpSubTest_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q(3 downto 0));
     Guard_uid97_fpSubTest_b <= STD_LOGIC_VECTOR(Guard_uid97_fpSubTest_in(3 downto 3));
 
-    -- Round_uid96_fpSubTest(BITSELECT,95)@8
+    -- Round_uid96_fpSubTest(BITSELECT,95)@6
     Round_uid96_fpSubTest_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q(2 downto 0));
     Round_uid96_fpSubTest_b <= STD_LOGIC_VECTOR(Round_uid96_fpSubTest_in(2 downto 2));
 
-    -- Sticky1_uid95_fpSubTest(BITSELECT,94)@8
+    -- Sticky1_uid95_fpSubTest(BITSELECT,94)@6
     Sticky1_uid95_fpSubTest_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q(1 downto 0));
     Sticky1_uid95_fpSubTest_b <= STD_LOGIC_VECTOR(Sticky1_uid95_fpSubTest_in(1 downto 1));
 
-    -- Sticky0_uid94_fpSubTest(BITSELECT,93)@8
+    -- Sticky0_uid94_fpSubTest(BITSELECT,93)@6
     Sticky0_uid94_fpSubTest_in <= STD_LOGIC_VECTOR(leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q(0 downto 0));
     Sticky0_uid94_fpSubTest_b <= STD_LOGIC_VECTOR(Sticky0_uid94_fpSubTest_in(0 downto 0));
 
-    -- rndBitCond_uid99_fpSubTest(BITJOIN,98)@8
+    -- rndBitCond_uid99_fpSubTest(BITJOIN,98)@6
     rndBitCond_uid99_fpSubTest_q <= LSB_uid98_fpSubTest_b & Guard_uid97_fpSubTest_b & Round_uid96_fpSubTest_b & Sticky1_uid95_fpSubTest_b & Sticky0_uid94_fpSubTest_b;
 
-    -- rBi_uid101_fpSubTest(LOGICAL,100)@8 + 1
+    -- rBi_uid101_fpSubTest(LOGICAL,100)@6 + 1
     rBi_uid101_fpSubTest_qi <= "1" WHEN rndBitCond_uid99_fpSubTest_q = cRBit_uid100_fpSubTest_q ELSE "0";
     rBi_uid101_fpSubTest_delay : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
     PORT MAP ( xin => rBi_uid101_fpSubTest_qi, xout => rBi_uid101_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- roundBit_uid102_fpSubTest(LOGICAL,101)@9
+    -- roundBit_uid102_fpSubTest(LOGICAL,101)@7
     roundBit_uid102_fpSubTest_q <= not (rBi_uid101_fpSubTest_q);
 
     -- oneCST_uid91_fpSubTest(CONSTANT,90)
     oneCST_uid91_fpSubTest_q <= "00000001";
 
-    -- expInc_uid92_fpSubTest(ADD,91)@7 + 1
-    expInc_uid92_fpSubTest_a <= STD_LOGIC_VECTOR("0" & redist34_exp_aSig_uid22_fpSubTest_b_7_outputreg_q);
+    -- expInc_uid92_fpSubTest(ADD,91)@6
+    expInc_uid92_fpSubTest_a <= STD_LOGIC_VECTOR("0" & redist33_exp_aSig_uid22_fpSubTest_b_6_q);
     expInc_uid92_fpSubTest_b <= STD_LOGIC_VECTOR("0" & oneCST_uid91_fpSubTest_q);
-    expInc_uid92_fpSubTest_clkproc: PROCESS (clk, areset)
-    BEGIN
-        IF (areset = '1') THEN
-            expInc_uid92_fpSubTest_o <= (others => '0');
-        ELSIF (clk'EVENT AND clk = '1') THEN
-            IF (en = "1") THEN
-                expInc_uid92_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(expInc_uid92_fpSubTest_a) + UNSIGNED(expInc_uid92_fpSubTest_b));
-            END IF;
-        END IF;
-    END PROCESS;
+    expInc_uid92_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(expInc_uid92_fpSubTest_a) + UNSIGNED(expInc_uid92_fpSubTest_b));
     expInc_uid92_fpSubTest_q <= expInc_uid92_fpSubTest_o(8 downto 0);
 
-    -- expPostNorm_uid93_fpSubTest(SUB,92)@8 + 1
+    -- expPostNorm_uid93_fpSubTest(SUB,92)@6 + 1
     expPostNorm_uid93_fpSubTest_a <= STD_LOGIC_VECTOR("0" & expInc_uid92_fpSubTest_q);
-    expPostNorm_uid93_fpSubTest_b <= STD_LOGIC_VECTOR("00000" & redist1_r_uid180_lzCountVal_uid86_fpSubTest_q_1_q);
+    expPostNorm_uid93_fpSubTest_b <= STD_LOGIC_VECTOR("00000" & r_uid180_lzCountVal_uid86_fpSubTest_q);
     expPostNorm_uid93_fpSubTest_clkproc: PROCESS (clk, areset)
     BEGIN
         IF (areset = '1') THEN
@@ -1266,86 +1224,75 @@ begin
     END PROCESS;
     expPostNorm_uid93_fpSubTest_q <= expPostNorm_uid93_fpSubTest_o(9 downto 0);
 
-    -- fracPostNorm_uid90_fpSubTest(BITSELECT,89)@8
+    -- fracPostNorm_uid90_fpSubTest(BITSELECT,89)@6
     fracPostNorm_uid90_fpSubTest_b <= leftShiftStage2_uid250_fracPostNormExt_uid89_fpSubTest_q(27 downto 1);
 
-    -- fracPostNormRndRange_uid103_fpSubTest(BITSELECT,102)@8
+    -- fracPostNormRndRange_uid103_fpSubTest(BITSELECT,102)@6
     fracPostNormRndRange_uid103_fpSubTest_in <= fracPostNorm_uid90_fpSubTest_b(25 downto 0);
     fracPostNormRndRange_uid103_fpSubTest_b <= fracPostNormRndRange_uid103_fpSubTest_in(25 downto 2);
 
-    -- redist10_fracPostNormRndRange_uid103_fpSubTest_b_1(DELAY,267)
-    redist10_fracPostNormRndRange_uid103_fpSubTest_b_1 : dspba_delay
+    -- redist13_fracPostNormRndRange_uid103_fpSubTest_b_1(DELAY,270)
+    redist13_fracPostNormRndRange_uid103_fpSubTest_b_1 : dspba_delay
     GENERIC MAP ( width => 24, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => fracPostNormRndRange_uid103_fpSubTest_b, xout => redist10_fracPostNormRndRange_uid103_fpSubTest_b_1_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => fracPostNormRndRange_uid103_fpSubTest_b, xout => redist13_fracPostNormRndRange_uid103_fpSubTest_b_1_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- expFracR_uid104_fpSubTest(BITJOIN,103)@9
-    expFracR_uid104_fpSubTest_q <= expPostNorm_uid93_fpSubTest_q & redist10_fracPostNormRndRange_uid103_fpSubTest_b_1_q;
+    -- expFracR_uid104_fpSubTest(BITJOIN,103)@7
+    expFracR_uid104_fpSubTest_q <= expPostNorm_uid93_fpSubTest_q & redist13_fracPostNormRndRange_uid103_fpSubTest_b_1_q;
 
-    -- rndExpFrac_uid105_fpSubTest(ADD,104)@9 + 1
+    -- rndExpFrac_uid105_fpSubTest(ADD,104)@7
     rndExpFrac_uid105_fpSubTest_a <= STD_LOGIC_VECTOR("0" & expFracR_uid104_fpSubTest_q);
     rndExpFrac_uid105_fpSubTest_b <= STD_LOGIC_VECTOR("0000000000000000000000000000000000" & roundBit_uid102_fpSubTest_q);
-    rndExpFrac_uid105_fpSubTest_clkproc: PROCESS (clk, areset)
-    BEGIN
-        IF (areset = '1') THEN
-            rndExpFrac_uid105_fpSubTest_o <= (others => '0');
-        ELSIF (clk'EVENT AND clk = '1') THEN
-            IF (en = "1") THEN
-                rndExpFrac_uid105_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(rndExpFrac_uid105_fpSubTest_a) + UNSIGNED(rndExpFrac_uid105_fpSubTest_b));
-            END IF;
-        END IF;
-    END PROCESS;
+    rndExpFrac_uid105_fpSubTest_o <= STD_LOGIC_VECTOR(UNSIGNED(rndExpFrac_uid105_fpSubTest_a) + UNSIGNED(rndExpFrac_uid105_fpSubTest_b));
     rndExpFrac_uid105_fpSubTest_q <= rndExpFrac_uid105_fpSubTest_o(34 downto 0);
 
-    -- expRPreExc_uid118_fpSubTest(BITSELECT,117)@10
+    -- expRPreExc_uid118_fpSubTest(BITSELECT,117)@7
     expRPreExc_uid118_fpSubTest_in <= rndExpFrac_uid105_fpSubTest_q(31 downto 0);
     expRPreExc_uid118_fpSubTest_b <= expRPreExc_uid118_fpSubTest_in(31 downto 24);
 
-    -- redist8_expRPreExc_uid118_fpSubTest_b_1(DELAY,265)
-    redist8_expRPreExc_uid118_fpSubTest_b_1 : dspba_delay
+    -- redist10_expRPreExc_uid118_fpSubTest_b_1(DELAY,267)
+    redist10_expRPreExc_uid118_fpSubTest_b_1 : dspba_delay
     GENERIC MAP ( width => 8, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => expRPreExc_uid118_fpSubTest_b, xout => redist8_expRPreExc_uid118_fpSubTest_b_1_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => expRPreExc_uid118_fpSubTest_b, xout => redist10_expRPreExc_uid118_fpSubTest_b_1_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- rndExpFracOvfBits_uid110_fpSubTest(BITSELECT,109)@10
+    -- rndExpFracOvfBits_uid110_fpSubTest(BITSELECT,109)@7
     rndExpFracOvfBits_uid110_fpSubTest_in <= rndExpFrac_uid105_fpSubTest_q(33 downto 0);
     rndExpFracOvfBits_uid110_fpSubTest_b <= rndExpFracOvfBits_uid110_fpSubTest_in(33 downto 32);
 
-    -- rOvfExtraBits_uid111_fpSubTest(LOGICAL,110)@10
-    rOvfExtraBits_uid111_fpSubTest_q <= "1" WHEN rndExpFracOvfBits_uid110_fpSubTest_b = zocst_uid77_fpSubTest_q ELSE "0";
+    -- rOvfExtraBits_uid111_fpSubTest(LOGICAL,110)@7 + 1
+    rOvfExtraBits_uid111_fpSubTest_qi <= "1" WHEN rndExpFracOvfBits_uid110_fpSubTest_b = zocst_uid77_fpSubTest_q ELSE "0";
+    rOvfExtraBits_uid111_fpSubTest_delay : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => rOvfExtraBits_uid111_fpSubTest_qi, xout => rOvfExtraBits_uid111_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
     -- wEP2AllOwE_uid106_fpSubTest(CONSTANT,105)
     wEP2AllOwE_uid106_fpSubTest_q <= "0011111111";
 
-    -- rndExp_uid107_fpSubTest(BITSELECT,106)@10
+    -- rndExp_uid107_fpSubTest(BITSELECT,106)@7
     rndExp_uid107_fpSubTest_in <= rndExpFrac_uid105_fpSubTest_q(33 downto 0);
     rndExp_uid107_fpSubTest_b <= rndExp_uid107_fpSubTest_in(33 downto 24);
 
-    -- rOvfEQMax_uid108_fpSubTest(LOGICAL,107)@10
-    rOvfEQMax_uid108_fpSubTest_q <= "1" WHEN rndExp_uid107_fpSubTest_b = wEP2AllOwE_uid106_fpSubTest_q ELSE "0";
+    -- rOvfEQMax_uid108_fpSubTest(LOGICAL,107)@7 + 1
+    rOvfEQMax_uid108_fpSubTest_qi <= "1" WHEN rndExp_uid107_fpSubTest_b = wEP2AllOwE_uid106_fpSubTest_q ELSE "0";
+    rOvfEQMax_uid108_fpSubTest_delay : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => rOvfEQMax_uid108_fpSubTest_qi, xout => rOvfEQMax_uid108_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- rOvf_uid112_fpSubTest(LOGICAL,111)@10
+    -- rOvf_uid112_fpSubTest(LOGICAL,111)@8
     rOvf_uid112_fpSubTest_q <= rOvfEQMax_uid108_fpSubTest_q or rOvfExtraBits_uid111_fpSubTest_q;
 
-    -- regInputs_uid119_fpSubTest(LOGICAL,118)@8 + 1
-    regInputs_uid119_fpSubTest_qi <= excR_aSig_uid32_fpSubTest_q and redist20_excR_bSig_uid46_fpSubTest_q_6_q;
+    -- regInputs_uid119_fpSubTest(LOGICAL,118)@7 + 1
+    regInputs_uid119_fpSubTest_qi <= excR_aSig_uid32_fpSubTest_q and excR_bSig_uid46_fpSubTest_q;
     regInputs_uid119_fpSubTest_delay : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
     PORT MAP ( xin => regInputs_uid119_fpSubTest_qi, xout => regInputs_uid119_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist7_regInputs_uid119_fpSubTest_q_2(DELAY,264)
-    redist7_regInputs_uid119_fpSubTest_q_2 : dspba_delay
-    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => regInputs_uid119_fpSubTest_q, xout => redist7_regInputs_uid119_fpSubTest_q_2_q, ena => en(0), clk => clk, aclr => areset );
+    -- rInfOvf_uid122_fpSubTest(LOGICAL,121)@8
+    rInfOvf_uid122_fpSubTest_q <= regInputs_uid119_fpSubTest_q and rOvf_uid112_fpSubTest_q;
 
-    -- rInfOvf_uid122_fpSubTest(LOGICAL,121)@10 + 1
-    rInfOvf_uid122_fpSubTest_qi <= redist7_regInputs_uid119_fpSubTest_q_2_q and rOvf_uid112_fpSubTest_q;
-    rInfOvf_uid122_fpSubTest_delay : dspba_delay
-    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => rInfOvf_uid122_fpSubTest_qi, xout => rInfOvf_uid122_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
+    -- excRInfVInC_uid123_fpSubTest(BITJOIN,122)@8
+    excRInfVInC_uid123_fpSubTest_q <= rInfOvf_uid122_fpSubTest_q & excN_bSig_uid43_fpSubTest_q & excN_aSig_uid29_fpSubTest_q & redist23_excI_bSig_uid42_fpSubTest_q_1_q & redist28_excI_aSig_uid28_fpSubTest_q_1_q & redist17_effSub_uid53_fpSubTest_q_5_q;
 
-    -- excRInfVInC_uid123_fpSubTest(BITJOIN,122)@11
-    excRInfVInC_uid123_fpSubTest_q <= rInfOvf_uid122_fpSubTest_q & redist21_excN_bSig_uid43_fpSubTest_q_9_q & redist28_excN_aSig_uid29_fpSubTest_q_3_q & redist23_excI_bSig_uid42_fpSubTest_q_9_q & redist29_excI_aSig_uid28_fpSubTest_q_3_q & redist15_effSub_uid53_fpSubTest_q_8_q;
-
-    -- excRInf_uid124_fpSubTest(LOOKUP,123)@11
+    -- excRInf_uid124_fpSubTest(LOOKUP,123)@8
     excRInf_uid124_fpSubTest_combproc: PROCESS (excRInfVInC_uid123_fpSubTest_q)
     BEGIN
         -- Begin reserved scope level
@@ -1420,88 +1367,92 @@ begin
         -- End reserved scope level
     END PROCESS;
 
-    -- redist11_aMinusA_uid88_fpSubTest_q_2(DELAY,268)
-    redist11_aMinusA_uid88_fpSubTest_q_2 : dspba_delay
-    GENERIC MAP ( width => 1, depth => 2, reset_kind => "ASYNC" )
-    PORT MAP ( xin => aMinusA_uid88_fpSubTest_q, xout => redist11_aMinusA_uid88_fpSubTest_q_2_q, ena => en(0), clk => clk, aclr => areset );
+    -- redist14_aMinusA_uid88_fpSubTest_q_2(DELAY,271)
+    redist14_aMinusA_uid88_fpSubTest_q_2 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => aMinusA_uid88_fpSubTest_q, xout => redist14_aMinusA_uid88_fpSubTest_q_2_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- rUdfExtraBit_uid115_fpSubTest(BITSELECT,114)@10
+    -- rUdfExtraBit_uid115_fpSubTest(BITSELECT,114)@7
     rUdfExtraBit_uid115_fpSubTest_in <= STD_LOGIC_VECTOR(rndExpFrac_uid105_fpSubTest_q(33 downto 0));
     rUdfExtraBit_uid115_fpSubTest_b <= STD_LOGIC_VECTOR(rUdfExtraBit_uid115_fpSubTest_in(33 downto 33));
+
+    -- redist12_rUdfExtraBit_uid115_fpSubTest_b_1(DELAY,269)
+    redist12_rUdfExtraBit_uid115_fpSubTest_b_1 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => rUdfExtraBit_uid115_fpSubTest_b, xout => redist12_rUdfExtraBit_uid115_fpSubTest_b_1_q, ena => en(0), clk => clk, aclr => areset );
 
     -- wEP2AllZ_uid113_fpSubTest(CONSTANT,112)
     wEP2AllZ_uid113_fpSubTest_q <= "0000000000";
 
-    -- rUdfEQMin_uid114_fpSubTest(LOGICAL,113)@10
-    rUdfEQMin_uid114_fpSubTest_q <= "1" WHEN rndExp_uid107_fpSubTest_b = wEP2AllZ_uid113_fpSubTest_q ELSE "0";
+    -- rUdfEQMin_uid114_fpSubTest(LOGICAL,113)@7 + 1
+    rUdfEQMin_uid114_fpSubTest_qi <= "1" WHEN rndExp_uid107_fpSubTest_b = wEP2AllZ_uid113_fpSubTest_q ELSE "0";
+    rUdfEQMin_uid114_fpSubTest_delay : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => rUdfEQMin_uid114_fpSubTest_qi, xout => rUdfEQMin_uid114_fpSubTest_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- rUdf_uid116_fpSubTest(LOGICAL,115)@10
-    rUdf_uid116_fpSubTest_q <= rUdfEQMin_uid114_fpSubTest_q or rUdfExtraBit_uid115_fpSubTest_b;
+    -- rUdf_uid116_fpSubTest(LOGICAL,115)@8
+    rUdf_uid116_fpSubTest_q <= rUdfEQMin_uid114_fpSubTest_q or redist12_rUdfExtraBit_uid115_fpSubTest_b_1_q;
 
-    -- redist25_excZ_bSig_uid18_uid38_fpSubTest_q_9(DELAY,282)
-    redist25_excZ_bSig_uid18_uid38_fpSubTest_q_9 : dspba_delay
-    GENERIC MAP ( width => 1, depth => 2, reset_kind => "ASYNC" )
-    PORT MAP ( xin => redist24_excZ_bSig_uid18_uid38_fpSubTest_q_7_q, xout => redist25_excZ_bSig_uid18_uid38_fpSubTest_q_9_q, ena => en(0), clk => clk, aclr => areset );
+    -- redist27_excZ_bSig_uid18_uid38_fpSubTest_q_7(DELAY,284)
+    redist27_excZ_bSig_uid18_uid38_fpSubTest_q_7 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => redist26_excZ_bSig_uid18_uid38_fpSubTest_q_6_q, xout => redist27_excZ_bSig_uid18_uid38_fpSubTest_q_7_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist31_excZ_aSig_uid17_uid24_fpSubTest_q_3(DELAY,288)
-    redist31_excZ_aSig_uid17_uid24_fpSubTest_q_3 : dspba_delay
-    GENERIC MAP ( width => 1, depth => 2, reset_kind => "ASYNC" )
-    PORT MAP ( xin => excZ_aSig_uid17_uid24_fpSubTest_q, xout => redist31_excZ_aSig_uid17_uid24_fpSubTest_q_3_q, ena => en(0), clk => clk, aclr => areset );
+    -- redist30_excZ_aSig_uid17_uid24_fpSubTest_q_2(DELAY,287)
+    redist30_excZ_aSig_uid17_uid24_fpSubTest_q_2 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => excZ_aSig_uid17_uid24_fpSubTest_q, xout => redist30_excZ_aSig_uid17_uid24_fpSubTest_q_2_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- excRZeroVInC_uid120_fpSubTest(BITJOIN,119)@10
-    excRZeroVInC_uid120_fpSubTest_q <= redist11_aMinusA_uid88_fpSubTest_q_2_q & rUdf_uid116_fpSubTest_q & redist7_regInputs_uid119_fpSubTest_q_2_q & redist25_excZ_bSig_uid18_uid38_fpSubTest_q_9_q & redist31_excZ_aSig_uid17_uid24_fpSubTest_q_3_q;
+    -- excRZeroVInC_uid120_fpSubTest(BITJOIN,119)@8
+    excRZeroVInC_uid120_fpSubTest_q <= redist14_aMinusA_uid88_fpSubTest_q_2_q & rUdf_uid116_fpSubTest_q & regInputs_uid119_fpSubTest_q & redist27_excZ_bSig_uid18_uid38_fpSubTest_q_7_q & redist30_excZ_aSig_uid17_uid24_fpSubTest_q_2_q;
 
-    -- excRZero_uid121_fpSubTest(LOOKUP,120)@10 + 1
-    excRZero_uid121_fpSubTest_clkproc: PROCESS (clk, areset)
+    -- excRZero_uid121_fpSubTest(LOOKUP,120)@8
+    excRZero_uid121_fpSubTest_combproc: PROCESS (excRZeroVInC_uid120_fpSubTest_q)
     BEGIN
-        IF (areset = '1') THEN
-            excRZero_uid121_fpSubTest_q <= "0";
-        ELSIF (clk'EVENT AND clk = '1') THEN
-            IF (en = "1") THEN
-                CASE (excRZeroVInC_uid120_fpSubTest_q) IS
-                    WHEN "00000" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "00001" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "00010" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "00011" => excRZero_uid121_fpSubTest_q <= "1";
-                    WHEN "00100" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "00101" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "00110" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "00111" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "01000" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "01001" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "01010" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "01011" => excRZero_uid121_fpSubTest_q <= "1";
-                    WHEN "01100" => excRZero_uid121_fpSubTest_q <= "1";
-                    WHEN "01101" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "01110" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "01111" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "10000" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "10001" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "10010" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "10011" => excRZero_uid121_fpSubTest_q <= "1";
-                    WHEN "10100" => excRZero_uid121_fpSubTest_q <= "1";
-                    WHEN "10101" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "10110" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "10111" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "11000" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "11001" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "11010" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "11011" => excRZero_uid121_fpSubTest_q <= "1";
-                    WHEN "11100" => excRZero_uid121_fpSubTest_q <= "1";
-                    WHEN "11101" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "11110" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN "11111" => excRZero_uid121_fpSubTest_q <= "0";
-                    WHEN OTHERS => -- unreachable
-                                   excRZero_uid121_fpSubTest_q <= (others => '-');
-                END CASE;
-            END IF;
-        END IF;
+        -- Begin reserved scope level
+        CASE (excRZeroVInC_uid120_fpSubTest_q) IS
+            WHEN "00000" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "00001" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "00010" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "00011" => excRZero_uid121_fpSubTest_q <= "1";
+            WHEN "00100" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "00101" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "00110" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "00111" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "01000" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "01001" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "01010" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "01011" => excRZero_uid121_fpSubTest_q <= "1";
+            WHEN "01100" => excRZero_uid121_fpSubTest_q <= "1";
+            WHEN "01101" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "01110" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "01111" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "10000" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "10001" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "10010" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "10011" => excRZero_uid121_fpSubTest_q <= "1";
+            WHEN "10100" => excRZero_uid121_fpSubTest_q <= "1";
+            WHEN "10101" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "10110" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "10111" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "11000" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "11001" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "11010" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "11011" => excRZero_uid121_fpSubTest_q <= "1";
+            WHEN "11100" => excRZero_uid121_fpSubTest_q <= "1";
+            WHEN "11101" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "11110" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN "11111" => excRZero_uid121_fpSubTest_q <= "0";
+            WHEN OTHERS => -- unreachable
+                           excRZero_uid121_fpSubTest_q <= (others => '-');
+        END CASE;
+        -- End reserved scope level
     END PROCESS;
 
-    -- concExc_uid128_fpSubTest(BITJOIN,127)@11
+    -- concExc_uid128_fpSubTest(BITJOIN,127)@8
     concExc_uid128_fpSubTest_q <= excRNaN_uid127_fpSubTest_q & excRInf_uid124_fpSubTest_q & excRZero_uid121_fpSubTest_q;
 
-    -- excREnc_uid129_fpSubTest(LOOKUP,128)@11
+    -- excREnc_uid129_fpSubTest(LOOKUP,128)@8
     excREnc_uid129_fpSubTest_combproc: PROCESS (concExc_uid128_fpSubTest_q)
     BEGIN
         -- Begin reserved scope level
@@ -1520,13 +1471,13 @@ begin
         -- End reserved scope level
     END PROCESS;
 
-    -- expRPostExc_uid148_fpSubTest(MUX,147)@11
+    -- expRPostExc_uid148_fpSubTest(MUX,147)@8
     expRPostExc_uid148_fpSubTest_s <= excREnc_uid129_fpSubTest_q;
-    expRPostExc_uid148_fpSubTest_combproc: PROCESS (expRPostExc_uid148_fpSubTest_s, en, cstAllZWE_uid21_fpSubTest_q, redist8_expRPreExc_uid118_fpSubTest_b_1_q, cstAllOWE_uid19_fpSubTest_q)
+    expRPostExc_uid148_fpSubTest_combproc: PROCESS (expRPostExc_uid148_fpSubTest_s, en, cstAllZWE_uid21_fpSubTest_q, redist10_expRPreExc_uid118_fpSubTest_b_1_q, cstAllOWE_uid19_fpSubTest_q)
     BEGIN
         CASE (expRPostExc_uid148_fpSubTest_s) IS
             WHEN "00" => expRPostExc_uid148_fpSubTest_q <= cstAllZWE_uid21_fpSubTest_q;
-            WHEN "01" => expRPostExc_uid148_fpSubTest_q <= redist8_expRPreExc_uid118_fpSubTest_b_1_q;
+            WHEN "01" => expRPostExc_uid148_fpSubTest_q <= redist10_expRPreExc_uid118_fpSubTest_b_1_q;
             WHEN "10" => expRPostExc_uid148_fpSubTest_q <= cstAllOWE_uid19_fpSubTest_q;
             WHEN "11" => expRPostExc_uid148_fpSubTest_q <= cstAllOWE_uid19_fpSubTest_q;
             WHEN OTHERS => expRPostExc_uid148_fpSubTest_q <= (others => '0');
@@ -1536,32 +1487,32 @@ begin
     -- oneFracRPostExc2_uid141_fpSubTest(CONSTANT,140)
     oneFracRPostExc2_uid141_fpSubTest_q <= "00000000000000000000001";
 
-    -- fracRPreExc_uid117_fpSubTest(BITSELECT,116)@10
+    -- fracRPreExc_uid117_fpSubTest(BITSELECT,116)@7
     fracRPreExc_uid117_fpSubTest_in <= rndExpFrac_uid105_fpSubTest_q(23 downto 0);
     fracRPreExc_uid117_fpSubTest_b <= fracRPreExc_uid117_fpSubTest_in(23 downto 1);
 
-    -- redist9_fracRPreExc_uid117_fpSubTest_b_1(DELAY,266)
-    redist9_fracRPreExc_uid117_fpSubTest_b_1 : dspba_delay
+    -- redist11_fracRPreExc_uid117_fpSubTest_b_1(DELAY,268)
+    redist11_fracRPreExc_uid117_fpSubTest_b_1 : dspba_delay
     GENERIC MAP ( width => 23, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => fracRPreExc_uid117_fpSubTest_b, xout => redist9_fracRPreExc_uid117_fpSubTest_b_1_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => fracRPreExc_uid117_fpSubTest_b, xout => redist11_fracRPreExc_uid117_fpSubTest_b_1_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- fracRPostExc_uid144_fpSubTest(MUX,143)@11
+    -- fracRPostExc_uid144_fpSubTest(MUX,143)@8
     fracRPostExc_uid144_fpSubTest_s <= excREnc_uid129_fpSubTest_q;
-    fracRPostExc_uid144_fpSubTest_combproc: PROCESS (fracRPostExc_uid144_fpSubTest_s, en, cstZeroWF_uid20_fpSubTest_q, redist9_fracRPreExc_uid117_fpSubTest_b_1_q, oneFracRPostExc2_uid141_fpSubTest_q)
+    fracRPostExc_uid144_fpSubTest_combproc: PROCESS (fracRPostExc_uid144_fpSubTest_s, en, cstZeroWF_uid20_fpSubTest_q, redist11_fracRPreExc_uid117_fpSubTest_b_1_q, oneFracRPostExc2_uid141_fpSubTest_q)
     BEGIN
         CASE (fracRPostExc_uid144_fpSubTest_s) IS
             WHEN "00" => fracRPostExc_uid144_fpSubTest_q <= cstZeroWF_uid20_fpSubTest_q;
-            WHEN "01" => fracRPostExc_uid144_fpSubTest_q <= redist9_fracRPreExc_uid117_fpSubTest_b_1_q;
+            WHEN "01" => fracRPostExc_uid144_fpSubTest_q <= redist11_fracRPreExc_uid117_fpSubTest_b_1_q;
             WHEN "10" => fracRPostExc_uid144_fpSubTest_q <= cstZeroWF_uid20_fpSubTest_q;
             WHEN "11" => fracRPostExc_uid144_fpSubTest_q <= oneFracRPostExc2_uid141_fpSubTest_q;
             WHEN OTHERS => fracRPostExc_uid144_fpSubTest_q <= (others => '0');
         END CASE;
     END PROCESS;
 
-    -- R_uid149_fpSubTest(BITJOIN,148)@11
+    -- R_uid149_fpSubTest(BITJOIN,148)@8
     R_uid149_fpSubTest_q <= signRPostExc_uid140_fpSubTest_q & expRPostExc_uid148_fpSubTest_q & fracRPostExc_uid144_fpSubTest_q;
 
-    -- xOut(GPOUT,4)@11
+    -- xOut(GPOUT,4)@8
     q <= R_uid149_fpSubTest_q;
 
 END normal;

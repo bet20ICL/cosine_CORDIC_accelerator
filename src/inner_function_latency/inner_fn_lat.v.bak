@@ -7,7 +7,6 @@ module inner_function(
 	result,
     done
     );
-
     parameter [31:0] flt_128 = 32'h43000000; 		
     parameter [31:0] flt_recip_128 = 32'h3c000000;		// 1.0/128.0
 	parameter [31:0] flt_recip_2 = 32'h3f000000;        // 0.5
@@ -24,11 +23,10 @@ module inner_function(
 	output	[31:0]  result;
 
 
-
     //--------------------------------------------------------
     // control
     //--------------------------------------------------------
-    parameter total_clk_cycles = fp_mult_latency + cordic_latency;
+    parameter total_clk_cycles = fp_mult_latency + fp_add_latency + cordic_latency;
     reg startShifted [Total_clk_cycles];
 
     integer i;
@@ -42,10 +40,11 @@ module inner_function(
     assign done = (startShifted[total_clk_cycles])? 1'b1 : 1'b0;
 
 
-
     //--------------------------------------------------------
-    // first branch 
+    // first branch || 0.5*x
     //--------------------------------------------------------
+    // 0.5*x
+    // combinitorial
     wire [31:0] input_half;
     fp_half fp_half_unit(
         .dataa(dataa),
@@ -54,38 +53,37 @@ module inner_function(
 
 
     //--------------------------------------------------------
-    // second branch
+    // second branch || cos((x-128)/128)
     //--------------------------------------------------------
-    // This might be now on the critical path
-
-    reg [20:0] subtract_128;
-    reg [20:0] divide_128;
-    wire signed [21:0] fixed_point_input_9_13;
-
-    floating_to_fixed_9_13 floating_to_fixed_9_13_unit(
+    wire [31:0] subtract_128;
+    wire [31:0] divide_128;
+    // x-128
+    // combinitorial
+    fp_sub_ppl fp_addsub_custom_unit(
+        .aclr(aclr),
+        .add_sub(0),
+        .clk_en(clk_en),
+        .clock(clock),
         .dataa(dataa),
-        .fixed_point_input(fixed_point_input_9_13)
+        .datab(flt_128),
+        .result(subtract_128)
     );
 
-    always@(*) begin 
-        if(fixed_point_input_9_13[21]==0) subtract_128 = fixed_point_input_9_13 - 21'sd128; 
-        else   subtract_128 = 21'sd128 - fixed_point_input_9_13; 
-        divide_128 = subtract_128 >> 7;
-    end
+    // (x - 128)/128
+    // combinitorial
+    fp_div_128 fp_div_128_unit(
+        .dataa(subtract_128),
+        .result(divide_128)
+    );
 
-
-
-
+    // cos((x-128)/128)
+    // 17 cycles
     reg startCordic;
     wire cordic_done;
     wire [31:0] cordic_result;
 
-    // start immediately cuz (x-128)/128 are now combinitorial
-    assign startCordic = start;
-
-    // this cordic inner_function/fixed_point_subtract_divide/cordic_unroll1_var_fixed_point_input.v
-    // directly takes a 21 bit fixed point input
-    cordic cordic_fixed_point_input_unit(
+    assign startCordic = startShifted[7];
+    cordic cordic_unit(
         .aclr(aclr),
         .clk_en(clk_en),
         .clock(clock),
@@ -96,10 +94,12 @@ module inner_function(
     );
 
     //--------------------------------------------------------
-    // third branch
+    // third branch   || x^2
     //--------------------------------------------------------
+    // x^2 
+    // 5 cycles
     wire [31:0] square; 
-    fp_mult_custom fp_mult_custom_unit(
+    fp_mult_ppl fp_mult_custom_unit(
         .aclr(aclr),
         .clk_en(clk_en),
         .clock(clock),
@@ -110,10 +110,12 @@ module inner_function(
 
 
     //--------------------------------------------------------
-    // merge 
+    // merge            || 0.5*x + x^2 * cos((x-128)/128)
     //--------------------------------------------------------
+    // x^2 *  cos((x-128)/128)
+    // fp_mult_latency + cordic_latency = 17 + 5;
     wire [31:0] mult_square_cordic;
-    fp_mult_custom fp_mult_custom_unit2(
+    fp_mult_ppl fp_mult_custom_unit2(
         .aclr(aclr),
         .clk_en(clk_en),
         .clock(clock),
@@ -122,7 +124,9 @@ module inner_function(
         .result(mult_square_cordic)
     );
 
-    fp_addsub_custom fp_addsub_custom_unit2(
+    // 0.5*x + x^2 * cos((x-128)/128)
+    // fp_mult_latency + cordic_latency + fp_add_latency= 17 + 5 + 11;
+    fp_add_ppl fp_addsub_custom_unit2(
         .aclr(aclr),
         .add_sub(0),
         .clk_en(clk_en),
