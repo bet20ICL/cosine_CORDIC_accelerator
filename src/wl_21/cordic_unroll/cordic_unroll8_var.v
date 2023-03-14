@@ -1,4 +1,4 @@
-module cordic(
+module cordic_unroll8_var(
     aclr,
 	clk_en,
 	clock,
@@ -160,45 +160,10 @@ module cordic(
     wire [20:0] fixed_point_result;
     wire [31:0] result_fp;
 
-    assign fixed_point_result = (rotate_index==16 && !aclr) ? x : 21'b0;   // TODO: assign fixed_point_result = (rotate_index==15 && !aclr) ? x+offsetX : 21'b0;
+    assign fixed_point_result = x;   // TODO: assign fixed_point_result = (rotate_index==15 && !aclr) ? x+offsetX : 21'b0;
     
     fixed_to_float fixed_to_float_unit( fixed_point_result, result_fp );
     
     assign result = result_fp;
 
-endmodule
-
-
-module rotation_offset(
-    x,
-    y,
-    z,
-    offsetX,
-    offsetY,
-    offsetZ,
-    rotate_index,
-    rotateAngle,
-);
-   
-    input signed [20:0] x;
-    input signed [20:0] y;
-    input signed [20:0] z;
-    input unsigned [4:0] rotate_index;
-    input signed [20:0] rotateAngle;
-
-    output reg [20:0] offsetX;
-    output reg [20:0] offsetY;
-    output reg [20:0] offsetZ;
-    always@(*) begin 
-        if(z[20]==0) begin
-            offsetX = -(y >>> rotate_index);
-            offsetY = x >>> rotate_index;
-            offsetZ = -rotateAngle;
-        end 
-        else begin
-            offsetX = y >>> rotate_index;
-            offsetY = -(x >>> rotate_index);
-            offsetZ = rotateAngle;
-        end
-    end
 endmodule

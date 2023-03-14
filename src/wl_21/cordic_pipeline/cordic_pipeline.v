@@ -42,7 +42,7 @@ module cordic_pipeline(
     cordic_operation #(.rotate_index(4'd14), .rotate_angle(21'h000040)) rotation14 ( x14, y14, z14, x14_out, y14_out, z14_out); 
     cordic_operation #(.rotate_index(4'd15), .rotate_angle(21'h000020)) rotation15 ( x15, y15, z15, x15_out, y15_out, z15_out); 
 
-	 reg [31:0] fixed_point_result;
+	reg [31:0] fixed_point_result;
 	 
     always@(posedge clock) begin
         if (aclr) begin
@@ -88,7 +88,7 @@ module cordic_pipeline(
 
     //-----------------------------------convert to floating point--------------------------------
     
-	 fixed_to_float fixed_to_float_unit( fixed_point_result, result );
+	fixed_to_float fixed_to_float_unit( fixed_point_result, result );
 
 endmodule
 

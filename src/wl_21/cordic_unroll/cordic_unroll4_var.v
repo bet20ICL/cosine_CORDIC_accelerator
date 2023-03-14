@@ -1,20 +1,20 @@
-module cordic(
+module cordic_unroll4_var(
     aclr,
-	clk_en,
-	clock,
+	 clk_en,
+	 clock,
     start,
-	dataa,
-	result,
+	 dataa,
+	 result,
     done
     );
 
 	input	        aclr;
 	input	        clk_en;
 	input	        clock;
-    input           start;
+   input           start;
 	input	[31:0]  dataa; // this is the floating point input
 	output	[31:0]  result;
-    output          done;
+   output          done;
 
     //-------------------------------------------------------------
     // FP to fixed-point
@@ -146,39 +146,4 @@ module cordic(
     
     assign result = result_fp;
 
-endmodule
-
-
-module rotation_offset(
-    x,
-    y,
-    z,
-    offsetX,
-    offsetY,
-    offsetZ,
-    rotate_index,
-    rotateAngle,
-);
-   
-    input signed [20:0] x;
-    input signed [20:0] y;
-    input signed [20:0] z;
-    input unsigned [4:0] rotate_index;
-    input signed [20:0] rotateAngle;
-
-    output reg [20:0] offsetX;
-    output reg [20:0] offsetY;
-    output reg [20:0] offsetZ;
-    always@(*) begin 
-        if(z[20]==0) begin
-            offsetX = -(y >>> rotate_index);
-            offsetY = x >>> rotate_index;
-            offsetZ = -rotateAngle;
-        end 
-        else begin
-            offsetX = y >>> rotate_index;
-            offsetY = -(x >>> rotate_index);
-            offsetZ = rotateAngle;
-        end
-    end
 endmodule
