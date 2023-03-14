@@ -158,8 +158,11 @@ module addsub_offset(
     end
 endmodule
 
-module tb();
 
+
+module tb();
+    parameter A = 4;
+    parameter B = $clog2(A);
     // reg signed [15:0] x;
     // reg [15:0] y;
     // reg signed [15:0] z;
@@ -174,58 +177,60 @@ module tb();
     //     .q(q)
     // );
 
-    // initial begin
-    //     x = (32'h8002);
-    //     y = 32'h2;
-    //     s = 1'b0;
-    //     #1
-    //     z = (x>>>1);
-    //     // z = ((x>>>1) ^ {32{s}});
-    //     #2;
-    //     $display("x: %h, y: %h, q: %h, z: %h", x, y, q, z);
-
-    //     s = 1'b1;
-    //     #1
-    //     z = (x>>>1);
-    //     // z = ((x>>>1) ^ {32{s}}) + s;
-    //     #2;
-    //     $display("x: %h, y: %h, q: %h, z: %h", x, y, q, z);
-    // end
-
-
-    reg [20:0] x;
-    reg [20:0] y;
-    reg [20:0] z;
-    reg [4:0] rotate_index;
-
-    wire [20:0] rot_x;
-    // wire [20:0] y_out;
-    // wire [20:0] z_out;
-
-    reg [20:0] t;
-    reg [20:0] f;
-    reg [20:0] g;
-    wire topf;
-    assign topf = f[20];
-
-    addsub_offset unit(.x(x), .y(y), .z(z), .rotate_index(rotate_index), .rot_x(rot_x));
     initial begin
-        x = 21'h0;
-        y = 21'h100000;
-        z = 21'h000000;
-        rotate_index = 5'h2;
 
-        #1;
-        $display("x: %h, y: %h, z: %h, rotate_index: %h, rot_x: %h, top: %b", x, y, z, rotate_index, rot_x, z[20]);
-        t = 21'h1ffff;
-        f = 21'h000000;
-        #1;
-        g = t + (~f[20]);
-        $display("t:%h, f:%h, g:%h", t, ~f[20], g);
+        $display("A: %d, B: %d", A, B);
+        // x = (32'h8002);
+        // y = 32'h2;
+        // s = 1'b0;
+        // #1
+        // z = (x>>>1);
+        // // z = ((x>>>1) ^ {32{s}});
+        // #2;
+        // $display("x: %h, y: %h, q: %h, z: %h", x, y, q, z);
 
-
-
+        // s = 1'b1;
+        // #1
+        // z = (x>>>1);
+        // // z = ((x>>>1) ^ {32{s}}) + s;
+        // #2;
+        // $display("x: %h, y: %h, q: %h, z: %h", x, y, q, z);
     end
+
+
+    // reg [20:0] x;
+    // reg [20:0] y;
+    // reg [20:0] z;
+    // reg [4:0] rotate_index;
+
+    // wire [20:0] rot_x;
+    // // wire [20:0] y_out;
+    // // wire [20:0] z_out;
+
+    // reg [20:0] t;
+    // reg [20:0] f;
+    // reg [20:0] g;
+    // wire topf;
+    // assign topf = f[20];
+
+    // addsub_offset unit(.x(x), .y(y), .z(z), .rotate_index(rotate_index), .rot_x(rot_x));
+    // initial begin
+    //     x = 21'h0;
+    //     y = 21'h100000;
+    //     z = 21'h000000;
+    //     rotate_index = 5'h2;
+
+    //     #1;
+    //     $display("x: %h, y: %h, z: %h, rotate_index: %h, rot_x: %h, top: %b", x, y, z, rotate_index, rot_x, z[20]);
+    //     t = 21'h1ffff;
+    //     f = 21'h000000;
+    //     #1;
+    //     g = t + (~f[20]);
+    //     $display("t:%h, f:%h, g:%h", t, ~f[20], g);
+
+
+
+    // end
     // $display("angle: %d", 16'h011001001000011111101);
     
 

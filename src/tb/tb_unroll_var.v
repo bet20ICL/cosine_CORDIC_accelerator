@@ -13,7 +13,7 @@ module tb_unroll_var ();
 	wire done;
 
 	//Instantiate the DUT
-	cordic_unroll2_var unit(
+	cordic_unroll8_var unit(
 			.aclr(reset),
 			.clk_en(clk_en),
 			.clock(clk),
@@ -47,7 +47,7 @@ module tb_unroll_var ();
 	begin
 		$dumpfile("cordic_tb_waves_v.vcd");
     	$dumpvars(0,tb_unroll_var);
-		$display($time, " << Starting Simulation >> ");
+		$display($time, " << Stfgarting Simulation >> ");
 		
 		// intialise/set input
 		clk = 1'b0;

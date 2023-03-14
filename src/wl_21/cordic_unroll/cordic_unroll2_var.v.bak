@@ -8,7 +8,7 @@ module cordic_unroll4_var(
     done
     );
 
-    parameter UNROLLS = 4;
+    parameter UNROLLS = 2;
 
 	input	        aclr;
 	input	        clk_en;
@@ -57,52 +57,62 @@ module cordic_unroll4_var(
     
     genvar i;
     generate
-        for (i = 0; i < UNROLLS; i = i + 1) begin: unroll
+        for (i = 0; i < UNROLLS; i = i + 1) begin
             cordic_rot cr_0( .x(x[i]), .y(y[i]), .z(z[i]), .rot_x(x[i+1]), .rot_y(y[i+1]), .rot_z(z[i+1]), .rotate_index(rotate_index[i]), .rotate_angle(rotate_angle[i]));
         end
     endgenerate
 
-
     // LUT
-    always @(*) begin
-        case(rotate_index_reg[3:2])             
-            2'd0    : 
+    always@(*) begin
+        case(rotate_index_reg[3:1])             
+            3'd0    : 
             begin 
                 rotate_angle[0] = 21'h0c90fe;
                 rotate_angle[1] = 21'h076b1a;
-                rotate_angle[2] = 21'h03eb6f;
-                rotate_angle[3] = 21'h01fd5c;
             end
-            2'd1    : 
+            3'd1    : 
+            begin 
+                rotate_angle[0] = 21'h03eb6f;
+                rotate_angle[1] = 21'h01fd5c;
+            end
+            3'd2    : 
             begin 
                 rotate_angle[0] = 21'h00ffab;
                 rotate_angle[1] = 21'h007ff5;
-                rotate_angle[2] = 21'h003fff;
-                rotate_angle[3] = 21'h002000;
             end
-            2'd2    : 
-            begin 
+            3'd3    : 
+            begin
+                rotate_angle[0] = 21'h003fff;
+                rotate_angle[1] = 21'h002000;
+            end
+            3'd4    : 
+            begin
                 rotate_angle[0] = 21'h001000;
                 rotate_angle[1] = 21'h000800;
-                rotate_angle[2] = 21'h000400;
-                rotate_angle[3] = 21'h000200;
             end
-            2'd3    : 
+            3'd5   : 
+            begin
+                rotate_angle[0] = 21'h000400;
+                rotate_angle[1] = 21'h000200;
+            end
+            3'd6   : 
             begin
                 rotate_angle[0] = 21'h000100;
                 rotate_angle[1] = 21'h000080;
-                rotate_angle[2] = 21'h000040;
-                rotate_angle[3] = 21'h000020;
+            end
+            3'd7   : 
+            begin
+                rotate_angle[0] = 21'h000040;
+                rotate_angle[1] = 21'h000020;
             end
             default : 
             begin
                 rotate_angle[0] = 21'h0;
                 rotate_angle[1] = 21'h0;
-                rotate_angle[2] = 21'h0;
-                rotate_angle[3] = 21'h0;
             end		
         endcase
     end
+    
 
     always @(posedge clock) begin
         if (aclr) begin

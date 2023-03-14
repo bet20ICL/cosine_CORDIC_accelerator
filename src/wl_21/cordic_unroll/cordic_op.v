@@ -45,7 +45,7 @@ module cordic_rot(
     input signed [20:0] x;
     input signed [20:0] y;
     input signed [20:0] z;
-    input unsigned [4:0] rotate_index;
+    input unsigned [3:0] rotate_index;
     input signed [20:0] rotate_angle;
 
     output reg [20:0] rot_x;

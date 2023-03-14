@@ -57,7 +57,7 @@ module cordic_unroll4_var(
     
     genvar i;
     generate
-        for (i = 0; i < UNROLLS; i = i + 1) begin: unroll
+        for (i = 0; i < UNROLLS; i = i + 1) begin
             cordic_rot cr_0( .x(x[i]), .y(y[i]), .z(z[i]), .rot_x(x[i+1]), .rot_y(y[i+1]), .rot_z(z[i+1]), .rotate_index(rotate_index[i]), .rotate_angle(rotate_angle[i]));
         end
     endgenerate

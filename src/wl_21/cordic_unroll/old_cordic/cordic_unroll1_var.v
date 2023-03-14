@@ -31,9 +31,9 @@ module cordic_unroll1_var(
     reg signed [20:0] y;
     reg signed [20:0] z;
 
-    wire signed [20:0] rot_x;
-    wire signed [20:0] rot_y;
-    wire signed [20:0] rot_z;
+    reg signed [20:0] offsetX;
+    reg signed [20:0] offsetY;
+    reg signed [20:0] offsetZ;
 
     reg [4:0] rotate_index;
     reg signed [20:0] rotateAngle; // in radian
@@ -61,9 +61,20 @@ module cordic_unroll1_var(
         endcase
     end
 
-    assign done = (rotate_index == 5'd16);
+    always @(*) begin
+        if(z[20]==0) begin
+            offsetX = -(y >>> rotate_index);
+            offsetY = x >>> rotate_index;
+            offsetZ = -rotateAngle;
+        end 
+        else begin
+            offsetX = y >>> rotate_index;
+            offsetY = -(x >>> rotate_index);
+            offsetZ = rotateAngle;
+        end
+    end
 
-    cordic_rot cr_0( .x(x), .y(y), .z(z), .rot_x(rot_x), .rot_y(rot_y), .rot_z(rot_z), .rotate_index(rotate_index), .rotate_angle(rotateAngle));
+    assign done = (rotate_index == 5'd16);
 
     always @(posedge clock) begin
         if (aclr) begin
@@ -81,9 +92,9 @@ module cordic_unroll1_var(
             end
             else begin
                 rotate_index <= rotate_index + 1'b1;
-                x <= rot_x;
-                y <= rot_y;
-                z <= rot_z;
+                x <= x + offsetX;
+                y <= y + offsetY;
+                z <= z + offsetZ;
             end
         end
     end

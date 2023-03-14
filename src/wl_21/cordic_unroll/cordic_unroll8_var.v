@@ -8,6 +8,8 @@ module cordic_unroll8_var(
     done
     );
 
+    parameter UNROLLS = 8;
+
 	input	        aclr;
 	input	        clk_en;
 	input	        clock;
@@ -27,140 +29,114 @@ module cordic_unroll8_var(
     //-------------------------------------------------------------
     // CORDIC
     //-------------------------------------------------------------
-    reg signed [20:0] x, x1, x2, x3, x4, x5, x6, x7;
-    reg signed [20:0] y, y1, y2, y3, y4, y5, y6, y7;
-    reg signed [20:0] z, z1, z2, z3, z4, z5, z6, z7;
-   
-    wire  [20:0] offsetX, offsetX1, offsetX2, offsetX3, offsetX4, offsetX5, offsetX6, offsetX7;
-    wire  [20:0] offsetY, offsetY1, offsetY2, offsetY3, offsetY4, offsetY5, offsetY6, offsetY7;
-    wire  [20:0] offsetZ, offsetZ1, offsetZ2, offsetZ3, offsetZ4, offsetZ5, offsetZ6, offsetZ7;
-   
-    reg [4:0] rotate_index, rotate_index1, rotate_index2, rotate_index3, rotate_index4, rotate_index5, rotate_index6, rotate_index7;
-    reg signed [20:0] rotateAngle, rotateAngle1, rotateAngle2, rotateAngle3, rotateAngle4, rotateAngle5, rotateAngle6, rotateAngle7;
+    reg signed [20:0] x_reg;
+    reg signed [20:0] y_reg;
+    reg signed [20:0] z_reg;
+
+    wire signed [20:0] x [UNROLLS:0];
+    wire signed [20:0] y [UNROLLS:0];
+    wire signed [20:0] z [UNROLLS:0];
+
+    assign x[0] = x_reg;
+    assign y[0] = y_reg;
+    assign z[0] = z_reg;
+
+    reg [4:0] rotate_index_reg;
+    reg [3:0] rotate_index [UNROLLS-1:0];
+    reg signed [20:0] rotate_angle [UNROLLS-1:0]; // in radian
     
-    // LUT
-    always@(*) begin
-        case(rotate_index)             
-            4'd0    : 
+    integer j;
+    always @(*) begin
+        rotate_index[0] = rotate_index_reg[3:0];
+        for (j = 0; j < UNROLLS-1; j = j + 1) begin
+            rotate_index[j + 1] = rotate_index[j] + 1'b1;
+        end
+    end
+
+    assign done = (rotate_index_reg == 5'd16);
+    
+    genvar i;
+    generate
+        for (i = 0; i < UNROLLS; i = i + 1) begin: unroll
+            cordic_rot cr_0( .x(x[i]), .y(y[i]), .z(z[i]), .rot_x(x[i+1]), .rot_y(y[i+1]), .rot_z(z[i+1]), .rotate_index(rotate_index[i]), .rotate_angle(rotate_angle[i]));
+        end
+    endgenerate
+
+    always @(*) begin
+        case(rotate_index_reg[3])             
+            1'd0    : 
             begin 
-                rotateAngle  = 21'b011001001000011111101; 
-                rotateAngle1 = 21'b001110110101100011001;
-                rotateAngle2 = 21'b000111110101101101110;
-                rotateAngle3 = 21'b000011111110101011011;
-            
-                rotateAngle4 = 21'b000001111111110101010;
-                rotateAngle5 = 21'b000000111111111110101;
-                rotateAngle6 = 21'b000000011111111111110;
-                rotateAngle7 = 21'b000000001111111111111;
+                rotate_angle[0] = 21'h0c90fe;
+                rotate_angle[1] = 21'h076b1a;
+                rotate_angle[2] = 21'h03eb6f;
+                rotate_angle[3] = 21'h01fd5c;
+                rotate_angle[4] = 21'h00ffab;
+                rotate_angle[5] = 21'h007ff5;
+                rotate_angle[6] = 21'h003fff;
+                rotate_angle[7] = 21'h002000;
             end
-            4'd8    : 
-            begin
-                rotateAngle = 21'b000000000111111111111;
-                rotateAngle1 = 21'b000000000011111111111;
-                rotateAngle2 = 21'b000000000001111111111;
-                rotateAngle3 = 21'b000000000000111111111;
-          
-                rotateAngle4 = 21'b000000000000011111111;
-                rotateAngle5 = 21'b000000000000001111111;
-                rotateAngle6 = 21'b000000000000000111111;
-                rotateAngle7 = 21'b000000000000000011111;
+            1'd1    : 
+            begin 
+                rotate_angle[0] = 21'h001000;
+                rotate_angle[1] = 21'h000800;
+                rotate_angle[2] = 21'h000400;
+                rotate_angle[3] = 21'h000200;
+                rotate_angle[4] = 21'h000100;
+                rotate_angle[5] = 21'h000080;
+                rotate_angle[6] = 21'h000040;
+                rotate_angle[7] = 21'h000020;
             end
             default : 
             begin
-                rotateAngle  = 0; 
-                rotateAngle1 = 0; 
-                rotateAngle2 = 0;
-                rotateAngle3 = 0;
-
-                rotateAngle4 = 0;
-                rotateAngle5 = 0; 
-                rotateAngle6 = 0; 
-                rotateAngle7 = 0;
-                
+                rotate_angle[0] = 21'h0;
+                rotate_angle[1] = 21'h0;
+                rotate_angle[2] = 21'h0;
+                rotate_angle[3] = 21'h0;
+                rotate_angle[4] = 21'h0;
+                rotate_angle[5] = 21'h0;
+                rotate_angle[6] = 21'h0;
+                rotate_angle[7] = 21'h0;
             end		
         endcase
     end
-    
-    rotation_offset rotation_offset_unit_0( .x(x), .y(y), .z(z), .offsetX(offsetX), .offsetY(offsetY), .offsetZ(offsetZ), .rotate_index(rotate_index), .rotateAngle(rotateAngle)); 
-    rotation_offset rotation_offset_unit_1( .x(x1), .y(y1), .z(z1), .offsetX(offsetX1), .offsetY(offsetY1), .offsetZ(offsetZ1), .rotate_index(rotate_index1), .rotateAngle(rotateAngle1));
-    rotation_offset rotation_offset_unit_2( .x(x2), .y(y2), .z(z2), .offsetX(offsetX2), .offsetY(offsetY2), .offsetZ(offsetZ2), .rotate_index(rotate_index2), .rotateAngle(rotateAngle2));
-    rotation_offset rotation_offset_unit_3( .x(x3), .y(y3), .z(z3), .offsetX(offsetX3), .offsetY(offsetY3), .offsetZ(offsetZ3), .rotate_index(rotate_index3), .rotateAngle(rotateAngle3));
-    rotation_offset rotation_offset_unit_4( .x(x4), .y(y4), .z(z4), .offsetX(offsetX4), .offsetY(offsetY4), .offsetZ(offsetZ4), .rotate_index(rotate_index4), .rotateAngle(rotateAngle4));
-    rotation_offset rotation_offset_unit_5( .x(x5), .y(y5), .z(z5), .offsetX(offsetX5), .offsetY(offsetY5), .offsetZ(offsetZ5), .rotate_index(rotate_index5), .rotateAngle(rotateAngle5));
-    rotation_offset rotation_offset_unit_6( .x(x6), .y(y6), .z(z6), .offsetX(offsetX6), .offsetY(offsetY6), .offsetZ(offsetZ6), .rotate_index(rotate_index6), .rotateAngle(rotateAngle6));
-    rotation_offset rotation_offset_unit_7( .x(x7), .y(y7), .z(z7), .offsetX(offsetX7), .offsetY(offsetY7), .offsetZ(offsetZ7), .rotate_index(rotate_index7), .rotateAngle(rotateAngle7));
-
-    always@(*) begin
-        rotate_index1 = rotate_index + 1'b1;
-        x1 = x + offsetX;
-        y1 = y + offsetY;
-        z1 = z + offsetZ;
-        rotate_index2 = rotate_index1 + 1'b1;
-        x2 = x1 + offsetX1;
-        y2 = y1 + offsetY1;
-        z2 = z1 + offsetZ1;
-        rotate_index3 = rotate_index2 + 1'b1;
-        x3 = x2 + offsetX2;
-        y3 = y2 + offsetY2;
-        z3 = z2 + offsetZ2;
-        rotate_index4 = rotate_index3 + 1'b1;
-        x4 = x3 + offsetX3;
-        y4 = y3 + offsetY3;
-        z4 = z3 + offsetZ3;
-        rotate_index5 = rotate_index4 + 1'b1;
-        x5 = x4 + offsetX4;
-        y5 = y4 + offsetY4;
-        z5 = z4 + offsetZ4;
-        rotate_index6 = rotate_index5 + 1'b1;
-        x6 = x5 + offsetX5;
-        y6 = y5 + offsetY5;
-        z6 = z5 + offsetZ5;
-        rotate_index7 = rotate_index6 + 1'b1;
-        x7 = x6 + offsetX6;
-        y7 = y6 + offsetY6;
-        z7 = z6 + offsetZ6;
-    end
-
-    assign done = (rotate_index == 5'd16);
 
     always @(posedge clock) begin
         if (aclr) begin
-            rotate_index <= 4'b0;
-            x <= 21'b010011011011101001110;
-            y <= 21'b0;
-            z <= 21'b0;
+            rotate_index_reg <= 3'b0;
+            x_reg <= 21'b010011011011101001110;
+            y_reg <= 21'b0;
+            z_reg <= 21'b0;
         end 
         else if (clk_en) begin
             if (start) begin
-                rotate_index <= 4'b0;
-                x <= 21'b010011011011101001110;
-                y <= 21'b0;
-                z <= fixed_point_input;
+                rotate_index_reg <= 3'b0;
+                x_reg <= 21'b010011011011101001110;
+                y_reg <= 21'b0;
+                z_reg <= fixed_point_input;
             end
             else begin
-                rotate_index <= rotate_index + 5'd8;
-                x <= x7 + offsetX7;
-                y <= y7 + offsetY7;
-                z <= z7 + offsetZ7;
+                rotate_index_reg <= rotate_index[UNROLLS-1] + 1'b1;
+                x_reg <= x[UNROLLS];
+                y_reg <= y[UNROLLS];
+                z_reg <= z[UNROLLS];
             end
         end
     end
     // always@(*) begin
-    //     $display("rotate_index ", rotate_index);
-    //     $display("x: ", x);
-    //     $display("y: ", y);
-    //     $display("z: ", z);
+    //     $display("rotate_index ", rotate_index_reg);
+    //     $display("x: ", x_reg);
+    //     $display("y: ", y_reg);
+    //     $display("z: ", z_reg);
     // end
 
     //-------------------------------------------------------------
     // Fixed point to floating point
     //-------------------------------------------------------------
-    // TODO: We can get rip off the last cycle if wanted.
 
     wire [20:0] fixed_point_result;
     wire [31:0] result_fp;
 
-    assign fixed_point_result = x;   // TODO: assign fixed_point_result = (rotate_index==15 && !aclr) ? x+offsetX : 21'b0;
+    assign fixed_point_result = x_reg;
     
     fixed_to_float fixed_to_float_unit( fixed_point_result, result_fp );
     

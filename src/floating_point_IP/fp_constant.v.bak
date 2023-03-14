@@ -1,6 +1,6 @@
 module fp_half(
    dataa,
-   result
+   result,
 );
     input [31:0] dataa;
     output wire [31:0] result;
@@ -14,9 +14,12 @@ module fp_half(
 endmodule
 
 
+
+
+
 module fp_div_128(
    dataa,
-   result
+   result,
 );
     input [31:0] dataa;
     output wire [31:0] result;
