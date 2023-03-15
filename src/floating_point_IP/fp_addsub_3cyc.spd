@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simPackage>
+ <file path="fp_addsub_3cyc_sim/fp_addsub_3cyc.vo" type="VERILOG" />
+ <topLevel name="fp_addsub_3cyc" />
+ <deviceFamily name="cyclonev" />
+</simPackage>

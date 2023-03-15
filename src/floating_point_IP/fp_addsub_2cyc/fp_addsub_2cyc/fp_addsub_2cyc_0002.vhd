@@ -16,7 +16,7 @@
 -- ---------------------------------------------------------------------------
 
 -- VHDL created from fp_addsub_2cyc_0002
--- VHDL created on Tue Mar 14 01:31:07 2023
+-- VHDL created on Tue Mar 14 20:50:13 2023
 
 
 library IEEE;
@@ -78,9 +78,7 @@ architecture normal of fp_addsub_2cyc_0002 is
     signal exp_aSig_uid30_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (7 downto 0);
     signal frac_aSig_uid31_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (22 downto 0);
     signal frac_aSig_uid31_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (22 downto 0);
-    signal excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal expXIsMax_uid33_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal expXIsMax_uid33_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);
     signal fracXIsZero_uid34_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal fracXIsZero_uid34_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);
@@ -95,15 +93,16 @@ architecture normal of fp_addsub_2cyc_0002 is
     signal frac_bSig_uid45_fpAddSubTest_ieeeAdd_in : STD_LOGIC_VECTOR (22 downto 0);
     signal frac_bSig_uid45_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (22 downto 0);
     signal excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal expXIsMax_uid47_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal expXIsMax_uid47_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal fracXIsZero_uid48_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);
     signal fracXIsNotZero_uid49_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal excI_bSig_uid50_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal excI_bSig_uid50_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal excN_bSig_uid51_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal excN_bSig_uid51_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);
     signal invExpXIsMax_uid52_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);
     signal InvExpXIsZero_uid53_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal excR_bSig_uid54_fpAddSubTest_ieeeAdd_qi : STD_LOGIC_VECTOR (0 downto 0);
     signal excR_bSig_uid54_fpAddSubTest_ieeeAdd_q : STD_LOGIC_VECTOR (0 downto 0);
     signal sigA_uid59_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (0 downto 0);
     signal sigB_uid60_fpAddSubTest_ieeeAdd_b : STD_LOGIC_VECTOR (0 downto 0);
@@ -328,12 +327,12 @@ architecture normal of fp_addsub_2cyc_0002 is
     signal redist4_effSub_uid61_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);
     signal redist5_sigB_uid60_fpAddSubTest_ieeeAdd_b_2_q : STD_LOGIC_VECTOR (0 downto 0);
     signal redist6_sigA_uid59_fpAddSubTest_ieeeAdd_b_2_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist7_InvExpXIsZero_uid53_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist8_fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);
-    signal redist9_expXIsMax_uid47_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist7_excR_bSig_uid54_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist8_excN_bSig_uid51_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);
+    signal redist9_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);
     signal redist10_excZ_bSig_uid26_uid46_fpAddSubTest_ieeeAdd_q_2_q : STD_LOGIC_VECTOR (0 downto 0);
     signal redist11_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_1_q : STD_LOGIC_VECTOR (22 downto 0);
-    signal redist12_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_1_q : STD_LOGIC_VECTOR (7 downto 0);
+    signal redist12_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_2_q : STD_LOGIC_VECTOR (7 downto 0);
 
 begin
 
@@ -799,47 +798,36 @@ begin
     -- cstAllOWE_uid27_fpAddSubTest_ieeeAdd(CONSTANT,26)
     cstAllOWE_uid27_fpAddSubTest_ieeeAdd_q <= "11111111";
 
-    -- expXIsMax_uid47_fpAddSubTest_ieeeAdd(LOGICAL,46)@0 + 1
-    expXIsMax_uid47_fpAddSubTest_ieeeAdd_qi <= "1" WHEN exp_bSig_uid44_fpAddSubTest_ieeeAdd_b = cstAllOWE_uid27_fpAddSubTest_ieeeAdd_q ELSE "0";
-    expXIsMax_uid47_fpAddSubTest_ieeeAdd_delay : dspba_delay
+    -- expXIsMax_uid47_fpAddSubTest_ieeeAdd(LOGICAL,46)@0
+    expXIsMax_uid47_fpAddSubTest_ieeeAdd_q <= "1" WHEN exp_bSig_uid44_fpAddSubTest_ieeeAdd_b = cstAllOWE_uid27_fpAddSubTest_ieeeAdd_q ELSE "0";
+
+    -- invExpXIsMax_uid52_fpAddSubTest_ieeeAdd(LOGICAL,51)@0
+    invExpXIsMax_uid52_fpAddSubTest_ieeeAdd_q <= not (expXIsMax_uid47_fpAddSubTest_ieeeAdd_q);
+
+    -- excR_bSig_uid54_fpAddSubTest_ieeeAdd(LOGICAL,53)@0 + 1
+    excR_bSig_uid54_fpAddSubTest_ieeeAdd_qi <= InvExpXIsZero_uid53_fpAddSubTest_ieeeAdd_q and invExpXIsMax_uid52_fpAddSubTest_ieeeAdd_q;
+    excR_bSig_uid54_fpAddSubTest_ieeeAdd_delay : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => expXIsMax_uid47_fpAddSubTest_ieeeAdd_qi, xout => expXIsMax_uid47_fpAddSubTest_ieeeAdd_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => excR_bSig_uid54_fpAddSubTest_ieeeAdd_qi, xout => excR_bSig_uid54_fpAddSubTest_ieeeAdd_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist9_expXIsMax_uid47_fpAddSubTest_ieeeAdd_q_2(DELAY,274)
-    redist9_expXIsMax_uid47_fpAddSubTest_ieeeAdd_q_2 : dspba_delay
+    -- redist7_excR_bSig_uid54_fpAddSubTest_ieeeAdd_q_2(DELAY,272)
+    redist7_excR_bSig_uid54_fpAddSubTest_ieeeAdd_q_2 : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => expXIsMax_uid47_fpAddSubTest_ieeeAdd_q, xout => redist9_expXIsMax_uid47_fpAddSubTest_ieeeAdd_q_2_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => excR_bSig_uid54_fpAddSubTest_ieeeAdd_q, xout => redist7_excR_bSig_uid54_fpAddSubTest_ieeeAdd_q_2_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- invExpXIsMax_uid52_fpAddSubTest_ieeeAdd(LOGICAL,51)@2
-    invExpXIsMax_uid52_fpAddSubTest_ieeeAdd_q <= not (redist9_expXIsMax_uid47_fpAddSubTest_ieeeAdd_q_2_q);
+    -- redist12_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_2(DELAY,277)
+    redist12_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_2 : dspba_delay
+    GENERIC MAP ( width => 8, depth => 2, reset_kind => "ASYNC" )
+    PORT MAP ( xin => exp_aSig_uid30_fpAddSubTest_ieeeAdd_b, xout => redist12_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_2_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- redist7_InvExpXIsZero_uid53_fpAddSubTest_ieeeAdd_q_2(DELAY,272)
-    redist7_InvExpXIsZero_uid53_fpAddSubTest_ieeeAdd_q_2 : dspba_delay
-    GENERIC MAP ( width => 1, depth => 2, reset_kind => "ASYNC" )
-    PORT MAP ( xin => InvExpXIsZero_uid53_fpAddSubTest_ieeeAdd_q, xout => redist7_InvExpXIsZero_uid53_fpAddSubTest_ieeeAdd_q_2_q, ena => en(0), clk => clk, aclr => areset );
-
-    -- excR_bSig_uid54_fpAddSubTest_ieeeAdd(LOGICAL,53)@2
-    excR_bSig_uid54_fpAddSubTest_ieeeAdd_q <= redist7_InvExpXIsZero_uid53_fpAddSubTest_ieeeAdd_q_2_q and invExpXIsMax_uid52_fpAddSubTest_ieeeAdd_q;
-
-    -- redist12_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_1(DELAY,277)
-    redist12_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_1 : dspba_delay
-    GENERIC MAP ( width => 8, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => exp_aSig_uid30_fpAddSubTest_ieeeAdd_b, xout => redist12_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_1_q, ena => en(0), clk => clk, aclr => areset );
-
-    -- expXIsMax_uid33_fpAddSubTest_ieeeAdd(LOGICAL,32)@1 + 1
-    expXIsMax_uid33_fpAddSubTest_ieeeAdd_qi <= "1" WHEN redist12_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_1_q = cstAllOWE_uid27_fpAddSubTest_ieeeAdd_q ELSE "0";
-    expXIsMax_uid33_fpAddSubTest_ieeeAdd_delay : dspba_delay
-    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => expXIsMax_uid33_fpAddSubTest_ieeeAdd_qi, xout => expXIsMax_uid33_fpAddSubTest_ieeeAdd_q, ena => en(0), clk => clk, aclr => areset );
+    -- expXIsMax_uid33_fpAddSubTest_ieeeAdd(LOGICAL,32)@2
+    expXIsMax_uid33_fpAddSubTest_ieeeAdd_q <= "1" WHEN redist12_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_2_q = cstAllOWE_uid27_fpAddSubTest_ieeeAdd_q ELSE "0";
 
     -- invExpXIsMax_uid38_fpAddSubTest_ieeeAdd(LOGICAL,37)@2
     invExpXIsMax_uid38_fpAddSubTest_ieeeAdd_q <= not (expXIsMax_uid33_fpAddSubTest_ieeeAdd_q);
 
-    -- excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd(LOGICAL,31)@1 + 1
-    excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_qi <= "1" WHEN redist12_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_1_q = cstAllZWE_uid29_fpAddSubTest_ieeeAdd_q ELSE "0";
-    excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_delay : dspba_delay
-    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_qi, xout => excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_q, ena => en(0), clk => clk, aclr => areset );
+    -- excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd(LOGICAL,31)@2
+    excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_q <= "1" WHEN redist12_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_2_q = cstAllZWE_uid29_fpAddSubTest_ieeeAdd_q ELSE "0";
 
     -- InvExpXIsZero_uid39_fpAddSubTest_ieeeAdd(LOGICAL,38)@2
     InvExpXIsZero_uid39_fpAddSubTest_ieeeAdd_q <= not (excZ_aSig_uid25_uid32_fpAddSubTest_ieeeAdd_q);
@@ -848,7 +836,7 @@ begin
     excR_aSig_uid40_fpAddSubTest_ieeeAdd_q <= InvExpXIsZero_uid39_fpAddSubTest_ieeeAdd_q and invExpXIsMax_uid38_fpAddSubTest_ieeeAdd_q;
 
     -- signRReg_uid139_fpAddSubTest_ieeeAdd(LOGICAL,138)@2
-    signRReg_uid139_fpAddSubTest_ieeeAdd_q <= excR_aSig_uid40_fpAddSubTest_ieeeAdd_q and excR_bSig_uid54_fpAddSubTest_ieeeAdd_q and redist6_sigA_uid59_fpAddSubTest_ieeeAdd_b_2_q and invAMinusA_uid138_fpAddSubTest_ieeeAdd_q;
+    signRReg_uid139_fpAddSubTest_ieeeAdd_q <= excR_aSig_uid40_fpAddSubTest_ieeeAdd_q and redist7_excR_bSig_uid54_fpAddSubTest_ieeeAdd_q_2_q and redist6_sigA_uid59_fpAddSubTest_ieeeAdd_b_2_q and invAMinusA_uid138_fpAddSubTest_ieeeAdd_q;
 
     -- redist5_sigB_uid60_fpAddSubTest_ieeeAdd_b_2(DELAY,270)
     redist5_sigB_uid60_fpAddSubTest_ieeeAdd_b_2 : dspba_delay
@@ -869,22 +857,22 @@ begin
     -- signRZero_uid145_fpAddSubTest_ieeeAdd(LOGICAL,144)@2
     signRZero_uid145_fpAddSubTest_ieeeAdd_q <= excBZARSigA_uid144_fpAddSubTest_ieeeAdd_q or excAZBZSigASigB_uid143_fpAddSubTest_ieeeAdd_q;
 
-    -- fracXIsZero_uid48_fpAddSubTest_ieeeAdd(LOGICAL,47)@0 + 1
-    fracXIsZero_uid48_fpAddSubTest_ieeeAdd_qi <= "1" WHEN cstZeroWF_uid28_fpAddSubTest_ieeeAdd_q = frac_bSig_uid45_fpAddSubTest_ieeeAdd_b ELSE "0";
-    fracXIsZero_uid48_fpAddSubTest_ieeeAdd_delay : dspba_delay
-    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => fracXIsZero_uid48_fpAddSubTest_ieeeAdd_qi, xout => fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q, ena => en(0), clk => clk, aclr => areset );
+    -- fracXIsZero_uid48_fpAddSubTest_ieeeAdd(LOGICAL,47)@0
+    fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q <= "1" WHEN cstZeroWF_uid28_fpAddSubTest_ieeeAdd_q = frac_bSig_uid45_fpAddSubTest_ieeeAdd_b ELSE "0";
 
-    -- redist8_fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q_2(DELAY,273)
-    redist8_fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q_2 : dspba_delay
+    -- excI_bSig_uid50_fpAddSubTest_ieeeAdd(LOGICAL,49)@0 + 1
+    excI_bSig_uid50_fpAddSubTest_ieeeAdd_qi <= expXIsMax_uid47_fpAddSubTest_ieeeAdd_q and fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q;
+    excI_bSig_uid50_fpAddSubTest_ieeeAdd_delay : dspba_delay
     GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
-    PORT MAP ( xin => fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q, xout => redist8_fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q_2_q, ena => en(0), clk => clk, aclr => areset );
+    PORT MAP ( xin => excI_bSig_uid50_fpAddSubTest_ieeeAdd_qi, xout => excI_bSig_uid50_fpAddSubTest_ieeeAdd_q, ena => en(0), clk => clk, aclr => areset );
 
-    -- excI_bSig_uid50_fpAddSubTest_ieeeAdd(LOGICAL,49)@2
-    excI_bSig_uid50_fpAddSubTest_ieeeAdd_q <= redist9_expXIsMax_uid47_fpAddSubTest_ieeeAdd_q_2_q and redist8_fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q_2_q;
+    -- redist9_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_2(DELAY,274)
+    redist9_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_2 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => excI_bSig_uid50_fpAddSubTest_ieeeAdd_q, xout => redist9_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_2_q, ena => en(0), clk => clk, aclr => areset );
 
     -- sigBBInf_uid140_fpAddSubTest_ieeeAdd(LOGICAL,139)@2
-    sigBBInf_uid140_fpAddSubTest_ieeeAdd_q <= redist5_sigB_uid60_fpAddSubTest_ieeeAdd_b_2_q and excI_bSig_uid50_fpAddSubTest_ieeeAdd_q;
+    sigBBInf_uid140_fpAddSubTest_ieeeAdd_q <= redist5_sigB_uid60_fpAddSubTest_ieeeAdd_b_2_q and redist9_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_2_q;
 
     -- fracXIsZero_uid34_fpAddSubTest_ieeeAdd(LOGICAL,33)@1 + 1
     fracXIsZero_uid34_fpAddSubTest_ieeeAdd_qi <= "1" WHEN cstZeroWF_uid28_fpAddSubTest_ieeeAdd_q = redist11_frac_aSig_uid31_fpAddSubTest_ieeeAdd_b_1_q ELSE "0";
@@ -904,11 +892,19 @@ begin
     -- signRInfRZRReg_uid146_fpAddSubTest_ieeeAdd(LOGICAL,145)@2
     signRInfRZRReg_uid146_fpAddSubTest_ieeeAdd_q <= signRInf_uid142_fpAddSubTest_ieeeAdd_q or signRZero_uid145_fpAddSubTest_ieeeAdd_q or signRReg_uid139_fpAddSubTest_ieeeAdd_q;
 
-    -- fracXIsNotZero_uid49_fpAddSubTest_ieeeAdd(LOGICAL,48)@2
-    fracXIsNotZero_uid49_fpAddSubTest_ieeeAdd_q <= not (redist8_fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q_2_q);
+    -- fracXIsNotZero_uid49_fpAddSubTest_ieeeAdd(LOGICAL,48)@0
+    fracXIsNotZero_uid49_fpAddSubTest_ieeeAdd_q <= not (fracXIsZero_uid48_fpAddSubTest_ieeeAdd_q);
 
-    -- excN_bSig_uid51_fpAddSubTest_ieeeAdd(LOGICAL,50)@2
-    excN_bSig_uid51_fpAddSubTest_ieeeAdd_q <= redist9_expXIsMax_uid47_fpAddSubTest_ieeeAdd_q_2_q and fracXIsNotZero_uid49_fpAddSubTest_ieeeAdd_q;
+    -- excN_bSig_uid51_fpAddSubTest_ieeeAdd(LOGICAL,50)@0 + 1
+    excN_bSig_uid51_fpAddSubTest_ieeeAdd_qi <= expXIsMax_uid47_fpAddSubTest_ieeeAdd_q and fracXIsNotZero_uid49_fpAddSubTest_ieeeAdd_q;
+    excN_bSig_uid51_fpAddSubTest_ieeeAdd_delay : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => excN_bSig_uid51_fpAddSubTest_ieeeAdd_qi, xout => excN_bSig_uid51_fpAddSubTest_ieeeAdd_q, ena => en(0), clk => clk, aclr => areset );
+
+    -- redist8_excN_bSig_uid51_fpAddSubTest_ieeeAdd_q_2(DELAY,273)
+    redist8_excN_bSig_uid51_fpAddSubTest_ieeeAdd_q_2 : dspba_delay
+    GENERIC MAP ( width => 1, depth => 1, reset_kind => "ASYNC" )
+    PORT MAP ( xin => excN_bSig_uid51_fpAddSubTest_ieeeAdd_q, xout => redist8_excN_bSig_uid51_fpAddSubTest_ieeeAdd_q_2_q, ena => en(0), clk => clk, aclr => areset );
 
     -- fracXIsNotZero_uid35_fpAddSubTest_ieeeAdd(LOGICAL,34)@2
     fracXIsNotZero_uid35_fpAddSubTest_ieeeAdd_q <= not (fracXIsZero_uid34_fpAddSubTest_ieeeAdd_q);
@@ -917,7 +913,7 @@ begin
     excN_aSig_uid37_fpAddSubTest_ieeeAdd_q <= expXIsMax_uid33_fpAddSubTest_ieeeAdd_q and fracXIsNotZero_uid35_fpAddSubTest_ieeeAdd_q;
 
     -- excRNaN2_uid133_fpAddSubTest_ieeeAdd(LOGICAL,132)@2
-    excRNaN2_uid133_fpAddSubTest_ieeeAdd_q <= excN_aSig_uid37_fpAddSubTest_ieeeAdd_q or excN_bSig_uid51_fpAddSubTest_ieeeAdd_q;
+    excRNaN2_uid133_fpAddSubTest_ieeeAdd_q <= excN_aSig_uid37_fpAddSubTest_ieeeAdd_q or redist8_excN_bSig_uid51_fpAddSubTest_ieeeAdd_q_2_q;
 
     -- redist4_effSub_uid61_fpAddSubTest_ieeeAdd_q_2(DELAY,269)
     redist4_effSub_uid61_fpAddSubTest_ieeeAdd_q_2 : dspba_delay
@@ -925,7 +921,7 @@ begin
     PORT MAP ( xin => effSub_uid61_fpAddSubTest_ieeeAdd_q, xout => redist4_effSub_uid61_fpAddSubTest_ieeeAdd_q_2_q, ena => en(0), clk => clk, aclr => areset );
 
     -- excAIBISub_uid134_fpAddSubTest_ieeeAdd(LOGICAL,133)@2
-    excAIBISub_uid134_fpAddSubTest_ieeeAdd_q <= excI_aSig_uid36_fpAddSubTest_ieeeAdd_q and excI_bSig_uid50_fpAddSubTest_ieeeAdd_q and redist4_effSub_uid61_fpAddSubTest_ieeeAdd_q_2_q;
+    excAIBISub_uid134_fpAddSubTest_ieeeAdd_q <= excI_aSig_uid36_fpAddSubTest_ieeeAdd_q and redist9_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_2_q and redist4_effSub_uid61_fpAddSubTest_ieeeAdd_q_2_q;
 
     -- excRNaN_uid135_fpAddSubTest_ieeeAdd(LOGICAL,134)@2
     excRNaN_uid135_fpAddSubTest_ieeeAdd_q <= excAIBISub_uid134_fpAddSubTest_ieeeAdd_q or excRNaN2_uid133_fpAddSubTest_ieeeAdd_q;
@@ -1080,19 +1076,10 @@ begin
     -- oneCST_uid99_fpAddSubTest_ieeeAdd(CONSTANT,98)
     oneCST_uid99_fpAddSubTest_ieeeAdd_q <= "00000001";
 
-    -- expInc_uid100_fpAddSubTest_ieeeAdd(ADD,99)@1 + 1
-    expInc_uid100_fpAddSubTest_ieeeAdd_a <= STD_LOGIC_VECTOR("0" & redist12_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_1_q);
+    -- expInc_uid100_fpAddSubTest_ieeeAdd(ADD,99)@2
+    expInc_uid100_fpAddSubTest_ieeeAdd_a <= STD_LOGIC_VECTOR("0" & redist12_exp_aSig_uid30_fpAddSubTest_ieeeAdd_b_2_q);
     expInc_uid100_fpAddSubTest_ieeeAdd_b <= STD_LOGIC_VECTOR("0" & oneCST_uid99_fpAddSubTest_ieeeAdd_q);
-    expInc_uid100_fpAddSubTest_ieeeAdd_clkproc: PROCESS (clk, areset)
-    BEGIN
-        IF (areset = '1') THEN
-            expInc_uid100_fpAddSubTest_ieeeAdd_o <= (others => '0');
-        ELSIF (clk'EVENT AND clk = '1') THEN
-            IF (en = "1") THEN
-                expInc_uid100_fpAddSubTest_ieeeAdd_o <= STD_LOGIC_VECTOR(UNSIGNED(expInc_uid100_fpAddSubTest_ieeeAdd_a) + UNSIGNED(expInc_uid100_fpAddSubTest_ieeeAdd_b));
-            END IF;
-        END IF;
-    END PROCESS;
+    expInc_uid100_fpAddSubTest_ieeeAdd_o <= STD_LOGIC_VECTOR(UNSIGNED(expInc_uid100_fpAddSubTest_ieeeAdd_a) + UNSIGNED(expInc_uid100_fpAddSubTest_ieeeAdd_b));
     expInc_uid100_fpAddSubTest_ieeeAdd_q <= expInc_uid100_fpAddSubTest_ieeeAdd_o(8 downto 0);
 
     -- expPostNorm_uid101_fpAddSubTest_ieeeAdd(SUB,100)@2
@@ -1142,13 +1129,13 @@ begin
     rOvf_uid120_fpAddSubTest_ieeeAdd_q <= rOvfEQMax_uid116_fpAddSubTest_ieeeAdd_q or rOvfExtraBits_uid119_fpAddSubTest_ieeeAdd_q;
 
     -- regInputs_uid127_fpAddSubTest_ieeeAdd(LOGICAL,126)@2
-    regInputs_uid127_fpAddSubTest_ieeeAdd_q <= excR_aSig_uid40_fpAddSubTest_ieeeAdd_q and excR_bSig_uid54_fpAddSubTest_ieeeAdd_q;
+    regInputs_uid127_fpAddSubTest_ieeeAdd_q <= excR_aSig_uid40_fpAddSubTest_ieeeAdd_q and redist7_excR_bSig_uid54_fpAddSubTest_ieeeAdd_q_2_q;
 
     -- rInfOvf_uid130_fpAddSubTest_ieeeAdd(LOGICAL,129)@2
     rInfOvf_uid130_fpAddSubTest_ieeeAdd_q <= regInputs_uid127_fpAddSubTest_ieeeAdd_q and rOvf_uid120_fpAddSubTest_ieeeAdd_q;
 
     -- excRInfVInC_uid131_fpAddSubTest_ieeeAdd(BITJOIN,130)@2
-    excRInfVInC_uid131_fpAddSubTest_ieeeAdd_q <= rInfOvf_uid130_fpAddSubTest_ieeeAdd_q & excN_bSig_uid51_fpAddSubTest_ieeeAdd_q & excN_aSig_uid37_fpAddSubTest_ieeeAdd_q & excI_bSig_uid50_fpAddSubTest_ieeeAdd_q & excI_aSig_uid36_fpAddSubTest_ieeeAdd_q & redist4_effSub_uid61_fpAddSubTest_ieeeAdd_q_2_q;
+    excRInfVInC_uid131_fpAddSubTest_ieeeAdd_q <= rInfOvf_uid130_fpAddSubTest_ieeeAdd_q & redist8_excN_bSig_uid51_fpAddSubTest_ieeeAdd_q_2_q & excN_aSig_uid37_fpAddSubTest_ieeeAdd_q & redist9_excI_bSig_uid50_fpAddSubTest_ieeeAdd_q_2_q & excI_aSig_uid36_fpAddSubTest_ieeeAdd_q & redist4_effSub_uid61_fpAddSubTest_ieeeAdd_q_2_q;
 
     -- excRInf_uid132_fpAddSubTest_ieeeAdd(LOOKUP,131)@2
     excRInf_uid132_fpAddSubTest_ieeeAdd_combproc: PROCESS (excRInfVInC_uid131_fpAddSubTest_ieeeAdd_q)

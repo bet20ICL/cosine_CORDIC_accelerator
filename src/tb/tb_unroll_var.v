@@ -13,7 +13,7 @@ module tb_unroll_var ();
 	wire done;
 
 	//Instantiate the DUT
-	cordic_unroll8_var unit(
+	cordic_unroll1_var unit(
 			.aclr(reset),
 			.clk_en(clk_en),
 			.clock(clk),
@@ -22,6 +22,7 @@ module tb_unroll_var ();
 			.result(result),
 			.done(done)
 		);
+		
 
 	//Create a 50MHz clock
 	always
