@@ -42,7 +42,7 @@ module cordic_pipeline(
     cordic_operation #(.rotate_index(4'd14), .rotate_angle(21'h000040)) rotation14 ( x14, y14, z14, x14_out, y14_out, z14_out); 
     cordic_operation #(.rotate_index(4'd15), .rotate_angle(21'h000020)) rotation15 ( x15, y15, z15, x15_out, y15_out, z15_out); 
 
-	reg [31:0] fixed_point_result;
+	reg [20:0] fixed_point_result;
 	 
     always@(posedge clock) begin
         if (aclr) begin
@@ -82,7 +82,7 @@ module cordic_pipeline(
             x13 <= x12_out; y13 <= y12_out; z13 <= z12_out;
             x14 <= x13_out; y14 <= y13_out; z14 <= z13_out;
             x15 <= x14_out; y15 <= y14_out; z15 <= z14_out;
-				fixed_point_result <= x15_out;
+			fixed_point_result <= x15_out;
         end 
     end
 
@@ -111,25 +111,17 @@ module cordic_operation(
     output reg signed [20:0] y_out;
     output reg signed [20:0] z_out;
 
-    reg signed [20:0] offsetX;
-    reg signed [20:0] offsetY;
-    reg signed [20:0] offsetZ;
+    reg [20:0] z_replicated; 
+    reg [20:0] x_shift;
+    reg [20:0] y_shift;
 
-    always @(*) begin
-        if(z[20]==0) begin
-            offsetX = -(y >>> rotate_index);
-            offsetY = x >>> rotate_index;
-            offsetZ = -rotate_angle;
-        end 
-        else begin
-            offsetX = y >>> rotate_index;
-            offsetY = -(x >>> rotate_index);
-            offsetZ = rotate_angle;
-        end
-
-        x_out = x + offsetX;
-        y_out = y + offsetY;
-        z_out = z + offsetZ;
+    always@(*) begin 
+        z_replicated = {21{z[20]}};
+        y_shift = (y>>>rotate_index);
+        x_shift = (x>>rotate_index);
+        x_out = x + (y_shift ^ ~z_replicated) + !z[20]; 
+        y_out = y + (x_shift ^ z_replicated) + z[20]; 
+        z_out = z + (rotate_angle ^ ~z_replicated) + !z[20]; 
     end
 
 endmodule
