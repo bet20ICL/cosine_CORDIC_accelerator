@@ -90,7 +90,7 @@ endmodule
 // Retrieval info: 	<generic name="manual_dsp_planning" value="true" />
 // Retrieval info: 	<generic name="forceRegisters" value="1111" />
 // Retrieval info: 	<generic name="selected_device_family" value="Cyclone V" />
-// Retrieval info: 	<generic name="selected_device_speedgrade" value="7" />
+// Retrieval info: 	<generic name="selected_device_speedgrade" value="Unknown" />
 // Retrieval info: </instance>
 // IPFS_FILES : fp_addsub_2cyc.vo
 // RELATED_FILES: fp_addsub_2cyc.v, dspba_library_package.vhd, dspba_library.vhd, fp_addsub_2cyc_0002.vhd
