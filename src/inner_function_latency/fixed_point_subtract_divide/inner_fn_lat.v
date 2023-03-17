@@ -9,7 +9,7 @@ module inner_fn_lat(
     );
     parameter [31:0] flt_128 = 32'h43000000; 		
     parameter [31:0] flt_recip_128 = 32'h3c000000;		// 1.0/128.0
-	 parameter [31:0] flt_recip_2 = 32'h3f000000;        // 0.5
+	parameter [31:0] flt_recip_2 = 32'h3f000000;        // 0.5
     parameter cordic_latency = 5;
     parameter fp_add_latency = 3;
     parameter fp_mult_latency = 2;
@@ -17,13 +17,13 @@ module inner_fn_lat(
 	input	        aclr;
 	input	        clk_en;
 	input	        clock;
-   input           start;
-   output          done;
+    input           start;
+    output          done;
 	input	   [31:0]  dataa; // this is the floating point input
 	output	[31:0]  result;
 
 
-    parameter total_clk_cycles = fp_mult_latency + fp_add_latency * 2 + cordic_latency;
+    parameter total_clk_cycles = fp_mult_latency + fp_add_latency + cordic_latency;
     reg startShifted [total_clk_cycles-1:0];
     integer i;
 
@@ -44,35 +44,48 @@ module inner_fn_lat(
     //--------------------------------------------------------
     // second branch || cos((x-128)/128)
     //--------------------------------------------------------
-    wire [31:0] subtract_128;
-    wire [31:0] divide_128;
-    // x-128
-    // 8 cycles
-	fp_addsub_3cyc sub_x_128(
-		.areset(aclr),
-		.en(clk_en),
-		.clk(clock),
-		.a(dataa),
-		.b(flt_128), 
-		.q(subtract_128),
-		.opSel(0) 
-	);
+    // wire [31:0] subtract_128;
+    // wire [31:0] divide_128;
+    // // x-128
+    // // 8 cycles
+	// fp_addsub_3cyc sub_x_128(
+	// 	.areset(aclr),
+	// 	.en(clk_en),
+	// 	.clk(clock),
+	// 	.a(dataa),
+	// 	.b(flt_128), 
+	// 	.q(subtract_128),
+	// 	.opSel(0) 
+	// );
 
-    // (x - 128)/128
-    // combinitorial
-    fp_div_128 fp_div_128_unit(
-        .dataa(subtract_128),
-        .result(divide_128)
+    // // (x - 128)/128
+    // // combinitorial
+    // fp_div_128 fp_div_128_unit(
+    //     .dataa(subtract_128),
+    //     .result(divide_128)
+    // );
+
+    // // fp_mult_2cyc fp_div_128_unit(
+	// // 		.areset(aclr),
+	// // 		.en(clk_en),
+	// // 		.clk(clock),
+	// // 		.a(subtract_128),
+	// // 		.b(flt_recip_128),
+	// // 		.q(divide_128)
+    // // );
+
+   
+    wire [20:0] divide_128;
+    wire [27:0] fixed_point_8_13;
+    floating_to_fixed_8_13 floating_to_fixed(
+        .dataa(dataa),
+        .fixed_point_input(fixed_point_8_13)
     );
 
-    // fp_mult_2cyc fp_div_128_unit(
-	// 		.areset(aclr),
-	// 		.en(clk_en),
-	// 		.clk(clock),
-	// 		.a(subtract_128),
-	// 		.b(flt_recip_128),
-	// 		.q(divide_128)
-    // );
+    fixed_subtract_128 fixed_subtract_128_unit(
+        .fixed_point_input_8_13(fixed_point_8_13),
+        .divide_128(divide_128)
+    );
 
     // cos((x-128)/128) 
     // 17 cycles
@@ -80,8 +93,9 @@ module inner_fn_lat(
     wire cordic_done;
     wire [31:0] cordic_result;
 
-    assign startCordic = startShifted[fp_add_latency-1];
-    cordic_unroll4_var cordic_unit(
+    // assign startCordic = startShifted[fp_add_latency+fp_mult_latency-1];
+	 assign startCordic = startShifted[0];
+    cordic_unroll4_var_fixed_point_input cordic_unit(
         .aclr(aclr),
         .clk_en(clk_en),
         .clock(clock),
@@ -164,9 +178,9 @@ module inner_fn_lat(
 //			$display("startShifted[], %d", startShifted[fp_add_latency+fp_mult_latency-1]);
 //         $display("div_x_128 %h, %h", subtract_128, divide_128);
 //         $display("startCordic %d", startCordic);
-
-         $display("cordic time[%d], %d", fp_add_latency-1, startShifted[fp_add_latency-1]);
-         //$display("cordic_done %d, %h", cordic_done, cordic_result);
+//
+//         $display("cordic time[%d], %d", fp_add_latency+fp_mult_latency+cordic_latency-1, startShifted[fp_add_latency+fp_mult_latency+cordic_latency-1]);
+//         $display("cordic_done %d, %h", cordic_done, cordic_result);
 
 //         $display("startShifted[32], %d", startShifted[32]);
 //         $display("startShifted[33], %d", startShifted[33]);

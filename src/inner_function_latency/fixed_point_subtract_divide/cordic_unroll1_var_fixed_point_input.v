@@ -1,5 +1,5 @@
 /// This version of cordic directly takes in fixed_point number
-module cordic(
+module cordic_unroll1_var_fixed_point_input(
     aclr,
 	clk_en,
 	clock,
