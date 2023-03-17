@@ -1,4 +1,4 @@
-module inner_function(
+module inner_fn_lat(
     aclr,
 	clk_en,
 	clock,
@@ -7,45 +7,32 @@ module inner_function(
 	result,
     done
     );
-
     parameter [31:0] flt_128 = 32'h43000000; 		
     parameter [31:0] flt_recip_128 = 32'h3c000000;		// 1.0/128.0
 	parameter [31:0] flt_recip_2 = 32'h3f000000;        // 0.5
-    parameter fp_mult_latency = 5;
-	parameter fp_add_latency = 11;
-	parameter cordic_latency = 17;
+    parameter cordic_latency = 5;
+    parameter fp_add_latency = 3;
+    parameter fp_mult_latency = 2;
 
 	input	        aclr;
 	input	        clk_en;
 	input	        clock;
     input           start;
     output          done;
-	input	[31:0]  dataa; // this is the floating point input
+	input	   [31:0]  dataa; // this is the floating point input
 	output	[31:0]  result;
 
 
-
-    //--------------------------------------------------------
-    // control
-    //--------------------------------------------------------
-    parameter total_clk_cycles = fp_mult_latency + cordic_latency;
-    reg startShifted [Total_clk_cycles];
-
+    parameter total_clk_cycles = fp_mult_latency + fp_add_latency + cordic_latency;
+    reg startShifted [total_clk_cycles-1:0];
     integer i;
-    always @(posedge clk) begin
-        startShifted[0] <= start;
-        for (i = 1; i < total_clk_cycles; i = i + 1) begin
-            startShifted[i+1] <= startShifted[i];
-        end
-    end
-
-    assign done = (startShifted[total_clk_cycles])? 1'b1 : 1'b0;
-
 
 
     //--------------------------------------------------------
-    // first branch 
+    // first branch || 0.5*x
     //--------------------------------------------------------
+    // 0.5*x
+    // combinitorial
     wire [31:0] input_half;
     fp_half fp_half_unit(
         .dataa(dataa),
@@ -53,38 +40,61 @@ module inner_function(
     );
 
 
-    //--------------------------------------------------------
-    // second branch
-    //--------------------------------------------------------
-    // This might be now on the critical path
 
-    reg [7:0] integer_part_sub128;
-    reg [20:0] divide_128;
-    wire signed [21:0] fixed_point_input_9_13;
+    //--------------------------------------------------------
+    // second branch || cos((x-128)/128)
+    //--------------------------------------------------------
+    // wire [31:0] subtract_128;
+    // wire [31:0] divide_128;
+    // // x-128
+    // // 8 cycles
+	// fp_addsub_3cyc sub_x_128(
+	// 	.areset(aclr),
+	// 	.en(clk_en),
+	// 	.clk(clock),
+	// 	.a(dataa),
+	// 	.b(flt_128), 
+	// 	.q(subtract_128),
+	// 	.opSel(0) 
+	// );
 
-    floating_to_fixed_9_13 floating_to_fixed_9_13_unit(
+    // // (x - 128)/128
+    // // combinitorial
+    // fp_div_128 fp_div_128_unit(
+    //     .dataa(subtract_128),
+    //     .result(divide_128)
+    // );
+
+    // // fp_mult_2cyc fp_div_128_unit(
+	// // 		.areset(aclr),
+	// // 		.en(clk_en),
+	// // 		.clk(clock),
+	// // 		.a(subtract_128),
+	// // 		.b(flt_recip_128),
+	// // 		.q(divide_128)
+    // // );
+
+   
+    wire [20:0] divide_128;
+    wire [20:0] fixed_point_8_13;
+    floating_to_fixed_8_13 floating_to_fixed(
         .dataa(dataa),
-        .fixed_point_input(fixed_point_input_9_13)
+        .fixed_point_input(fixed_point_8_13)
     );
 
-    // always@(*) begin 
-    //     if(fixed_point_input_9_13[20]==0) subtract_128 = fixed_point_input_9_13 - 21'sd128; 
-    //     else   subtract_128 = 21'sd128 - fixed_point_input_9_13; 
-    //     divide_128 = subtract_128 >> 7;
-    // end
+    fixed_subtract_128 fixed_subtract_128_unit(
+        .fixed_point_input_8_13(fixed_point_8_13),
+        .divide_128(divide_128)
+    );
 
-
-
-    reg startCordic;
+    // cos((x-128)/128) 
+    // 17 cycles
+    wire startCordic;
     wire cordic_done;
     wire [31:0] cordic_result;
 
-    // start immediately cuz (x-128)/128 are now combinitorial
-    assign startCordic = start;
-
-    // this cordic inner_function/fixed_point_subtract_divide/cordic_unroll1_var_fixed_point_input.v
-    // directly takes a 21 bit fixed point input
-    cordic cordic_fixed_point_input_unit(
+    assign startCordic = startShifted[fp_add_latency+fp_mult_latency-1];
+    cordic_unroll4_var_fixed_point_input cordic_unit(
         .aclr(aclr),
         .clk_en(clk_en),
         .clock(clock),
@@ -95,40 +105,92 @@ module inner_function(
     );
 
     //--------------------------------------------------------
-    // third branch
+    // third branch   || x^2
     //--------------------------------------------------------
+    // x^2 
+    // 5 cycles
     wire [31:0] square; 
-    fp_mult_custom fp_mult_custom_unit(
-        .aclr(aclr),
-        .clk_en(clk_en),
-        .clock(clock),
-        .dataa(dataa),
-        .datab(dataa),
-        .result(square)
-    );
+	  fp_mult_2cyc square_unit(
+		.areset(aclr),
+		.en(clk_en),
+		.clk(clock),
+		.a(dataa),
+		.b(dataa),
+		.q(square)
+	);
 
 
     //--------------------------------------------------------
-    // merge 
+    // merge            || 0.5*x + x^2 * cos((x-128)/128)
     //--------------------------------------------------------
+    // x^2 *  cos((x-128)/128)
+    // fp_mult_latency + cordic_latency = 17 + 5;
     wire [31:0] mult_square_cordic;
-    fp_mult_custom fp_mult_custom_unit2(
-        .aclr(aclr),
-        .clk_en(clk_en),
-        .clock(clock),
-        .dataa(square),
-        .datab(cordic_result),
-        .result(mult_square_cordic)
+    fp_mult_2cyc fp_mult_custom_unit2(
+			.areset(aclr),
+			.en(clk_en),
+			.clk(clock),
+			.a(square),
+			.b(cordic_result),
+			.q(mult_square_cordic)
     );
 
-    fp_addsub_custom fp_addsub_custom_unit2(
-        .aclr(aclr),
-        .add_sub(0),
-        .clk_en(clk_en),
-        .clock(clock),
-        .dataa(input_half),
-        .datab(mult_square_cordic),
-        .result(result)
+    // 0.5*x + x^2 * cos((x-128)/128)
+    // fp_mult_latency + cordic_latency + fp_add_latency= 17 + 5 + 11;
+    fp_addsub_3cyc fp_addsub_custom_unit2(
+		.areset(aclr),
+		.en(clk_en),
+		.clk(clock),
+		.a(input_half),
+		.b(mult_square_cordic), 
+		.q(result),
+		.opSel(1) 
     );
 
+
+
+
+
+    //--------------------------------------------------------
+    // control
+    //--------------------------------------------------------
+	always @(posedge clock) begin
+		if (aclr) begin
+             $display("reset %d %h, %h", i, startShifted[i], start);
+			for (i = 0; i <  total_clk_cycles; i = i + 1) begin
+				startShifted[i] <= 1'd0;
+			end
+		end
+		else if (clk_en) begin
+			startShifted[0] <= start;
+            for (i = 0; i < total_clk_cycles-1; i = i + 1) begin
+                //$display("startShifted[%d] %h, %h", i, startShifted[i], start);
+                startShifted[i+1] <= startShifted[i];
+            end       
+		end
+	end
+
+   always@(posedge clock) begin
+//         
+//			$display("subtract[], %d", startShifted[fp_add_latency-1]);
+//         $display("subtract_128 %h, %h", dataa, subtract_128);
+//			$display("startShifted[], %d", startShifted[fp_add_latency+fp_mult_latency-1]);
+//         $display("div_x_128 %h, %h", subtract_128, divide_128);
+//         $display("startCordic %d", startCordic);
+//
+//         $display("cordic time[%d], %d", fp_add_latency+fp_mult_latency+cordic_latency-1, startShifted[fp_add_latency+fp_mult_latency+cordic_latency-1]);
+//         $display("cordic_done %d, %h", cordic_done, cordic_result);
+
+//         $display("startShifted[32], %d", startShifted[32]);
+//         $display("startShifted[33], %d", startShifted[33]);
+//         $display("mult_square_cordic, %h", mult_square_cordic); //43d8aa4f
+
+    //     $display("startShifted[42], %d", startShifted[42]);
+    //     $display("startShifted[43], %d", startShifted[43]);
+    //     $display("result, %h", result); //43d8aa4f
+    
+    end
+    
+    // TODO: optimization
+    assign done = (startShifted[total_clk_cycles-1]);
 endmodule

@@ -1,58 +1,61 @@
-// module x_minus_div_128_fxd(
-//     flt_in,
-//     fxd_out
-// );
-//     input	[31:0]  flt_in;     // floating point input
-//     output  [21:0] fxd_out;     // 1 signed bit, 20 frac bits
+module floating_to_fixed_8_13(
+    dataa,
+    fixed_point_input
+);
+    // convert the 32bits floating point input to 21bits fixed point.
+    input	[31:0]  dataa; 
+    output  [20:0] fixed_point_input;  
 
-//     reg     [21:0] fxd_9_13;    
+    wire [8:0] exponent;  // added one more bit in front to ensure it is a positive number. 
+    wire [22:0] significand;
+    wire sign;
     
+    assign exponent = dataa[30:23]; // the most significant bit will be 0
+    assign significand = dataa[22:0];
+    assign sign = dataa[31];
 
-//     always@(*) begin 
-//         if(fixed_point_input_9_13[21]==0) subtract_128 = fixed_point_input_9_13 - 21'sd128; 
-//         else   subtract_128 = 21'sd128 - fixed_point_input_9_13; 
-//         divide_128 = subtract_128 >> 7;
-//     end
-// endmodule
+    // always positive 8+13 = 21
+    wire [20:0] magnitude;
+    assign magnitude = {1'b1,significand[22:3]};
 
-// module floating_to_fixed_9_13(
-//     dataa,
-//     fixed_point_input
-// );
-//     // convert the 32bits floating point input to 21bits fixed point.
-//     input	[31:0]  dataa; 
-//     output  [21:0] fixed_point_input;  
 
-//     wire unsigned [7:0] exponent; 
-//     wire [22:0] significand;
-//     wire sign;
-    
-//     assign exponent = dataa[30:23];
-//     assign significand = dataa[22:0];
-//     assign sign = dataa[31];
+    reg [20:0] shifted_result;
+    reg [8:0] shifting;
+    always@(*) begin
+        shifting = exponent + 9'b110000001; 
+        if (shifting[8]) begin
+            //shifing is negative
+            shifted_result = magnitude >> (~shifing+1'b1);
+        end else
+        begin
+            shifted_result = magnitude << shifing;  // TODO:sus
+        end
+    end
+    // Input is always going to be positive
+    assign fixed_point_input = shifted_result;
+    //assign fixed_point_input = (sign)? ~magnitude+1 : magnitude;
 
-//     wire [8:0] exp_diff;
-//     assign exp_diff = exponent + 9'b110000001; // -127 in twos complement
+endmodule
 
-//     wire [8:0] neg_exp_diff;
-//     assign neg_exp_diff = ~exp_diff + 1'b1;
+module fixed_subtract_128(
+    fixed_point_input_8_13,
+    divide_128
+);
+    input  [20:0] fixed_point_input_8_13;
+    output [20:0] divide_128;
 
-//     // 9+13 = 22
-//     wire [21:0] magnitude;
-//     assign magnitude = exp_diff[8] ? significand << neg_exp_diff : significand >> exp_diff;
+    wire [7:0] input_integer_part;
+    wire [7:0] first_operand;
+    reg [7:0] integer_part_sub128;
 
-//     always@(*) begin
-//         magnitude = significand[22:3];
-//         if(exponent < 7'd127) begin
-//             magnitude = magnitude >> (7'd127-exponent);
-//         end else
-//         begin
-//             magnitude = magnitude << (exponent-7'd127);
-//         end
-//     end
-//     assign fixed_point_input = (sign)? ~magnitude+1 : magnitude;
+    assign input_integer_part = fixed_point_input_8_13[20:20-8];
+    assign first_operand = (fixed_point_input_8_13[20])? input_integer_part : ~input_integer_part+1;
 
-// endmodule
+    always@(*) begin
+        integer_part_sub128 = first_operand + 8'b128;
+        divide_128 = {integer_part_sub128, fixed_point_input_8_13[20-8:0]} >> 7;
+    end
+endmodule
 
 module floating_to_fixed(
     dataa,
