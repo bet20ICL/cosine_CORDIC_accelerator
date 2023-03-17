@@ -24,11 +24,11 @@ module floating_to_fixed_8_13(
     always@(*) begin
         shifting = exponent + 9'b110000001; 
         if (shifting[8]) begin
-            //shifting is negative
-            shifted_result = magnitude >> (~shifting+1'b1);
+            //shifing is negative
+            shifted_result = magnitude >> (~shifing+1'b1);
         end else
         begin
-            shifted_result = magnitude << shifting;  // TODO:sus
+            shifted_result = magnitude << shifing;  // TODO:sus
         end
     end
     // Input is always going to be positive
@@ -52,9 +52,9 @@ module fixed_subtract_128(
     assign first_operand = (fixed_point_input_8_13[20])? input_integer_part : ~input_integer_part+1;
 
     always@(*) begin
-        integer_part_sub128 = first_operand + 8'd128;
+        integer_part_sub128 = first_operand + 8'b128;
+        divide_128 = {integer_part_sub128, fixed_point_input_8_13[20-8:0]} >> 7;
     end
-	 assign divide_128 = {integer_part_sub128, fixed_point_input_8_13[20-8:0]} >> 7;
 endmodule
 
 module floating_to_fixed(
