@@ -4,7 +4,7 @@ module floating_to_fixed_8_13(
 );
     // convert the 32bits floating point input to 21bits fixed point.
     input	[31:0]  dataa; 
-    output  [20:0] fixed_point_input;  
+    output  [27:0] fixed_point_input;  
 
     wire [8:0] exponent;  // added one more bit in front to ensure it is a positive number. 
     wire [22:0] significand;
@@ -15,14 +15,14 @@ module floating_to_fixed_8_13(
     assign sign = dataa[31];
 
     // always positive 8+13 = 21
-    wire [20:0] magnitude;
-    assign magnitude = {1'b1,significand[22:3]};
+    // magnitude + 20+ 8;
+    wire [27:0] magnitude;
+    assign magnitude = {8'b1,significand[22:3]};
 
-
-    reg [20:0] shifted_result;
+    reg [27:0] shifted_result;
     reg [8:0] shifting;
     always@(*) begin
-        shifting = exponent + 9'b110000001; 
+        shifting = exponent + 9'b110000001;  // -128
         if (shifting[8]) begin
             //shifting is negative
             shifted_result = magnitude >> (~shifting+1'b1);
@@ -32,8 +32,23 @@ module floating_to_fixed_8_13(
         end
     end
     // Input is always going to be positive
+    // assign fixed_point_input = shifted_result[27:7];
+
     assign fixed_point_input = shifted_result;
+
     //assign fixed_point_input = (sign)? ~magnitude+1 : magnitude;
+
+    // always@(fixed_point_input) begin
+    //     // $display("<--------------------------->");
+    //     $display("dataa     %b", dataa);
+	// 	// $display("magnitude      %b", magnitude);
+    //     $display("shifted_result %b", shifted_result);
+    //     // $display("shifting  %d", shifting);
+    //     // $display("negative shifting  %d", (~shifting+1'b1));
+    //     $display("fixed_point_input  %b", fixed_point_input);
+
+	// end
+
 
 endmodule
 
@@ -41,20 +56,40 @@ module fixed_subtract_128(
     fixed_point_input_8_13,
     divide_128
 );
-    input  [20:0] fixed_point_input_8_13;
+    input  [27:0] fixed_point_input_8_13;
     output [20:0] divide_128;
 
     wire [7:0] input_integer_part;
-    wire [7:0] first_operand;
+    wire unsigned [7:0] first_operand;
     reg [7:0] integer_part_sub128;
+    reg [27:0] divide_128_intermediate;
 
-    assign input_integer_part = fixed_point_input_8_13[20:20-8];
-    assign first_operand = (fixed_point_input_8_13[20])? input_integer_part : ~input_integer_part+1;
+    assign input_integer_part = fixed_point_input_8_13[27:27-7];
+    assign first_operand = (fixed_point_input_8_13[27])? input_integer_part : ~input_integer_part+1;
 
     always@(*) begin
-        integer_part_sub128 = first_operand + 8'd128;
+        integer_part_sub128 = first_operand + 8'b10000000;
+        divide_128_intermediate = {integer_part_sub128, fixed_point_input_8_13[27-8:0]} >> 7;
     end
-	 assign divide_128 = {integer_part_sub128, fixed_point_input_8_13[20-8:0]} >> 7;
+
+
+   
+
+	// divide_128 = {integer_part_sub128, fixed_point_input_8_13[27-8:0]} >> 7;
+    
+    assign divide_128 = divide_128_intermediate[20:0];
+
+    //  always@(divide_128) begin
+    //     $display("fixed_point_input_8_13 %b", fixed_point_input_8_13);
+	// 	$display("input_integer_part     %b", input_integer_part);
+	// 	$display("first_operand          %b", first_operand);
+    //     $display("second_operad          %b", 8'd128);
+	// 	$display("integer_part_sub128    %d", integer_part_sub128);
+    //     $display("integer_part_sub128    %b", integer_part_sub128);
+    //     $display("integer_part_sub128Com %b", divide_128_intermediate);
+    //     $display("divide_128             %b", divide_128);
+        
+	// end
 endmodule
 
 module floating_to_fixed(

@@ -30,17 +30,25 @@ module test_timing(
 //		.result(out));
 
 
-	 wire [20:0] fixed_point_8_13;
+	 wire [27:0] fixed_point_8_13;
 	 wire [20:0] result_div; 
 	 floating_to_fixed_8_13 floating_to_fixed(
         .dataa(dataa),
         .fixed_point_input(fixed_point_8_13)
     );
 
+
     fixed_subtract_128 fixed_subtract_128_unit(
         .fixed_point_input_8_13(fixed_point_8_13),
         .divide_128(result_div)
     );
+
+	// always@(fixed_point_8_13) begin
+	// 	$display("dataa            %b", dataa);
+	// 	$display("fixed_point_8_13 %b", fixed_point_8_13);
+	// 	//$display("result_div       %h", result_div);
+        
+	// end
 	
 	// cordic_unroll1_var cordic_unit(
 	//        .aclr(reset),

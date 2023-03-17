@@ -11,6 +11,7 @@ module tb_fixed_point_128 ();
 	//Output from DUT is wire type
 	wire done;
     wire [31:0] diff_result1;
+    wire [20:0] result;
 
 	//Instantiate the DUT
 	 test_timing unit (
@@ -71,15 +72,14 @@ module tb_fixed_point_128 ();
 		// intialise/set input
 		clk = 1'b0;
 		clk_en = 1'b0;
-		reset = 1'b1;
-		start = 1'b0;
+		// reset = 1'b1;
+		// start = 1'b0;
 		
 		@(negedge clk);
-        for (i = 0; i <= 10; i = i+1) begin
+        for (i = 0; i <= 2; i = i+1) begin
 			dataa = inputs[i];
 
 			@(negedge clk);
-			start = 1'b0;
 			$display("%d, %h", i, result);
             $display("%d, %h", i, outputs[i]);
             
