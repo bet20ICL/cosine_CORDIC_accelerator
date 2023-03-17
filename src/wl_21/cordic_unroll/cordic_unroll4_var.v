@@ -24,7 +24,9 @@ module cordic_unroll4_var(
     // ignore the sign of the input as we know cosine is even
     wire [20:0] fixed_point_input;
     floating_to_fixed floating_to_fixed_unit(.dataa(dataa), .fixed_point_input(fixed_point_input));
-
+	 always@(*) begin
+		$display("fixed_point_input %h", fixed_point_input);
+	 end
 
     //-------------------------------------------------------------
     // CORDIC

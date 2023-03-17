@@ -13,7 +13,7 @@ module tb_unroll_var ();
 	wire done;
 
 	//Instantiate the DUT
-	cordic_unroll1_var unit(
+	cordic_unroll4_var unit(
 			.aclr(reset),
 			.clk_en(clk_en),
 			.clock(clk),
