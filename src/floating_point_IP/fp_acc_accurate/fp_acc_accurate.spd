@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simPackage>
+ <file path="fp_acc_accurate_sim/dspba_library_package.vhd" type="VHDL" />
+ <file path="fp_acc_accurate_sim/dspba_library.vhd" type="VHDL" />
+ <file path="fp_acc_accurate_sim/fp_acc_accurate.vhd" type="VHDL" />
+ <topLevel name="fp_acc_accurate" />
+ <deviceFamily name="cyclonev" />
+</simPackage>

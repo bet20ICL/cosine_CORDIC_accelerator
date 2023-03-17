@@ -13,7 +13,7 @@ module tb_pipeline ();
 
 
 	//Instantiate the DUT
-	cordic_pipeline unit(
+	cordic_ppl_3cyc_ub unit(
 			.aclr(reset),
 			.clk_en(clk_en),
 			.clock(clk),
@@ -44,8 +44,8 @@ module tb_pipeline ();
 
 	initial
 	begin
-		// $dumpfile("cordic_tb_waves_v.vcd");
-    	// $dumpvars(0,tb_pipeline);
+		$dumpfile("cordic_tb_waves_v.vcd");
+    	$dumpvars(0,tb_pipeline);
 		$display($time, " << Starting Simulation >> ");
 		
 		// intialise/set input
@@ -59,10 +59,12 @@ module tb_pipeline ();
 			clk_en = 1'b1;
 			reset = 1'b0;
 			dataa = inputs[i];
+			$display("%h", result);
+
 			@(negedge clk);
 		end
 
-        repeat (20) begin
+        repeat (5) begin
             @(negedge clk);
 		    $display("%h", result);
         end

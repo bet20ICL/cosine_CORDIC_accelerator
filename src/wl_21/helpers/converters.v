@@ -1,3 +1,59 @@
+// module x_minus_div_128_fxd(
+//     flt_in,
+//     fxd_out
+// );
+//     input	[31:0]  flt_in;     // floating point input
+//     output  [21:0] fxd_out;     // 1 signed bit, 20 frac bits
+
+//     reg     [21:0] fxd_9_13;    
+    
+
+//     always@(*) begin 
+//         if(fixed_point_input_9_13[21]==0) subtract_128 = fixed_point_input_9_13 - 21'sd128; 
+//         else   subtract_128 = 21'sd128 - fixed_point_input_9_13; 
+//         divide_128 = subtract_128 >> 7;
+//     end
+// endmodule
+
+// module floating_to_fixed_9_13(
+//     dataa,
+//     fixed_point_input
+// );
+//     // convert the 32bits floating point input to 21bits fixed point.
+//     input	[31:0]  dataa; 
+//     output  [21:0] fixed_point_input;  
+
+//     wire unsigned [7:0] exponent; 
+//     wire [22:0] significand;
+//     wire sign;
+    
+//     assign exponent = dataa[30:23];
+//     assign significand = dataa[22:0];
+//     assign sign = dataa[31];
+
+//     wire [8:0] exp_diff;
+//     assign exp_diff = exponent + 9'b110000001; // -127 in twos complement
+
+//     wire [8:0] neg_exp_diff;
+//     assign neg_exp_diff = ~exp_diff + 1'b1;
+
+//     // 9+13 = 22
+//     wire [21:0] magnitude;
+//     assign magnitude = exp_diff[8] ? significand << neg_exp_diff : significand >> exp_diff;
+
+//     always@(*) begin
+//         magnitude = significand[22:3];
+//         if(exponent < 7'd127) begin
+//             magnitude = magnitude >> (7'd127-exponent);
+//         end else
+//         begin
+//             magnitude = magnitude << (exponent-7'd127);
+//         end
+//     end
+//     assign fixed_point_input = (sign)? ~magnitude+1 : magnitude;
+
+// endmodule
+
 module floating_to_fixed(
     dataa,
     fixed_point_input

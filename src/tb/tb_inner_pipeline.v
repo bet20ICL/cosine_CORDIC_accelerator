@@ -11,8 +11,8 @@ module tb_inner_pipeline ();
 	reg clk;
 	reg clk_en;
 
-	parameter latency = 45;
-   inner_function_pipelined unit (
+	parameter latency = 43;
+    inner_fn_ppl_custom unit (
         .aclr(reset),
         .clk_en(clk_en),
         .clk(clk),
@@ -24,10 +24,10 @@ module tb_inner_pipeline ();
 	always
 		#10 clk = ~clk;
 
-   parameter num_tests = 12;
+   	parameter num_tests = 12;
 
 	reg [31:0] inputs [11:0];
-   reg [31:0] outputs [11:0];
+   	reg [31:0] outputs [11:0];
 	initial begin
 		inputs[1] = 32'h00000000;  //0.000000 
         inputs[0] = 32'h41c80000;  //25.000000 
@@ -90,7 +90,7 @@ module tb_inner_pipeline ();
 			@(negedge clk);
 		end
 
-		repeat (latency-num_tests) begin
+		repeat (latency-num_tests-2) begin
 			@(negedge clk);
 		end
 		

@@ -1,4 +1,4 @@
-module cordic(
+module cordic_unroll1_var(
     aclr,
 	clk_en,
 	clock,

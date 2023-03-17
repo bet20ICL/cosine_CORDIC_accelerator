@@ -30,7 +30,7 @@ module tb_unroll_var ();
 
 	reg [31:0] inputs [10:0];
 	initial begin
-		inputs[0] = 32'b00000000000000000000000000000000; 	 // in: 0.0 	 out: 1.00000095367431640625 
+		inputs[0] = 32'b0; 	 // in: 0.0 	 out: 1.00000095367431640625 
 		inputs[1] = 32'b00111101110011001100110011001101; 	 // in: 0.1 	 out: 0.99500274658203125000 
 		inputs[2] = 32'b00111110010011001100110011001101; 	 // in: 0.2 	 out: 0.98006725311279296875 
 		inputs[3] = 32'b00111110100110011001100110011010; 	 // in: 0.3 	 out: 0.95533657073974609375 
@@ -43,12 +43,14 @@ module tb_unroll_var ();
 		inputs[10] = 32'b00111111100000000000000000000000; 	 // in: 1.0 	 out: 0.54029560089111328125 
 	end
 	
+	// 111111111110010011000
+
 	integer i;
 	initial
 	begin
 		$dumpfile("cordic_tb_waves_v.vcd");
     	$dumpvars(0,tb_unroll_var);
-		$display($time, " << Stfgarting Simulation >> ");
+		$display($time, " << Starting Simulation >> ");
 		
 		// intialise/set input
 		clk = 1'b0;

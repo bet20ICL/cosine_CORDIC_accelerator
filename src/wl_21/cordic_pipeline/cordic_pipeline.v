@@ -1,5 +1,5 @@
 module cordic_pipeline(
-   aclr,
+    aclr,
 	clk_en,
 	clock,
 	dataa,
@@ -62,7 +62,7 @@ module cordic_pipeline(
             x13 <= 21'b0; y13 <= 21'b0; z13 <= 21'b0;
             x14 <= 21'b0; y14 <= 21'b0; z14 <= 21'b0;
             x15 <= 21'b0; y15 <= 21'b0; z15 <= 21'b0;
-				fixed_point_result <= 21'b0;
+			fixed_point_result <= 21'b0;
         end else if(clk_en) begin
             x0 <= 21'b010011011011101001110;
             y0 <= 21'b0;
@@ -93,35 +93,35 @@ module cordic_pipeline(
 endmodule
 
 module cordic_operation(
-    x,
-    y,
-    z,
-    x_out,
-    y_out,
-    z_out
-);
-    parameter   [3:0]       rotate_index = 4'b1;
-    parameter   [20:0]      rotate_angle = 21'b0;
+     x,
+     y,
+     z,
+     x_out,
+     y_out,
+     z_out
+ );
+     parameter   [3:0]       rotate_index = 4'b1;
+     parameter   [20:0]      rotate_angle = 21'b0;
                 
-    input signed [20:0] x;
-    input signed [20:0] y;
-    input signed [20:0] z;
+     input signed [20:0] x;
+     input signed [20:0] y;
+     input signed [20:0] z;
 
-    output reg signed [20:0] x_out;
-    output reg signed [20:0] y_out;
-    output reg signed [20:0] z_out;
+     output reg signed [20:0] x_out;
+     output reg signed [20:0] y_out;
+     output reg signed [20:0] z_out;
 
-    reg [20:0] z_replicated; 
-    reg [20:0] x_shift;
-    reg [20:0] y_shift;
+     reg [20:0] z_replicated; 
+     reg [20:0] x_shift;
+     reg [20:0] y_shift;
 
-    always@(*) begin 
-        z_replicated = {21{z[20]}};
-        y_shift = (y>>>rotate_index);
-        x_shift = (x>>rotate_index);
-        x_out = x + (y_shift ^ ~z_replicated) + !z[20]; 
-        y_out = y + (x_shift ^ z_replicated) + z[20]; 
-        z_out = z + (rotate_angle ^ ~z_replicated) + !z[20]; 
-    end
+     always@(*) begin 
+         z_replicated = {21{z[20]}};
+         y_shift = (y>>>rotate_index);
+         x_shift = (x>>rotate_index);
+         x_out = x + (y_shift ^ ~z_replicated) + !z[20]; 
+         y_out = y + (x_shift ^ z_replicated) + z[20]; 
+         z_out = z + (rotate_angle ^ ~z_replicated) + !z[20]; 
+     end
 
-endmodule
+ endmodule

@@ -1,0 +1,3 @@
+fp_acc_accurate_sim/dspba_library_package.vhd
+fp_acc_accurate_sim/dspba_library.vhd
+fp_acc_accurate_sim/fp_acc_accurate.vhd

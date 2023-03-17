@@ -3,56 +3,51 @@ module test_timing(
 	clk_en,
 	clock,
 	start,
-	result,
 	dataa,
+	result,
 	done
 );
 
 	input reset;
-   input clk_en;
-   input clock;
-   input start;
-   input [31:0] dataa;
-   output [31:0] result;
-   output done;
-		  
-
-
-	//Inputs to DUT are reg type
-
-	//Output from DUT is wire type
-	wire done;
-	wire [31:0] result;
-
+	input clk_en;
+	input clock;
+	input start;
+	input [31:0] dataa;
+	output [31:0] result;
+	output done;
 	
-	// cordic_pipeline dut(
-	// 	.aclr(reset),
-	// 	.clk_en(clk_en),
-	// 	.clock(clk),
-	// 	.dataa(dataa),
-	// 	.result(result));
+	assign done = 1'b1;
 	
 	reg [31:0] dataa_reg;
 	wire [31:0] out;
+	reg [31:0] result_reg;
 	
-	reg [31:0] result_intermediate;
-//	cordic_unroll1_var cordic_unit(
-//        .aclr(reset),
-//        .clk_en(clk_en),
-//        .clock(clock),
-//        .start(start),
-//        .dataa(dataa_reg),
-//        .result(out),
-//        .done(done)
-//    );
+
+	cordic_ppl_3cyc_ub dut(
+		.aclr(reset),
+		.clk_en(clk_en),
+		.clock(clock),
+		.dataa(dataa_reg),
+		.result(out));
+	
+	
+	// cordic_unroll1_var cordic_unit(
+	//        .aclr(reset),
+	//        .clk_en(clk_en),
+	//        .clock(clock),
+	//        .start(start),
+	//        .dataa(dataa_reg),
+	//        .result(out),
+	//        .done(done)
+	// );
 		
-	fixed_to_float fixed_to_float_unit( dataa_reg, out );
+//	fixed_to_float fixed_to_float_unit( dataa_reg, out );
+	// floating_to_fixed(dataa_reg, out);
 		
 	always @(posedge clock) begin
 		dataa_reg <= dataa;
-		result_intermediate <= out;
+		result_reg <= out;
 	end
-	assign result = result_intermediate;
-		
+	assign result = result_reg;
 
 endmodule

@@ -45,124 +45,141 @@
 
 // endmodule
 
-module rotation_offset(
-    x,
-    y,
-    z,
-    offsetX,
-    offsetY,
-    offsetZ,
-    rotate_index,
-    rotateAngle,
-);
+// module rotation_offset(
+//     x,
+//     y,
+//     z,
+//     offsetX,
+//     offsetY,
+//     offsetZ,
+//     rotate_index,
+//     rotateAngle,
+// );
    
-    input signed [20:0] x;
-    input signed [20:0] y;
-    input signed [20:0] z;
-    input unsigned [4:0] rotate_index;
-    input signed [20:0] rotateAngle;
+//     input signed [20:0] x;
+//     input signed [20:0] y;
+//     input signed [20:0] z;
+//     input unsigned [4:0] rotate_index;
+//     input signed [20:0] rotateAngle;
 
-    output reg [20:0] offsetX;
-    output reg [20:0] offsetY;
-    output reg [20:0] offsetZ;
-    always@(*) begin 
-        if(z[20]==0) begin
-            offsetX = -(y >>> rotate_index);
-            offsetY = x >>> rotate_index;
-            offsetZ = -rotateAngle;
-        end 
-        else begin
-            offsetX = y >>> rotate_index;
-            offsetY = -(x >>> rotate_index);
-            offsetZ = rotateAngle;
-        end
-    end
-endmodule
+//     output reg [20:0] offsetX;
+//     output reg [20:0] offsetY;
+//     output reg [20:0] offsetZ;
+//     always@(*) begin 
+//         if(z[20]==0) begin
+//             offsetX = -(y >>> rotate_index);
+//             offsetY = x >>> rotate_index;
+//             offsetZ = -rotateAngle;
+//         end 
+//         else begin
+//             offsetX = y >>> rotate_index;
+//             offsetY = -(x >>> rotate_index);
+//             offsetZ = rotateAngle;
+//         end
+//     end
+// endmodule
 
-module addsub(
-    x,
-    y,
-    s,
-    q,
-);
-    parameter WIDTH = 32;
-    input [WIDTH-1:0] x;
-    input [WIDTH-1:0] y;
-    input s;
-    output [WIDTH-1:0] q;
+// module addsub(
+//     x,
+//     y,
+//     s,
+//     q,
+// );
+//     parameter WIDTH = 32;
+//     input [WIDTH-1:0] x;
+//     input [WIDTH-1:0] y;
+//     input s;
+//     output [WIDTH-1:0] q;
 
-    // always @(*) begin
-    //     $display("%d", s);
-    // end
+//     // always @(*) begin
+//     //     $display("%d", s);
+//     // end
 
-    assign q = (x>>1) + (y ^ {WIDTH{s}}) + s;
+//     assign q = (x>>1) + (y ^ {WIDTH{s}}) + s;
 
-endmodule
+// endmodule
 
-module addsub_offset(
-    x,
-    y,
-    z,
-    rot_x,
-    // rot_y,
-    // rot_z,
-    rotate_index
-    // rotate_angle
-);
+// module addsub_offset(
+//     x,
+//     y,
+//     z,
+//     rot_x,
+//     // rot_y,
+//     // rot_z,
+//     rotate_index
+//     // rotate_angle
+// );
    
-    input signed [20:0] x;
-    input signed [20:0] y;
-    input signed [20:0] z;
-    input unsigned [4:0] rotate_index;
-    // input signed [20:0] rotate_angle;
+//     input signed [20:0] x;
+//     input signed [20:0] y;
+//     input signed [20:0] z;
+//     input unsigned [4:0] rotate_index;
+//     // input signed [20:0] rotate_angle;
 
-    output reg [20:0] rot_x;
-    // output reg [20:0] rot_y;
-    // output reg [20:0] rot_z;
+//     output reg [20:0] rot_x;
+//     // output reg [20:0] rot_y;
+//     // output reg [20:0] rot_z;
 
-    reg signed [20:0] z_replicated; 
-    reg signed [20:0] x_shift;
-    wire top_z;
-    wire not_top_z;
-    assign top_z = z[20];
-    assign not_top_z = ~z[20];
-    // reg signed [20:0] y_shift;
-    // reg signed [20:0] z_shift;
-    always@(*) begin 
-        z_replicated = {21{z[20]}};
-        x_shift = (y>>>rotate_index);
-        // y_shift = (x>>>rotate_index);
-        // z_shift = (rotate_angle>>>rotate_index);
-        $display("z[20]: %h", !z[20]);
-        // $display("xor: %h", x_shift ^ (~z_replicated)+1);
+//     reg signed [20:0] z_replicated; 
+//     reg signed [20:0] x_shift;
+//     wire top_z;
+//     wire not_top_z;
+//     assign top_z = z[20];
+//     assign not_top_z = ~z[20];
+//     // reg signed [20:0] y_shift;
+//     // reg signed [20:0] z_shift;
+//     always@(*) begin 
+//         z_replicated = {21{z[20]}};
+//         x_shift = (y>>>rotate_index);
+//         // y_shift = (x>>>rotate_index);
+//         // z_shift = (rotate_angle>>>rotate_index);
+//         $display("z[20]: %h", !z[20]);
+//         // $display("xor: %h", x_shift ^ (~z_replicated)+1);
 
-        // rot_x = x + x_shift ^ (~z_replicated); 
-        rot_x = x + (x_shift ^ (~z_replicated)) + !z[20];
-        // rot_y = y + (y_shift ^ z_replicated) + z[20]; 
-        // rot_z = z + (z_shift ^ ~z_replicated) + ~z[20]; 
-        // x <= x + ((y>>>rotate_index) ^ {32{~z[20]}}) + ~z[20];
-        // y <= y + ((x>>>rotate_index) ^ {32{z[20]}}) + z[20];
-        // z <= z + ((rotateAngle>>>rotate_index) ^ {32{~z[20]}}) + ~z[20];
-    end
+//         // rot_x = x + x_shift ^ (~z_replicated); 
+//         rot_x = x + (x_shift ^ (~z_replicated)) + !z[20];
+//         // rot_y = y + (y_shift ^ z_replicated) + z[20]; 
+//         // rot_z = z + (z_shift ^ ~z_replicated) + ~z[20]; 
+//         // x <= x + ((y>>>rotate_index) ^ {32{~z[20]}}) + ~z[20];
+//         // y <= y + ((x>>>rotate_index) ^ {32{z[20]}}) + z[20];
+//         // z <= z + ((rotateAngle>>>rotate_index) ^ {32{~z[20]}}) + ~z[20];
+//     end
 
-    reg signed [20:0] offsetX;
+//     reg signed [20:0] offsetX;
 
-    always@(*) begin
-        if(z[20]==0) begin
-            offsetX = -(y >>> rotate_index);
-        end 
-        else begin
-            offsetX = y >>> rotate_index;
-        end
-        $display("offsetX: %h", offsetX);
-    end
-endmodule
+//     always@(*) begin
+//         if(z[20]==0) begin
+//             offsetX = -(y >>> rotate_index);
+//         end 
+//         else begin
+//             offsetX = y >>> rotate_index;
+//         end
+//         $display("offsetX: %h", offsetX);
+//     end
+// endmodule
 
 
 
 module tb();
-    parameter A = 4;
-    parameter B = $clog2(A);
+
+    reg [2:0] a;
+    reg [2:0] b;
+    reg [2:0] nb;
+    reg [3:0] c;
+
+    assign nb = ~b + 1;
+    
+    initial begin
+        a = 3'd7;
+        b = 3'd4;
+        #1;
+        c = a + nb;
+        $display("%b, %b, %b, %b", a, b, nb, c);
+        $display("%d, %d, %d, %d", a, b, nb, c);
+    end
+
+    // parameter A = 4;
+    // parameter B = $clog2(A);
     // reg signed [15:0] x;
     // reg [15:0] y;
     // reg signed [15:0] z;
@@ -177,9 +194,9 @@ module tb();
     //     .q(q)
     // );
 
-    initial begin
+    // initial begin
 
-        $display("A: %d, B: %d", A, B);
+    //     $display("A: %d, B: %d", A, B);
         // x = (32'h8002);
         // y = 32'h2;
         // s = 1'b0;
@@ -195,7 +212,7 @@ module tb();
         // // z = ((x>>>1) ^ {32{s}}) + s;
         // #2;
         // $display("x: %h, y: %h, q: %h, z: %h", x, y, q, z);
-    end
+    // end
 
 
     // reg [20:0] x;
@@ -232,6 +249,5 @@ module tb();
 
     // end
     // $display("angle: %d", 16'h011001001000011111101);
-    
 
 endmodule

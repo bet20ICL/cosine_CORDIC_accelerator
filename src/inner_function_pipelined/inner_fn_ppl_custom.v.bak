@@ -9,7 +9,7 @@ module inner_function_pipelined(
 	parameter [31:0] flt_recip_128 = 32'h3c000000;		// 1.0/128.0
 	parameter [31:0] flt_recip_2 = 32'h3f000000;			// 0.5
 	parameter fp_mult_latency = 5;
-	parameter fp_add_latency = 11;
+	parameter fp_add_latency = 8;
 	parameter cordic_latency = 17;
 	
 
@@ -22,17 +22,12 @@ module inner_function_pipelined(
 	// 0.5 * x
 	// 11 cycles
 	wire [31:0] x_half;
-	fp_mult_ppl div_x_2(
-		.areset(aclr),
-		.en(clk_en),
-		.clk(clk),
-		.a(dataa),
-		.b(flt_recip_2),
-		.q(x_half)
+	fp_half div_x_2(
+		.dataa(dataa),
+		.result(x_half)
 	);
 	parameter x_half_buffer_len = fp_add_latency + fp_mult_latency + cordic_latency;
 	reg [31:0] x_half_buffer [x_half_buffer_len-1:0];
-	
 	
 	// x^2
 	// 11 cycles
