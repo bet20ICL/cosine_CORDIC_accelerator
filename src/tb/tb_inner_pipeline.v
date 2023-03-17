@@ -11,8 +11,8 @@ module tb_inner_pipeline ();
 	reg clk;
 	reg clk_en;
 
-	parameter latency = 43;
-    inner_fn_ppl_custom unit (
+	parameter latency = 12;
+    inner_fn_ppl_15cyc_custom unit (
         .aclr(reset),
         .clk_en(clk_en),
         .clk(clk),

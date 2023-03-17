@@ -1,0 +1,3 @@
+fp_acc_target_sim/dspba_library_package.vhd
+fp_acc_target_sim/dspba_library.vhd
+fp_acc_target_sim/fp_acc_target.vhd

@@ -23,7 +23,7 @@ module test_timing(
 	reg [31:0] result_reg;
 	
 
-	cordic_ppl_3cyc_ub dut(
+	cordic_ppl_3cyc dut(
 		.aclr(reset),
 		.clk_en(clk_en),
 		.clock(clock),

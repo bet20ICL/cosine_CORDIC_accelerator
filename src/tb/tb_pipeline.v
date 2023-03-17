@@ -13,7 +13,7 @@ module tb_pipeline ();
 
 
 	//Instantiate the DUT
-	cordic_ppl_3cyc_ub unit(
+	cordic_ppl_3cyc unit(
 			.aclr(reset),
 			.clk_en(clk_en),
 			.clock(clk),

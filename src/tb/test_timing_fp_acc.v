@@ -33,7 +33,7 @@ module test_timing_fp_acc(
 	wire xu_out;
 	wire ao_out;
 
-	fp_acc_8cyc fp_acc(
+	fp_acc_target fp_acc(
 		.clk(clock),
 		.areset(reset),
 		.x(dataa_reg),

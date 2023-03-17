@@ -13,8 +13,8 @@ module tb_full_fn_fake_ppl ();
 	wire [31:0] result;
     wire done;
     
-	parameter latency = 43;
-    full_fn_fake_ppl unit(
+	parameter latency = 17;
+    full_fn_fake_ppl_15cycle unit(
         .reset(reset),
         .clk_en(clk_en),
         .clock(clk),
