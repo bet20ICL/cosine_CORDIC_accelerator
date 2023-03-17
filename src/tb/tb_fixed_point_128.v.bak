@@ -13,15 +13,18 @@ module tb_fixed_point_128 ();
     wire [31:0] diff_result1;
 
 	//Instantiate the DUT
-	 test_timing unit (
-		.reset(reset),
-		.clk_en(clk_en),
-		.clock(clk),
-		.start(start),
-		.dataa(dataa),
-		.result(result),
-		.done(done)
-	);
+	// wire [20:0] divide_128;
+    wire [20:0] fixed_point_8_13;
+    floating_to_fixed_8_13 floating_to_fixed(
+        .dataa(dataa),
+        .fixed_point_input(fixed_point_8_13)
+    );
+
+    fixed_subtract_128 fixed_subtract_128_unit(
+        .fixed_point_input_8_13(fixed_point_8_13),
+        .divide_128(result)
+    );
+
 
 
 	//Create a 50MHz clock
