@@ -32,9 +32,9 @@ module floating_to_fixed_8_13(
         end
     end
     // Input is always going to be positive
-    // assign fixed_point_input = shifted_result[27:7];
-
     assign fixed_point_input = shifted_result;
+
+
 
     //assign fixed_point_input = (sign)? ~magnitude+1 : magnitude;
 
@@ -59,34 +59,46 @@ module fixed_subtract_128(
     input  [27:0] fixed_point_input_8_13;
     output [20:0] divide_128;
 
-    wire [7:0] input_integer_part;
-    wire unsigned [7:0] first_operand;
-    reg [7:0] integer_part_sub128;
+
+    // wire [7:0] input_integer_part;
+    // wire unsigned [7:0] first_operand;
+    // reg [7:0] integer_part_sub128;
     reg [27:0] divide_128_intermediate;
 
-    assign input_integer_part = fixed_point_input_8_13[27:27-7];
-    assign first_operand = (fixed_point_input_8_13[27])? input_integer_part : ~input_integer_part+1;
+    // wire [19:0] fractional_part;
+    // assign input_integer_part = fixed_point_input_8_13[27:27-7];
+    // assign fractional_part = fixed_point_input_8_13[27-8:0];
+
+    // assign first_operand = (fixed_point_input_8_13[27])? input_integer_part : ~input_integer_part+1;
+    // assign fractional_part = (fixed_point_input_8_13[27])? fixed_point_input_8_13[27-8:0] : ~input_integer_part+1;
+     
 
     always@(*) begin
-        integer_part_sub128 = first_operand + 8'b10000000;
-        divide_128_intermediate = {integer_part_sub128, fixed_point_input_8_13[27-8:0]} >> 7;
+        // integer_part_sub128 = first_operand + 8'b10000000;
+        // divide_128_intermediate = {integer_part_sub128, fixed_point_input_8_13[27-8:0]} >> 7;
+        if(fixed_point_input_8_13[27]) begin
+            divide_128_intermediate = (fixed_point_input_8_13 - {8'd128, 20'b0}) >> 7;
+        end 
+        else begin
+            divide_128_intermediate = ({8'd128, 20'b0} - fixed_point_input_8_13) >> 7;
+        end 
     end
 
-
-   
 
 	// divide_128 = {integer_part_sub128, fixed_point_input_8_13[27-8:0]} >> 7;
     
     assign divide_128 = divide_128_intermediate[20:0];
 
     //  always@(divide_128) begin
+    //     $display("<--------------------->");
     //     $display("fixed_point_input_8_13 %b", fixed_point_input_8_13);
-	// 	$display("input_integer_part     %b", input_integer_part);
-	// 	$display("first_operand          %b", first_operand);
-    //     $display("second_operad          %b", 8'd128);
-	// 	$display("integer_part_sub128    %d", integer_part_sub128);
-    //     $display("integer_part_sub128    %b", integer_part_sub128);
-    //     $display("integer_part_sub128Com %b", divide_128_intermediate);
+	// 	// $display("input_integer_part     %b", input_integer_part);
+	// 	// $display("first_operand          %b", first_operand);
+    //     // $display("second_operad          %b", 8'd128);
+	// 	// $display("integer_part_sub128    %d", integer_part_sub128);
+    //     // $display("integer_part_sub128    %b", integer_part_sub128);
+    //     // $display("integer_part_sub128Com1 %b", {integer_part_sub128, fixed_point_input_8_13[27-8:0]});
+    //     // $display("integer_part_sub128Com2 %b", divide_128_intermediate);
     //     $display("divide_128             %b", divide_128);
         
 	// end
