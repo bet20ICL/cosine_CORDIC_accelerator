@@ -12,7 +12,7 @@
 # or its authorized distributors. Please refer to the applicable 
 # agreement for further details.
 
-# ACDS 18.1 625 win32 2023.03.17.15:56:57
+# ACDS 18.1 625 win32 2023.03.17.12:39:50
 
 # ----------------------------------------
 # vcs - auto-generated simulation script
@@ -20,7 +20,7 @@
 # ----------------------------------------
 # This script provides commands to simulate the following IP detected in
 # your Quartus project:
-#     fp_mult_2cyc
+#     fp_addsub_mxcyc
 # 
 # Altera recommends that you source this Quartus-generated IP simulation
 # script from your own customized top-level script, and avoid editing this
@@ -83,7 +83,7 @@
 # 
 # IP SIMULATION SCRIPT
 # ----------------------------------------
-# If fp_mult_2cyc is one of several IP cores in your
+# If fp_addsub_mxcyc is one of several IP cores in your
 # Quartus project, you can generate a simulation script
 # suitable for inclusion in your top-level simulation
 # script by running the following command line:
@@ -94,10 +94,10 @@
 # within the Quartus project, and generate a unified
 # script which supports all the Altera IP within the design.
 # ----------------------------------------
-# ACDS 18.1 625 win32 2023.03.17.15:56:57
+# ACDS 18.1 625 win32 2023.03.17.12:39:50
 # ----------------------------------------
 # initialize variables
-TOP_LEVEL_NAME="fp_mult_2cyc"
+TOP_LEVEL_NAME="fp_addsub_mxcyc"
 QSYS_SIMDIR="./../../"
 QUARTUS_INSTALL_DIR="C:/intelfpga/18.1/quartus/"
 SKIP_FILE_COPY=0
@@ -143,7 +143,7 @@ vcs -lca -timescale=1ps/1ps -sverilog +verilog2001ext+.v -ntb_opts dtm $ELAB_OPT
   -v $QUARTUS_INSTALL_DIR/eda/sim_lib/cyclonev_hssi_atoms.v \
   -v $QUARTUS_INSTALL_DIR/eda/sim_lib/synopsys/cyclonev_pcie_hip_atoms_ncrypt.v \
   -v $QUARTUS_INSTALL_DIR/eda/sim_lib/cyclonev_pcie_hip_atoms.v \
-  $QSYS_SIMDIR/fp_mult_2cyc.vo \
+  $QSYS_SIMDIR/fp_addsub_mxcyc.vo \
   -top $TOP_LEVEL_NAME
 # ----------------------------------------
 # simulate

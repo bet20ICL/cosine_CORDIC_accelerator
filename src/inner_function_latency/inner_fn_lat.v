@@ -10,9 +10,9 @@ module inner_fn_lat(
     parameter [31:0] flt_128 = 32'h43000000; 		
     parameter [31:0] flt_recip_128 = 32'h3c000000;		// 1.0/128.0
 	parameter [31:0] flt_recip_2 = 32'h3f000000;        // 0.5
-    parameter cordic_latency = 9;
-    parameter fp_add_latency = 5;
-    parameter fp_mult_latency = 3;
+    parameter cordic_latency = 5;
+    parameter fp_add_latency = 3;
+    parameter fp_mult_latency = 2;
 
 	input	        aclr;
 	input	        clk_en;
@@ -48,7 +48,7 @@ module inner_fn_lat(
     wire [31:0] divide_128;
     // x-128
     // 8 cycles
-	fp_addsub_5cyc sub_x_128(
+	fp_addsub_3cyc sub_x_128(
 		.areset(aclr),
 		.en(clk_en),
 		.clk(clock),
@@ -65,7 +65,7 @@ module inner_fn_lat(
     //     .result(divide_128)
     // );
 
-    fp_mult_3cyc fp_div_128_unit(
+    fp_mult_2cyc fp_div_128_unit(
 			.areset(aclr),
 			.en(clk_en),
 			.clk(clock),
@@ -81,7 +81,7 @@ module inner_fn_lat(
     wire [31:0] cordic_result;
 
     assign startCordic = startShifted[fp_add_latency+fp_mult_latency-1];
-    cordic_unroll1_var cordic_unit(
+    cordic_unroll4_var cordic_unit(
         .aclr(aclr),
         .clk_en(clk_en),
         .clock(clock),
@@ -97,7 +97,7 @@ module inner_fn_lat(
     // x^2 
     // 5 cycles
     wire [31:0] square; 
-	  fp_mult_3cyc square_unit(
+	  fp_mult_2cyc square_unit(
 		.areset(aclr),
 		.en(clk_en),
 		.clk(clock),
@@ -113,7 +113,7 @@ module inner_fn_lat(
     // x^2 *  cos((x-128)/128)
     // fp_mult_latency + cordic_latency = 17 + 5;
     wire [31:0] mult_square_cordic;
-    fp_mult_3cyc fp_mult_custom_unit2(
+    fp_mult_2cyc fp_mult_custom_unit2(
 			.areset(aclr),
 			.en(clk_en),
 			.clk(clock),
@@ -124,7 +124,7 @@ module inner_fn_lat(
 
     // 0.5*x + x^2 * cos((x-128)/128)
     // fp_mult_latency + cordic_latency + fp_add_latency= 17 + 5 + 11;
-    fp_addsub_5cyc fp_addsub_custom_unit2(
+    fp_addsub_3cyc fp_addsub_custom_unit2(
 		.areset(aclr),
 		.en(clk_en),
 		.clk(clock),
@@ -157,25 +157,26 @@ module inner_fn_lat(
 		end
 	end
 
-    // always@(posedge clock) begin
-    //     $display("startShifted[10], %d", startShifted[10]);
-    //     // $display("subtract_128 %h, %h", dataa, subtract_128);
-    //     // $display("div_x_128 %h, %h", subtract_128, divide_128);
-    //     $display("startCordic %d", startCordic);
+   always@(posedge clock) begin
+//         
+//			$display("subtract[], %d", startShifted[fp_add_latency-1]);
+//         $display("subtract_128 %h, %h", dataa, subtract_128);
+//			$display("startShifted[], %d", startShifted[fp_add_latency+fp_mult_latency-1]);
+//         $display("div_x_128 %h, %h", subtract_128, divide_128);
+//         $display("startCordic %d", startCordic);
+//
+//         $display("cordic time[%d], %d", fp_add_latency+fp_mult_latency+cordic_latency-1, startShifted[fp_add_latency+fp_mult_latency+cordic_latency-1]);
+//         $display("cordic_done %d, %h", cordic_done, cordic_result);
 
-    //     $display("startShifted[26], %d", startShifted[26]);
-    //     $display("startShifted[27], %d", startShifted[27]);
-    //     $display("cordic_done %d, %h", cordic_done, cordic_result);
-
-    //     $display("startShifted[32], %d", startShifted[32]);
-    //     $display("startShifted[33], %d", startShifted[33]);
-    //     $display("mult_square_cordic, %h", mult_square_cordic); //43d8aa4f
+//         $display("startShifted[32], %d", startShifted[32]);
+//         $display("startShifted[33], %d", startShifted[33]);
+//         $display("mult_square_cordic, %h", mult_square_cordic); //43d8aa4f
 
     //     $display("startShifted[42], %d", startShifted[42]);
     //     $display("startShifted[43], %d", startShifted[43]);
     //     $display("result, %h", result); //43d8aa4f
     
-    // end
+    end
     
     // TODO: optimization
     assign done = (startShifted[total_clk_cycles-1]);
