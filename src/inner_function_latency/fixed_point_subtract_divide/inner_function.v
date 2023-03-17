@@ -58,7 +58,7 @@ module inner_function(
     //--------------------------------------------------------
     // This might be now on the critical path
 
-    reg [20:0] subtract_128;
+    reg [7:0] integer_part_sub128;
     reg [20:0] divide_128;
     wire signed [21:0] fixed_point_input_9_13;
 
@@ -67,12 +67,11 @@ module inner_function(
         .fixed_point_input(fixed_point_input_9_13)
     );
 
-    always@(*) begin 
-        if(fixed_point_input_9_13[21]==0) subtract_128 = fixed_point_input_9_13 - 21'sd128; 
-        else   subtract_128 = 21'sd128 - fixed_point_input_9_13; 
-        divide_128 = subtract_128 >> 7;
-    end
-
+    // always@(*) begin 
+    //     if(fixed_point_input_9_13[20]==0) subtract_128 = fixed_point_input_9_13 - 21'sd128; 
+    //     else   subtract_128 = 21'sd128 - fixed_point_input_9_13; 
+    //     divide_128 = subtract_128 >> 7;
+    // end
 
 
 

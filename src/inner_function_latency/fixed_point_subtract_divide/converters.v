@@ -4,31 +4,57 @@ module floating_to_fixed_9_13(
 );
     // convert the 32bits floating point input to 21bits fixed point.
     input	[31:0]  dataa; 
-    output  [21:0] fixed_point_input;  
+    output  [20:0] fixed_point_input;  
 
-    wire unsigned [7:0] exponent; 
+    wire [8:0] exponent;  // added one more bit in front to ensure it is a positive number. 
     wire [22:0] significand;
     wire sign;
     
-    assign exponent = dataa[30:23];
+    assign exponent = dataa[30:23]; // the most significant bit will be 0
     assign significand = dataa[22:0];
     assign sign = dataa[31];
 
-    // 9+13 = 22
-    reg [21:0] magnitude;
+    // always positive 8+13 = 21
+    wire [20:0] magnitude;
+    assign magnitude = {1'b1,significand[22:3]};
+
+
+    reg [20:0] shifted_result;
+    reg [8:0] shifting;
     always@(*) begin
-        magnitude = significand[22:3];
-        if(exponent < 7'd127) begin
-            magnitude = magnitude >> (7'd127-exponent);
+        shifting = exponent + 9'b110000001; 
+        if (shifting[8]) begin
+            //shifing is negative
+            shifted_result = magnitude >> (~shifing+1'b1);
         end else
         begin
-            magnitude = magnitude << (exponent-7'd127);
+            shifted_result = magnitude << shifing;  // TODO:sus
         end
     end
-    assign fixed_point_input = (sign)? ~magnitude+1 : magnitude;
+    // Input is always going to be positive
+    assign fixed_point_input = shifted_result;
+    //assign fixed_point_input = (sign)? ~magnitude+1 : magnitude;
 
 endmodule
 
+module fixed_subtract_128(
+    fixed_point_input_9_13,
+    divide_128
+);
+    input [20:0] fixed_point_input_9_13;
+    output [20:0] divide_128;
+
+    wire [7:0] input_integer_part;
+    wire [7:0] first_operand;
+
+    assign input_integer_part = fixed_point_input_9_13[20:20-8];
+    assign first_operand = (fixed_point_input_9_13[20])? input_integer_part : ~input_integer_part+1;
+
+    always@(*) begin
+        integer_part_sub128 = first_operand + 8'b128;
+        divide_128 = {integer_part_sub128, fixed_point_input_9_13[20-8:0]} >> 7;
+    end
+endmodule
 
 module floating_to_fixed(
     dataa,
