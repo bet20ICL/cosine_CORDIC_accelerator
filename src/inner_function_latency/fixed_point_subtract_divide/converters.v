@@ -17,8 +17,7 @@ module floating_to_fixed_9_13(
     // 9+13 = 22
     reg [21:0] magnitude;
     always@(*) begin
-        magnitude = significand[22:3];
-        if(exponent < 7'd127) begin
+        magnitude = {1'b1,significand[22:3]};
             magnitude = magnitude >> (7'd127-exponent);
         end else
         begin

@@ -80,7 +80,7 @@ module inner_fn_lat(
     wire cordic_done;
     wire [31:0] cordic_result;
 
-    assign startCordic = startShifted[fp_add_latency-1];
+    assign startCordic = startShifted[fp_add_latency+fp_mult_latency-1];
     cordic_unroll4_var cordic_unit(
         .aclr(aclr),
         .clk_en(clk_en),
