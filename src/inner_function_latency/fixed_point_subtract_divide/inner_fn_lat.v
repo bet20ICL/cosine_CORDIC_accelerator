@@ -76,7 +76,7 @@ module inner_fn_lat(
 
    
     wire [20:0] divide_128;
-    wire [20:0] fixed_point_8_13;
+    wire [27:0] fixed_point_8_13;
     floating_to_fixed_8_13 floating_to_fixed(
         .dataa(dataa),
         .fixed_point_input(fixed_point_8_13)
