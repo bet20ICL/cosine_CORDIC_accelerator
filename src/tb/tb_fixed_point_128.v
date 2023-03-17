@@ -105,12 +105,12 @@ module tb_fixed_point_128 ();
 		// start = 1'b0;
 		
 		@(negedge clk);
-        for (i = 0; i <= 1; i = i+1) begin
+        for (i = 0; i <= 10; i = i+1) begin
 			dataa = inputs[i];
 
 			@(negedge clk);
-			// $display("%d, %b", i, result);
-            // $display("%d, %b", i, outputs[i]);
+			 $display("%d, %b", i, result);
+          $display("%d, %b", i, outputs[i]);
             
 		end
 
