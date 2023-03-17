@@ -53,7 +53,7 @@ set_global_assignment -entity "fp_mult_2cyc_0002" -library "fp_mult_2cyc" -name 
 set_global_assignment -entity "fp_mult_2cyc_0002" -library "fp_mult_2cyc" -name IP_COMPONENT_PARAMETER "ZnhwdF9mcmFjdGlvbg==::MA==::RnJhY3Rpb24="
 set_global_assignment -entity "fp_mult_2cyc_0002" -library "fp_mult_2cyc" -name IP_COMPONENT_PARAMETER "ZnhwdF9zaWdu::MQ==::U2lnbg=="
 set_global_assignment -entity "fp_mult_2cyc_0002" -library "fp_mult_2cyc" -name IP_COMPONENT_PARAMETER "ZnJlcXVlbmN5X2ZlZWRiYWNr::NTA=::ZnJlcXVlbmN5X2ZlZWRiYWNr"
-set_global_assignment -entity "fp_mult_2cyc_0002" -library "fp_mult_2cyc" -name IP_COMPONENT_PARAMETER "bGF0ZW5jeV9mZWVkYmFjaw==::MTQ=::bGF0ZW5jeV9mZWVkYmFjaw=="
+set_global_assignment -entity "fp_mult_2cyc_0002" -library "fp_mult_2cyc" -name IP_COMPONENT_PARAMETER "bGF0ZW5jeV9mZWVkYmFjaw==::Nw==::bGF0ZW5jeV9mZWVkYmFjaw=="
 set_global_assignment -entity "fp_mult_2cyc_0002" -library "fp_mult_2cyc" -name IP_COMPONENT_PARAMETER "Zm9yY2VfZWxhYm9yYXRl::MQ==::Zm9yY2VfZWxhYm9yYXRl"
 set_global_assignment -entity "fp_mult_2cyc_0002" -library "fp_mult_2cyc" -name IP_COMPONENT_PARAMETER "ZnBfb3V0X2Zvcm1hdA==::c2luZ2xl::T3V0cHV0IEZvcm1hdA=="
 set_global_assignment -entity "fp_mult_2cyc_0002" -library "fp_mult_2cyc" -name IP_COMPONENT_PARAMETER "ZnBfb3V0X2V4cA==::OA==::T3V0cHV0IEV4cG9uZW50"

@@ -31,7 +31,7 @@ module tb_inner_lat ();
 
 	reg [31:0] inputs [11:0]; 
    reg [31:0] outputs [11:0];
-	
+		 //inputs[0] = 32'h3e82fff3;
 	initial begin
     inputs[0] = 32'h00000000; //0.000000 
     inputs[1] = 32'h41c80000; //25.000000 
@@ -75,7 +75,7 @@ module tb_inner_lat ();
 		start = 1'b0;
 		
 		@(negedge clk);
-        for (i = 0; i <= 11; i = i+1) begin
+        for (i = 0; i <= 10; i = i+1) begin
          	clk_en = 1'b1;
 			reset = 1'b0;
 			start = 1'b1;
