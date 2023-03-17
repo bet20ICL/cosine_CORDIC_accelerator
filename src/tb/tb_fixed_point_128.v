@@ -32,7 +32,7 @@ module tb_fixed_point_128 ();
 		#10 clk = ~clk;
 
 	reg [31:0] inputs [11:0]; 
-   reg [31:0] outputs [11:0];
+   reg [20:0] outputs [11:0];
 		 //inputs[0] = 32'h3e82fff3;
 	initial begin
     inputs[0] = 32'h00000000; //0.000000 
@@ -48,18 +48,19 @@ module tb_fixed_point_128 ();
     inputs[10] = 32'h437a0000; //250.000000 
     inputs[11] = 32'h437f0000; //255.000000 
 
-    outputs[0] = 32'h00000000; //0.000000 
-    outputs[1] = 32'h43deea9d; //445.832916 
-    outputs[2] = 32'h4501b0c0; //2075.046875 
-    outputs[3] = 32'h45a219d4; //5187.228516 
-    outputs[4] = 32'h46194f03; //9811.752930 
-    outputs[5] = 32'h46750d13; //15683.268555 
-    outputs[6] = 32'h46adc721; //22243.564453 
-    outputs[7] = 32'h46dffe6e; //28671.214844 
-    outputs[8] = 32'h4704912a; //33937.164062 
-    outputs[9] = 32'h471013f6; //36883.960938 
-    outputs[10] = 32'h470de056; //36320.335938 
-    outputs[11] = 32'h470b667f; //35686.496094 
+    outputs[0] = 21'h000000; 
+    outputs[1] = 21'h100000; 
+    outputs[2] = 21'h0ce000;
+    outputs[3] = 21'h09c000;
+    outputs[4] = 21'h06a000; 
+    outputs[5] = 21'h038000; 
+    outputs[6] = 21'h006000;
+    outputs[7] = 21'h02c000; 
+    outputs[8] = 21'h05e000; 
+    outputs[9] = 21'h090000; 
+    outputs[10] = 21'h0c2000; 
+    outputs[11] = 21'h0f4000; 
+    
 	end
 	
 	integer i;
