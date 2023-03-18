@@ -25,7 +25,9 @@ module cordic_unroll4_var_fixed_point_input(
     wire [20:0] fixed_point_input;
     assign fixed_point_input = dataa;
     //floating_to_fixed floating_to_fixed_unit(.dataa(dataa), .fixed_point_input(fixed_point_input));
-
+    always@(*) begin
+		$display("fixed_point_input %h", fixed_point_input);
+	 end
 
     //-------------------------------------------------------------
     // CORDIC

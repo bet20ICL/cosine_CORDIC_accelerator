@@ -1,0 +1,41 @@
+fixed_point_input 100000
+          0, 00000000
+          0, 00000000
+fixed_point_input 19c000
+fixed_point_input 0ce000
+          1, 43deea4f
+          1, 43deea9d                   1, 43ded37f
+#           1, 43deea9d
+fixed_point_input 09c000
+          2, 4501b0ad
+          2, 4501b0c0
+fixed_point_input 0d4000
+fixed_point_input 06a000
+          3, 45a218b7
+          3, 45a219d4
+fixed_point_input 070000
+fixed_point_input 038000
+          4, 46194ec9
+          4, 46194f03
+fixed_point_input 030000
+fixed_point_input 006000
+          5, 46750cd5
+          5, 46750d13
+fixed_point_input 005800
+fixed_point_input 02c000
+          6, 46adc70b
+          6, 46adc721
+fixed_point_input 02f000
+fixed_point_input 05e000
+          7, 46dffe6e
+          7, 46dffe6e
+fixed_point_input 048000
+fixed_point_input 090000
+          8, 4704912a
+          8, 4704912a
+fixed_point_input 0c2000
+          9, 471013f6
+          9, 471013f6
+fixed_point_input 0f4000
+         10, 470de047
+         10, 470de056
