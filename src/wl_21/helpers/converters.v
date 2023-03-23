@@ -97,11 +97,9 @@ module fixed_subtract_128(
         else begin
             divide_128_intermediate_sign = {2'b11, fixed_point_input_8_13[26:7]};
         end 
-
-        // sign bit is not needed
-        assign divide_128 = divide_128_intermediate_sign[20:0];
-
     end
+    // sign bit is not needed
+    assign divide_128 = divide_128_intermediate_sign[20:0];
 
 
     //  always@(divide_128) begin
