@@ -60,34 +60,49 @@ module fixed_subtract_128(
     output [20:0] divide_128;
 
 
-    // wire [7:0] input_integer_part;
-    // wire unsigned [7:0] first_operand;
-    // reg [7:0] integer_part_sub128;
-    reg [27:0] divide_128_intermediate;
+    // // wire [7:0] input_integer_part;
+    // // wire unsigned [7:0] first_operand;
+    // // reg [7:0] integer_part_sub128;
+    // reg [27:0] divide_128_intermediate;
 
-    // wire [19:0] fractional_part;
-    // assign input_integer_part = fixed_point_input_8_13[27:27-7];
-    // assign fractional_part = fixed_point_input_8_13[27-8:0];
+    // // wire [19:0] fractional_part;
+    // // assign input_integer_part = fixed_point_input_8_13[27:27-7];
+    // // assign fractional_part = fixed_point_input_8_13[27-8:0];
 
-    // assign first_operand = (fixed_point_input_8_13[27])? input_integer_part : ~input_integer_part+1;
-    // assign fractional_part = (fixed_point_input_8_13[27])? fixed_point_input_8_13[27-8:0] : ~input_integer_part+1;
+    // // assign first_operand = (fixed_point_input_8_13[27])? input_integer_part : ~input_integer_part+1;
+    // // assign fractional_part = (fixed_point_input_8_13[27])? fixed_point_input_8_13[27-8:0] : ~input_integer_part+1;
      
 
+    // always@(*) begin
+    //     // integer_part_sub128 = first_operand + 8'b10000000;
+    //     // divide_128_intermediate = {integer_part_sub128, fixed_point_input_8_13[27-8:0]} >> 7;
+    //     if(fixed_point_input_8_13[27]) begin
+    //         divide_128_intermediate = (fixed_point_input_8_13 - {8'd128, 20'b0}) >> 7;
+    //     end 
+    //     else begin
+    //         divide_128_intermediate = ({8'd128, 20'b0} - fixed_point_input_8_13) >> 7;
+    //     end 
+    // end
+    
+    // assign divide_128 = divide_128_intermediate[20:0];
+
+
+    reg [28:0] divide_128_intermediate_sign; // use sign opperation
     always@(*) begin
         // integer_part_sub128 = first_operand + 8'b10000000;
         // divide_128_intermediate = {integer_part_sub128, fixed_point_input_8_13[27-8:0]} >> 7;
         if(fixed_point_input_8_13[27]) begin
-            divide_128_intermediate = (fixed_point_input_8_13 - {8'd128, 20'b0}) >> 7;
+            divide_128_intermediate_sign = {2'b0, fixed_point_input_8_13[26:7]}
         end 
         else begin
-            divide_128_intermediate = ({8'd128, 20'b0} - fixed_point_input_8_13) >> 7;
+            divide_128_intermediate_sign = {2'b11, fixed_point_input_8_13[26:7]}
         end 
+
+        // sign bit is not needed
+        assign divide_128 = divide_128_intermediate[20:0];
+
     end
 
-
-	// divide_128 = {integer_part_sub128, fixed_point_input_8_13[27-8:0]} >> 7;
-    
-    assign divide_128 = divide_128_intermediate[20:0];
 
     //  always@(divide_128) begin
     //     $display("<--------------------->");
