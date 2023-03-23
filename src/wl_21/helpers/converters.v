@@ -99,7 +99,7 @@ module fixed_subtract_128(
         end 
 
         // sign bit is not needed
-        assign divide_128 = divide_128_intermediate[20:0];
+        assign divide_128 = divide_128_intermediate_sign[20:0];
 
     end
 
