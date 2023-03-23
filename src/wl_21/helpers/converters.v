@@ -92,10 +92,10 @@ module fixed_subtract_128(
         // integer_part_sub128 = first_operand + 8'b10000000;
         // divide_128_intermediate = {integer_part_sub128, fixed_point_input_8_13[27-8:0]} >> 7;
         if(fixed_point_input_8_13[27]) begin
-            divide_128_intermediate_sign = {2'b0, fixed_point_input_8_13[26:7]}
+            divide_128_intermediate_sign = {2'b0, fixed_point_input_8_13[26:7]};
         end 
         else begin
-            divide_128_intermediate_sign = {2'b11, fixed_point_input_8_13[26:7]}
+            divide_128_intermediate_sign = {2'b11, fixed_point_input_8_13[26:7]};
         end 
 
         // sign bit is not needed
