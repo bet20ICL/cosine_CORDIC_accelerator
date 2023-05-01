@@ -1,3 +1,43 @@
+// module x_sub_128_div_128(
+//     dataa,
+//     result
+// );
+//     // convert the 32bits floating point input to 21bits fixed point.
+//     input	[31:0]  dataa; 
+//     output  [20:0] result;  
+ 
+//     wire [7:0] exponent; // [0, 255] 
+//     wire [8:0] shamt; // [-127, 128] 
+//     wire [20:0] significand;
+//     reg [21:0] fxd_sig;
+//     wire [1:0] top2_fxd;
+//     wire [21:0] fxd_sub_128;
+//     wire [6:0] padding;
+
+//     assign exponent = dataa[30:23];
+//     assign shamt = exponent + 9'b110000001; // exponent - 127
+
+//     assign significand = {1'b1, dataa[22:3]};
+
+//     reg [27:0] sig_shifted;
+
+//     always @(*) begin
+//         if (shamt[8]) begin
+//             sig_shifted = {1'b0, significand >> (~shamt + 1'b1)};
+//         end else begin
+//             sig_shifted = significand << shamt;
+//         end
+//     end
+
+//     // assign fxd_sig = shamt[8] ? (siginificand >> (~shamt + 1'b1)) : (siginificand << shamt);
+//     assign top2_fxd = {1'b0,sig_shifted[27]} + 2'b11;
+//     // assign fxd_sub_128 = {top2_fxd, fxd_sig[19:0]};
+    
+//     // assign padding = {7{fxd_sub_128[21]}};
+//     assign result = {top2_fxd[0], fxd_sig[19:0]};
+
+// endmodule
+
 module floating_to_fixed_8_13(
     dataa,
     fixed_point_input

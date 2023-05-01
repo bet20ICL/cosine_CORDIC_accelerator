@@ -1,7 +1,7 @@
 `timescale 1 ns / 100 ps
 module tb_cordic_rd_file ();
-	parameter RAM_INIT_FILE = "../test/input/inputs.txt";
-	parameter OUT_FILE = "../test/output/outputs2.txt";
+	parameter RAM_INIT_FILE = "../test/input/small_inputs.txt";
+	parameter OUT_FILE = "../test/output/outputs1.txt";
 	parameter num_samples = 5000;
 
 	//Inputs to DUT are reg type

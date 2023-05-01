@@ -65,18 +65,18 @@
 //     output reg [20:0] offsetX;
 //     output reg [20:0] offsetY;
 //     output reg [20:0] offsetZ;
-//     always@(*) begin 
-//         if(z[20]==0) begin
-//             offsetX = -(y >>> rotate_index);
-//             offsetY = x >>> rotate_index;
-//             offsetZ = -rotateAngle;
-//         end 
-//         else begin
-//             offsetX = y >>> rotate_index;
-//             offsetY = -(x >>> rotate_index);
-//             offsetZ = rotateAngle;
-//         end
-//     end
+    //     always@(*) begin 
+    //         if(z[20]==0) begin
+    //             offsetX = -(y >>> rotate_index);
+    //             offsetY = x >>> rotate_index;
+    //             offsetZ = -rotateAngle;
+    //         end 
+    //         else begin
+    //             offsetX = y >>> rotate_index;
+    //             offsetY = -(x >>> rotate_index);
+    //             offsetZ = rotateAngle;
+    //         end
+    //     end
 // endmodule
 
 // module addsub(
@@ -162,21 +162,33 @@
 
 module tb();
 
-    reg [2:0] a;
-    reg [2:0] b;
-    reg [2:0] nb;
-    reg [3:0] c;
-
-    assign nb = ~b + 1;
-    
+    reg [7:0] exponent; // [0, 255] 
+    reg [8:0] exp_shift; // [-127, 128] 
+    reg [8:0] shamt;
     initial begin
-        a = 3'd7;
-        b = 3'd4;
-        #1;
-        c = a + nb;
-        $display("%b, %b, %b, %b", a, b, nb, c);
-        $display("%d, %d, %d, %d", a, b, nb, c);
+        exponent = 8'd127;
+        shamt = 5;
+        exp_shift = exponent << shamt;
+        #1
+        $display("%b, %b, %b", exponent, exp_shift, shamt);
+        $display("%d, %d, %d", exponent, exp_shift, shamt);
     end
+
+    // reg [2:0] a;
+    // reg [2:0] b;
+    // reg [2:0] nb;
+    // reg [3:0] c;
+
+    // assign nb = ~b + 1;
+    
+    // initial begin
+    //     a = 3'd7;
+    //     b = 3'd4;
+    //     #1;
+    //     c = a + nb;
+    //     $display("%b, %b, %b, %b", a, b, nb, c);
+    //     $display("%d, %d, %d, %d", a, b, nb, c);
+    // end
 
     // parameter A = 4;
     // parameter B = $clog2(A);

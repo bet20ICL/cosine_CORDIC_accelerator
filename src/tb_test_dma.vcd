@@ -1,0 +1,59 @@
+$date
+	Fri Apr 28 00:44:37 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	100ps
+$end
+$scope module tb_test_dma $end
+$var wire 32 ! readdata [31:0] $end
+$var reg 1 " address $end
+$var reg 1 # clk $end
+$var reg 1 $ reset $end
+$scope module unit $end
+$var wire 1 $ aclr $end
+$var wire 1 " address $end
+$var wire 1 # clk $end
+$var wire 32 % readdata [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+bx %
+1$
+0#
+x"
+bx !
+$end
+#100
+1#
+#200
+b111111100000000000000000000000 !
+b111111100000000000000000000000 %
+0"
+0$
+0#
+#300
+1#
+#400
+b10000000000000000000000000#800
+ !
+b1000000000000000000000000000000 %
+1"
+0#
+#500
+1#
+#600
+b111111100000000000000000000000 !
+b111111100000000000000000000000 %
+0"
+0#
+#700
+1#
+#800

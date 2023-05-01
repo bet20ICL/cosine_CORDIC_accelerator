@@ -195,3 +195,15 @@ module inner_fn_lat_fxd(
     // TODO: optimization
     assign done = (startShifted[total_clk_cycles-1]);
 endmodule
+
+
+// module sub_div_128(
+//     dataa,
+//     fxd_out
+// );
+//     input	[31:0]  dataa; 
+//     output  [20:0] fxd_out;
+
+
+
+// endmodule

@@ -39,3 +39,6 @@ fixed_point_input 0c2000
 fixed_point_input 0f4000
          10, 470de047
          10, 470de056
+fixed_point_input 0fe000
+          11, 470b666f
+          11, 470b667f

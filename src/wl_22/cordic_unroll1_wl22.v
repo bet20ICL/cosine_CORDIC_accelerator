@@ -31,9 +31,9 @@ module cordic_unroll1_var(
     reg signed [21:0] y;
     reg signed [21:0] z;
 
-    reg signed [21:0] offsetX;
-    reg signed [21:0] offsetY;
-    reg signed [21:0] offsetZ;
+    wire signed [21:0] rot_x;
+    wire signed [21:0] rot_y;
+    wire signed [21:0] rot_z;
 
     reg [4:0] rotate_index;
     reg signed [21:0] rotateAngle; // in radian
@@ -41,40 +41,29 @@ module cordic_unroll1_var(
     // LUT
     always@(*) begin
         case(rotate_index)             
-            4'd0    : rotateAngle = 22'b0011001001000011111101;
-            4'd1    : rotateAngle = 22'b0001110110101100011001;
-            4'd2    : rotateAngle = 22'b0000111110101101101110;
-            4'd3    : rotateAngle = 22'b0000011111110101011011;
-            4'd4    : rotateAngle = 22'b0000001111111110101010;
-            4'd5    : rotateAngle = 22'b0000000111111111110101;
-            4'd6    : rotateAngle = 22'b0000000011111111111110;
-            4'd7    : rotateAngle = 22'b0000000001111111111111;
-            4'd8    : rotateAngle = 22'b0000000000111111111111;
-            4'd9    : rotateAngle = 22'b0000000000011111111111;
-            4'd10   : rotateAngle = 22'b0000000000001111111111;
-            4'd11   : rotateAngle = 22'b0000000000000111111111;
-            4'd12   : rotateAngle = 22'b0000000000000011111111;
-            4'd13   : rotateAngle = 22'b0000000000000001111111;
-            4'd14   : rotateAngle = 22'b0000000000000000111111;
-            4'd15   : rotateAngle = 22'b0000000000000000011111;
+            4'd0    : rotateAngle = 22'h0c90fe;
+            4'd1    : rotateAngle = 22'h076b1a;
+            4'd2    : rotateAngle = 22'h03eb6f;
+            4'd3    : rotateAngle = 22'h01fd5c;
+            4'd4    : rotateAngle = 22'h00ffab;
+            4'd5    : rotateAngle = 22'h007ff5;
+            4'd6    : rotateAngle = 22'h003fff;
+            4'd7    : rotateAngle = 22'h002000;
+            4'd8    : rotateAngle = 22'h001000;
+            4'd9    : rotateAngle = 22'h000800;
+            4'd10   : rotateAngle = 22'h000400;
+            4'd11   : rotateAngle = 22'h000200;
+            4'd12   : rotateAngle = 22'h000100;
+            4'd13   : rotateAngle = 22'h000080;
+            4'd14   : rotateAngle = 22'h000040;
+            4'd15   : rotateAngle = 22'h000020;
             default : rotateAngle = 0; 		
         endcase
     end
-    
-    always @(*) begin
-        if(z[21]==0) begin
-            offsetX = -(y >>> rotate_index);
-            offsetY = x >>> rotate_index;
-            offsetZ = -rotateAngle;
-        end 
-        else begin
-            offsetX = y >>> rotate_index;
-            offsetY = -(x >>> rotate_index);
-            offsetZ = rotateAngle;
-        end
-    end
 
     assign done = (rotate_index == 5'd16);
+
+    cordic_rot cr_0( .x(x), .y(y), .z(z), .rot_x(rot_x), .rot_y(rot_y), .rot_z(rot_z), .rotate_index(rotate_index), .rotate_angle(rotateAngle));
 
     always @(posedge clock) begin
         if (aclr) begin
@@ -92,9 +81,9 @@ module cordic_unroll1_var(
             end
             else begin
                 rotate_index <= rotate_index + 1'b1;
-                x <= x + offsetX;
-                y <= y + offsetY;
-                z <= z + offsetZ;
+                x <= rot_x;
+                y <= rot_y;
+                z <= rot_z;
             end
         end
     end
@@ -114,10 +103,45 @@ module cordic_unroll1_var(
 
     assign fixed_point_result = x;
 
-    fixed_to_float fixed_to_float_unit( fixed_point_result, result_fp );
+    // fixed_to_float fixed_to_float_unit( x, result_fp );
+    fixed_to_float fixed_to_float_unit( x[20:0], result_fp );
     
     assign result = result_fp;
 
+endmodule
+
+
+module cordic_rot(
+    x,
+    y,
+    z,
+    rot_x,
+    rot_y,
+    rot_z,
+    rotate_index,
+    rotate_angle
+);
+    input signed [21:0] x;
+    input signed [21:0] y;
+    input signed [21:0] z;
+    input unsigned [3:0] rotate_index;
+    input signed [21:0] rotate_angle;
+
+    output reg [21:0] rot_x;
+    output reg [21:0] rot_y;
+    output reg [21:0] rot_z;
+
+    reg [21:0] z_replicated; 
+    reg [21:0] x_shift;
+    reg [21:0] y_shift;
+    always@(*) begin 
+        z_replicated = {22{z[21]}};
+        y_shift = (y>>>rotate_index);
+        x_shift = (x>>rotate_index);
+        rot_x = x + (y_shift ^ ~z_replicated) + !z[21]; 
+        rot_y = y + (x_shift ^ z_replicated) + z[21]; 
+        rot_z = z + (rotate_angle ^ ~z_replicated) + !z[21]; 
+    end
 endmodule
 
 
@@ -146,7 +170,8 @@ module fixed_to_float(
     result_fp
 );
     // convert the 22-bit fixed point input to 32-bit floating point input.
-    input [21:0] fixed_point_result;
+    // input [21:0] fixed_point_result;
+    input [20:0] fixed_point_result;
     output reg [31:0] result_fp;
 
     wire [4:0] leadingOneIndex;
@@ -154,10 +179,12 @@ module fixed_to_float(
 
     //append 20-bit fixed point to 32-bit fixed point
     wire [31:0] fixed_point_result_appended_to_32_bits;
+    // assign fixed_point_result_appended_to_32_bits = {fixed_point_result, 10'b0};
     assign fixed_point_result_appended_to_32_bits = {fixed_point_result, 11'b0};
 
     priority_encoder32 encoder32( fixed_point_result_appended_to_32_bits, leadingOneIndex, containOne_valid);
 
+    // reg [21:0] intermediate_result;
     reg [20:0] intermediate_result;
     reg [7:0] result_exponent;
     reg [22:0] result_significant;
@@ -165,6 +192,7 @@ module fixed_to_float(
     always@(*) begin
         result_exponent = 7'd127 - leadingOneIndex;
         intermediate_result = fixed_point_result << leadingOneIndex;
+        // result_significant = {intermediate_result[20:0],2'b0};
         result_significant = {intermediate_result[19:0],3'b0};
         result_fp = {1'b0, result_exponent ,result_significant}; // only output positive number   
     end
