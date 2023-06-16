@@ -1,2 +1,2 @@
-# Digital_System_Design
+# A custom hardware accelerator for a trigonometric function
 Implementation of the CORDIC algorithm in Verilog
